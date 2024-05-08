@@ -20,183 +20,183 @@ public class PlayerLeader extends Entity {
     public int screenX;
     public int screenY;
     Group group;
- 
-    public PlayerLeader(GamePanel gp, KeyHandler keyH , Group group) {
+
+    public PlayerLeader(GamePanel gp, KeyHandler keyH, Group group) {
         this.gp = gp;
-        this.keyH = keyH;  
+        this.keyH = keyH;
         this.group = group;
-        sizeWidth = 15*gp.scale;
-        sizeHeight = 23*gp.scale;
-        screenX = gp.screenWidth/2-(gp.tileSize/2);
-        screenY = gp.screenHeight/2-(gp.tileSize/2);
-        
+        sizeWidth = 15 * gp.scale;
+        sizeHeight = 23 * gp.scale;
+        screenX = gp.screenWidth / 2 - (gp.tileSize / 2);
+        screenY = gp.screenHeight / 2 - (gp.tileSize / 2);
+
         solidArea = new Rectangle(5, 21, 35, 50);
         setDefaultValues();
         getPlayerImagen();
     }
 
-    
-    public void setDefaultValues(){
-        worldX = gp.tileSize*23;
-        worldY = gp.tileSize*41;
+    public void setDefaultValues() {
+        worldX = gp.tileSize * 23;
+        worldY = gp.tileSize * 41;
         speed = 4;
         direction = "down";
-       
+
     }
 
-    public BufferedImage setUp(String path){
+    public BufferedImage setUp(String path) {
         UtilityTool tool = new UtilityTool();
         BufferedImage image = null;
         try {
-            image = ImageIO.read(getClass().getResourceAsStream("/com/example/image/tifa/"+path+".png"));
+            image = ImageIO.read(getClass().getResourceAsStream("/com/example/image/tifa/" + path + ".png"));
             image = tool.imageScale(image, sizeWidth, sizeHeight);
-           
+
         } catch (Exception e) {
             e.printStackTrace();
         }
-         return image;
+        return image;
     }
 
-    public void getPlayerImagen(){
-       
-      
-            left = group.getGroup().get(0).left;
-     
-        
-        
-       /*  left1 = setUp("tifa_left1");
+    public void getPlayerImagen() {
 
-        right = setUp("tifa_right");
-        right1 = setUp("tifa_right1");
+        left = group.getGroup().get(0).left;
+        left1 = group.getGroup().get(0).left1;
 
-        up = setUp("tifa_up");
-        up1 = setUp("tifa_up1");
-        up2 = setUp("tifa_up2");
+        right = group.getGroup().get(0).right;
+        right1 = group.getGroup().get(0).right1;
 
-        down = setUp("tifa_down");
-        down1 = setUp("tifa_down1");
-        down2 = setUp("tifa_down2"); */
+        up = group.getGroup().get(0).up;
+        up1 = group.getGroup().get(0).up1;
+        up2 = group.getGroup().get(0).up2;
+
+        down = group.getGroup().get(0).down;
+        down1 = group.getGroup().get(0).down1;
+        down2 = group.getGroup().get(0).down2;
     }
 
-    public void update(){
-        
+    public void update() {
+
         if (keyH.upPressed == true) {
             direction = "up";
-          
-        }else if (keyH.downPressed == true) {
+
+        } else if (keyH.downPressed == true) {
             direction = "down";
-           
-        }else if (keyH.leftPressed == true) {
+
+        } else if (keyH.leftPressed == true) {
             direction = "left";
-       
-        }else if (keyH.rightPressed == true){
+
+        } else if (keyH.rightPressed == true) {
             direction = "right";
-           
+
         }
 
         collisionOn = false;
         gp.ck.checkTile(this);
-        
-        
+
         if (collisionOn == false) {
 
-        if (keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed) {
-           switch (direction) {
-                case "up": worldY -= speed;break;
-                case "down": worldY += speed;break;
-                case "left": worldX -= speed;break;
-                case "right": worldX += speed;break;
+            if (keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed) {
+                switch (direction) {
+                    case "up":
+                        worldY -= speed;
+                        break;
+                    case "down":
+                        worldY += speed;
+                        break;
+                    case "left":
+                        worldX -= speed;
+                        break;
+                    case "right":
+                        worldX += speed;
+                        break;
+                }
             }
+
         }
-       
-           
+
+        spritCount++;
+        if (spritCount > 15) {
+
+            if (spriteNumber == 1) {
+
+                spriteNumber = 2;
+            } else if (spriteNumber == 2) {
+                spriteNumber = 1;
+            }
+            spritCount = 0;
         }
 
-        spritCount++; 
-        if (spritCount>15) {
+    }
 
-            if (spriteNumber==1) {
+    public void draw(Graphics2D g2) {
 
-                spriteNumber=2;
-            }else if(spriteNumber==2){
-                spriteNumber=1;
-            }
-                spritCount=0;
-            }
-            
+        /*
+         * g2.setColor(Color.white);
+         * g2.fillRect(x, y, gp.titleSize, gp.titleSize);
+         */
+        BufferedImage image = null;
+        switch (direction) {
+            case "left":
+
+                if (keyH.leftPressed) {
+                    if (spriteNumber == 1) {
+                        image = left;
+                    }
+                    if (spriteNumber == 2) {
+                        image = left1;
+                    }
+                } else {
+                    image = left;
+                }
+
+                break;
+
+            case "right":
+
+                if (keyH.rightPressed) {
+                    if (spriteNumber == 1) {
+                        image = right;
+                    }
+                    if (spriteNumber == 2) {
+                        image = right1;
+                    }
+                } else {
+                    image = right;
+                }
+
+                break;
+            case "up":
+
+                if (keyH.upPressed) {
+                    if (spriteNumber == 1) {
+                        image = up1;
+                    }
+                    if (spriteNumber == 2) {
+                        image = up2;
+                    }
+                } else {
+                    image = up;
+                }
+
+                break;
+            case "down":
+
+                if (keyH.downPressed) {
+                    if (spriteNumber == 1) {
+                        image = down1;
+                    }
+                    if (spriteNumber == 2) {
+                        image = down2;
+                    }
+                } else {
+                    image = down;
+                }
+
+                break;
         }
-    
 
-    public void draw(Graphics2D g2){
-       
-        
-    /*     g2.setColor(Color.white);
-        g2.fillRect(x, y, gp.titleSize, gp.titleSize); */
-       BufferedImage image = null;
-       switch (direction) {
-        case "left": 
-
-            if (keyH.leftPressed) {
-                 if (spriteNumber == 1) {
-                image = left;
-            }
-            if (spriteNumber == 2) {
-                image = left1;
-            }
-            }else{
-                image = left;
-            }
-           
-            break;
-
-            case "right": 
-
-            if (keyH.rightPressed) {
-                 if (spriteNumber == 1) {
-                image = right;
-            }
-            if (spriteNumber == 2) {
-                image = right1;
-            }
-            }else{
-                image = right;
-            }
-           
-            break;
-            case "up": 
-
-            if (keyH.upPressed) {
-                 if (spriteNumber == 1) {
-                image = up1;
-            }
-            if (spriteNumber == 2) {
-                image = up2;
-            }
-            }else{
-                image = up;
-            }
-           
-            break;
-            case "down": 
-
-            if (keyH.downPressed) {
-                 if (spriteNumber == 1) {
-                image = down1;
-            }
-            if (spriteNumber == 2) {
-                image = down2;
-            }
-            }else{
-                image = down;
-            }
-           
-            break;
-       }
-
-       
-       g2.drawImage(image, screenX, screenY, sizeWidth, sizeHeight,null);
+        g2.drawImage(image, screenX, screenY, sizeWidth, sizeHeight, null);
 
         g2.setColor(Color.red);
-       g2.drawRect(screenX+solidArea.x, screenY+solidArea.y, solidArea.width, solidArea.height);
+        g2.drawRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
     }
 }

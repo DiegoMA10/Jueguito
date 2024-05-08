@@ -33,7 +33,7 @@ public class Tifa extends Character{
     public void getPlayerImagen(){
        
         left = setUp("tifa_left");
-        /* left1 = setUp("tifa_left1");
+         left1 = setUp("tifa_left1");
 
         right = setUp("tifa_right");
         right1 = setUp("tifa_right1");
@@ -45,6 +45,6 @@ public class Tifa extends Character{
         down = setUp("tifa_down");
         down1 = setUp("tifa_down1");
         down2 = setUp("tifa_down2");
-        portrait = setUp("tifaPortrait"); */
+        portrait = setUp("tifaPortrait"); 
     }
 }
