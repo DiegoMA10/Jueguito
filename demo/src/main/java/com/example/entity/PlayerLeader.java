@@ -6,6 +6,7 @@ import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 
@@ -13,16 +14,17 @@ import com.example.GamePanel;
 import com.example.KeyHandler;
 import com.example.UtilityTool;
 
-public class Player extends Entity {
+public class PlayerLeader extends Entity {
     GamePanel gp;
     KeyHandler keyH;
-   public int screenX;
-   public int screenY;
-  
+    public int screenX;
+    public int screenY;
+    Group group;
  
-    public Player(GamePanel gp, KeyHandler keyH) {
+    public PlayerLeader(GamePanel gp, KeyHandler keyH , Group group) {
         this.gp = gp;
         this.keyH = keyH;  
+        this.group = group;
         sizeWidth = 15*gp.scale;
         sizeHeight = 23*gp.scale;
         screenX = gp.screenWidth/2-(gp.tileSize/2);
@@ -57,8 +59,12 @@ public class Player extends Entity {
 
     public void getPlayerImagen(){
        
-        left = setUp("tifa_left");
-        left1 = setUp("tifa_left1");
+      
+            left = group.getGroup().get(0).left;
+     
+        
+        
+       /*  left1 = setUp("tifa_left1");
 
         right = setUp("tifa_right");
         right1 = setUp("tifa_right1");
@@ -69,7 +75,7 @@ public class Player extends Entity {
 
         down = setUp("tifa_down");
         down1 = setUp("tifa_down1");
-        down2 = setUp("tifa_down2");
+        down2 = setUp("tifa_down2"); */
     }
 
     public void update(){
@@ -186,9 +192,11 @@ public class Player extends Entity {
            
             break;
        }
+
        
        g2.drawImage(image, screenX, screenY, sizeWidth, sizeHeight,null);
-      g2.setColor(Color.red);
+
+        g2.setColor(Color.red);
        g2.drawRect(screenX+solidArea.x, screenY+solidArea.y, solidArea.width, solidArea.height);
     }
 }

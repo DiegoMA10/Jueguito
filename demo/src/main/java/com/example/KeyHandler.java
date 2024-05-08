@@ -8,6 +8,7 @@ public class KeyHandler implements KeyListener {
   public boolean upPressed, downPressed, leftPressed, rightPressed;
 
   public GamePanel gp;
+  
 
   public KeyHandler(GamePanel gp) {
     this.gp = gp;
@@ -21,14 +22,15 @@ public class KeyHandler implements KeyListener {
   @Override
   public void keyPressed(KeyEvent e) {
     int code = e.getKeyCode();
-   
-    if (gp.gameState==gp.tileSize) {
-      
-    }else if (gp.gameState == gp.playState) {
-      playState(code);
-    }else if (gp.gameState == gp.menuState) {
-      menuState(code);
+
+    switch (gp.gameState) {
+      case GamePanel.playState: playState(code);break;
+      case GamePanel.menuState: menuState(code);break;
+      default: break;
     }
+   
+   
+ 
 
   }
 
@@ -37,34 +39,35 @@ public class KeyHandler implements KeyListener {
   }
 
   public void playState(int code) {
-    if (code == KeyEvent.VK_W) {
-      upPressed = true;
+    switch (code) {
+      case KeyEvent.VK_W: upPressed = true;  break;
+      case KeyEvent.VK_S: downPressed = true;  break;
+      case KeyEvent.VK_A: leftPressed = true;  break;
+      case KeyEvent.VK_D: rightPressed = true;  break;
+      case KeyEvent.VK_ESCAPE:  gp.gameState = GamePanel.menuState; break;
     }
-
-    if (code == KeyEvent.VK_S) {
-      downPressed = true;
-    }
-
-    if (code == KeyEvent.VK_A) {
-      leftPressed = true;
-    }
-
-    if (code == KeyEvent.VK_D) {
-      rightPressed = true;
-    }
-
-    if (code == KeyEvent.VK_ESCAPE) {
-      gp.gameState = gp.menuState;
-     
-    }
+   
 
   }
 
   public void menuState(int code) {
-    if (code == KeyEvent.VK_ESCAPE) {
-      gp.gameState = gp.playState;
-
+    switch (code) {
+      case KeyEvent.VK_ESCAPE:gp.gameState = GamePanel.playState; break;
+      case KeyEvent.VK_W:
+            if (gp.ui.numCommand>0) {
+              gp.ui.numCommand--;
+            }
+            break;
+      case KeyEvent.VK_S:
+            if (gp.ui.numCommand<1) {
+              gp.ui.numCommand++;
+            }
+            break;
+   
     }
+   
+
+   
   }
 
   
@@ -72,20 +75,12 @@ public class KeyHandler implements KeyListener {
   @Override
   public void keyReleased(KeyEvent e) {
     int code = e.getKeyCode();
-    if (code == KeyEvent.VK_W) {
-      upPressed = false;
-    }
-
-    if (code == KeyEvent.VK_S) {
-      downPressed = false;
-    }
-
-    if (code == KeyEvent.VK_A) {
-      leftPressed = false;
-    }
-
-    if (code == KeyEvent.VK_D) {
-      rightPressed = false;
+    switch (code) {
+      case KeyEvent.VK_W: upPressed = false;  break;
+      case KeyEvent.VK_S: downPressed = false;  break;
+      case KeyEvent.VK_A: leftPressed = false;  break;
+      case KeyEvent.VK_D: rightPressed = false;  break;
+      
     }
 
   }

@@ -13,7 +13,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 
-import com.example.entity.Player;
+import com.example.entity.Group;
+import com.example.entity.PlayerLeader;
+import com.example.entity.Tifa;
 import com.example.tile.TileManager;
 
 import javafx.scene.control.ProgressBar;
@@ -43,20 +45,31 @@ public class GamePanel extends JPanel implements Runnable {
     Thread gameThread;
     Sound sound = new Sound();
     TileManager tl = new TileManager(this);
-    public Player player = new Player(this, keyH);
+    
+    Tifa tifa = new Tifa(this);
+    
+    Group grupo = new Group();
+    
+    public PlayerLeader player ;
     public CollisionCheck ck = new CollisionCheck(this);
     public UI ui = new UI(this);
     int cont = 0;
     int FPS = 60;
 
     public int gameState;
+    
     public final int titleState = 0;
-    public final int playState = 1;
-    public final int menuState = 2;
+    public static final int playState = 1;
+    public static final int menuState = 2;
+   
     public final int battleState = 3;
    
     public GamePanel(){
-        
+      
+     
+        setGroup();
+        player = new PlayerLeader(this, keyH,grupo);
+      
         this.setPreferredSize(new Dimension(screenWidth,screenHeight));
         
         this.setBackground(Color.black);
@@ -72,10 +85,14 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void setUpGame(){
+       
         gameState=1;
-        
         playMusic(1);
         
+    }
+
+    public void setGroup(){
+        grupo.agregarPersonaje(tifa);
     }
 
     
@@ -150,7 +167,7 @@ public class GamePanel extends JPanel implements Runnable {
     public void update(){
        player.update();
     }
-
+    public BufferedImage imagen;
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D)g;
@@ -165,7 +182,7 @@ public class GamePanel extends JPanel implements Runnable {
         ui.draw(g2);
      
        }
-     
+
         
        
          long end = System.nanoTime();
