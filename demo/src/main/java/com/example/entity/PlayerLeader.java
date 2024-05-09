@@ -43,34 +43,23 @@ public class PlayerLeader extends Entity {
 
     }
 
-    public BufferedImage setUp(String path) {
-        UtilityTool tool = new UtilityTool();
-        BufferedImage image = null;
-        try {
-            image = ImageIO.read(getClass().getResourceAsStream("/com/example/image/tifa/" + path + ".png"));
-            image = tool.imageScale(image, sizeWidth, sizeHeight);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return image;
-    }
+   
 
     public void getPlayerImagen() {
 
-        left = group.getGroup().get(0).left;
-        left1 = group.getGroup().get(0).left1;
+         left = group.getGroup().get(2).left;
+        left1 = group.getGroup().get(2).left1;
 
-        right = group.getGroup().get(0).right;
-        right1 = group.getGroup().get(0).right1;
+        right = group.getGroup().get(2).right;
+        right1 = group.getGroup().get(2).right1;
 
-        up = group.getGroup().get(0).up;
-        up1 = group.getGroup().get(0).up1;
-        up2 = group.getGroup().get(0).up2;
+        up = group.getGroup().get(2).up;
+        up1 = group.getGroup().get(2).up1;
+        up2 = group.getGroup().get(2).up2;
 
-        down = group.getGroup().get(0).down;
-        down1 = group.getGroup().get(0).down1;
-        down2 = group.getGroup().get(0).down2;
+        down = group.getGroup().get(2).down;
+        down1 = group.getGroup().get(2).down1;
+        down2 = group.getGroup().get(2).down2; 
     }
 
     public void update() {

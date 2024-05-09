@@ -13,6 +13,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 
+import com.example.entity.Aerith;
+import com.example.entity.Cloud;
 import com.example.entity.Group;
 import com.example.entity.PlayerLeader;
 import com.example.entity.Tifa;
@@ -45,15 +47,16 @@ public class GamePanel extends JPanel implements Runnable {
     Thread gameThread;
     Sound sound = new Sound();
     TileManager tl = new TileManager(this);
-    
+     
     Tifa tifa = new Tifa(this);
-    
+    Aerith aerith = new Aerith(this); 
+    Cloud cloud = new Cloud(this);
     Group grupo = new Group();
     
     public PlayerLeader player ;
     public CollisionCheck ck = new CollisionCheck(this);
     public UI ui = new UI(this);
-    int cont = 0;
+   
     int FPS = 60;
 
     public int gameState;
@@ -92,6 +95,8 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void setGroup(){
         grupo.agregarPersonaje(tifa);
+        grupo.agregarPersonaje(aerith); 
+        grupo.agregarPersonaje(cloud); 
     }
 
     
@@ -146,16 +151,14 @@ public class GamePanel extends JPanel implements Runnable {
                     repaint();
                     delta--;
                   drawCount++;
-                  cont++;
+              
                 }
                 if (timer >= 1000000000) {
-                   // System.out.println("FPS: "+drawCount );
+                   // System.out.pri    ºntln("FPS: "+drawCount );
                     drawCount = 0;
                     timer = 0;
                     
-                    if (cont > 400) {
-                        cont = 0;
-                    }
+                    
                 }
              
              
@@ -167,8 +170,10 @@ public class GamePanel extends JPanel implements Runnable {
        player.update();
     }
     public BufferedImage imagen;
+
     public void paintComponent(Graphics g){
         super.paintComponent(g);
+
         Graphics2D g2 = (Graphics2D)g;
         long start = System.nanoTime();
    

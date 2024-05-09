@@ -69,7 +69,7 @@ public class UI {
         BufferedImage image = null;
         image = cursor;
         drawSubwindows(windowsX, windowsY, width, height);
-        
+        g2.drawImage(gp.grupo.getGroup().get(0).portrait, windowsX+gp.tileSize, windowsY+gp.tileSize ,gp.tileSize*2,gp.tileSize*2,null);
         switch (subState) {
             case 0:menuSelection();break;
             default:break;
