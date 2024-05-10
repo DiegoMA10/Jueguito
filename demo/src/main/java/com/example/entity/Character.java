@@ -2,7 +2,14 @@ package com.example.entity;
 
 import java.awt.image.BufferedImage;
 
+import com.example.GamePanel;
+
 public class Character extends Entity {
+
+    public Character(GamePanel gp) {
+        super(gp);
+        
+    }
     public BufferedImage portrait= null;
     public String name;
     public int level;

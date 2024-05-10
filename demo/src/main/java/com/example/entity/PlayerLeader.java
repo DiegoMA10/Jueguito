@@ -15,14 +15,14 @@ import com.example.KeyHandler;
 import com.example.UtilityTool;
 
 public class PlayerLeader extends Entity {
-    GamePanel gp;
+    
     KeyHandler keyH;
     public int screenX;
     public int screenY;
     Group group;
 
     public PlayerLeader(GamePanel gp, KeyHandler keyH, Group group) {
-        this.gp = gp;
+        super(gp);
         this.keyH = keyH;
         this.group = group;
         sizeWidth = 15 * gp.scale;

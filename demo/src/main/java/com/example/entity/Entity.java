@@ -3,7 +3,13 @@ package com.example.entity;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
+import javax.imageio.ImageIO;
+
+import com.example.GamePanel;
+import com.example.UtilityTool;
+
 public class Entity {
+    public GamePanel gp;
     public int sizeWidth,sizeHeight;
     public int worldX,worldY;
     public int speed;
@@ -13,4 +19,21 @@ public class Entity {
     public int spriteNumber = 1;
     public Rectangle solidArea;
     public boolean collisionOn = false;
+
+    public Entity(GamePanel gp){
+        this.gp = gp;
+    }
+
+     public BufferedImage setUp(String path){
+        UtilityTool tool = new UtilityTool();
+        BufferedImage image = null;
+        try {
+            image = ImageIO.read(getClass().getResourceAsStream(path+".png"));
+            image = tool.imageScale(image, sizeWidth, sizeHeight);
+           
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+         return image;
+    }
 }
