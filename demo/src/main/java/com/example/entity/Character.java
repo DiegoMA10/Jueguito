@@ -17,7 +17,7 @@ public class Character extends Entity {
     public int hp;
     public int MaxMp;
     public int mp;
-    public int attack;
+    public int strength;
     public int magic;
     public int defense;
     public int magicDefense;

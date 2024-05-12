@@ -17,8 +17,11 @@ public class Entity {
     public String direction;
     public int spritCount = 0;
     public int spriteNumber = 1;
-    public Rectangle solidArea;
+    public Rectangle hitBox;
+    public int hitboxDefaultX,hitboxDefaultY;
     public boolean collisionOn = false;
+    String dialogues[]= new String[10];
+    int dialogueI=0;
 
     public Entity(GamePanel gp){
         this.gp = gp;
@@ -35,5 +38,17 @@ public class Entity {
             e.printStackTrace();
         }
          return image;
+    }
+
+    public void update(){
+        
+    }
+
+    public void speak(){
+        if (dialogues[dialogueI]==null) {
+            dialogueI=0;
+        }
+        gp.ui.currentDialogue = dialogues[dialogueI];
+        dialogueI++;
     }
 }

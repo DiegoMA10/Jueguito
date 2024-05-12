@@ -26,10 +26,11 @@ public class TileManager {
     public TileManager(GamePanel gp) {
 
         this.gp = gp;
-        tile = new Tile[105];
+        tile = new Tile[200];
         mapaNumber = new int[gp.maxMap][gp.maxWorldCol][gp.maxWorldRow];
         getTileImage();
         loadMap("src/main/resources/com/example/worlds/mapa.txt", 0);
+        loadMap("src/main/resources/com/example/worlds/interior.txt", 1);
         loadMap("src/main/resources/com/example/worlds/mapaSup.txt", 9);
        
     }

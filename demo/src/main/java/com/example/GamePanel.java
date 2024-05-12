@@ -13,14 +13,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 
-import com.example.entity.Aerith;
-import com.example.entity.Cloud;
-import com.example.entity.Group;
-import com.example.entity.PlayerLeader;
-import com.example.entity.Tifa;
-import com.example.tile.TileManager;
+import com.example.entity.*;
+import com.example.tile.*;;
 
-import javafx.scene.control.ProgressBar;
 
 
 
@@ -29,8 +24,8 @@ public class GamePanel extends JPanel implements Runnable {
     public final int scale = 3;
 
     public final int tileSize = originalTitleSize * scale;
-    final int maxScreenCol = 16;
-    final int maxScreenRow = 12;
+    final int maxScreenCol = 18;
+    final int maxScreenRow = 14;
     public final int screenWidth = tileSize*maxScreenCol;
     public final int screenHeight = tileSize*maxScreenRow;
    
@@ -42,11 +37,12 @@ public class GamePanel extends JPanel implements Runnable {
     public final int maxMap = 10;
     public int currentMap = 0;
 
-    KeyHandler keyH = new KeyHandler(this);
+    public KeyHandler keyH = new KeyHandler(this);
 
     Thread gameThread;
     Sound sound = new Sound();
     TileManager tl = new TileManager(this);
+    BattlePanel battle = new BattlePanel(this);
      
     Tifa tifa = new Tifa(this);
     Aerith aerith = new Aerith(this); 
@@ -61,11 +57,10 @@ public class GamePanel extends JPanel implements Runnable {
 
     public int gameState;
     
-    public final int titleState = 0;
+    public static final int titleState = 0;
     public static final int playState = 1;
     public static final int menuState = 2;
-   
-    public final int battleState = 3;
+    public static final int battleState = 3;
    
     public GamePanel(){
       
@@ -90,6 +85,7 @@ public class GamePanel extends JPanel implements Runnable {
        
         gameState=1;
         playMusic(1);
+       
         
     }
 
@@ -177,24 +173,28 @@ public class GamePanel extends JPanel implements Runnable {
         Graphics2D g2 = (Graphics2D)g;
         long start = System.nanoTime();
    
-       if (gameState == menuState) {
-        ui.draw(g2);
-       }else{
-        tl.draw(g2);
-        player.draw(g2);    
-        tl.drawSuperior(g2);
-        ui.draw(g2);
-     
-       }
 
+
+        if (gameState == playState){
+                tl.draw(g2);
+                player.draw(g2);    
+                tl.drawSuperior(g2);
+                ui.draw(g2);
+        }else if (gameState == titleState || gameState == menuState) {
+            ui.draw(g2);
+        }else if(gameState == battleState){
+            battle.draw(g2);
+            ui.draw(g2);
+        }
+      
         
        
-         long end = System.nanoTime();
+        long end = System.nanoTime();
         
         
          
         long tiempo = end-start;
-        //System.out.println(tiempo);
+        System.out.println(tiempo);
        
        
         g2.dispose();
@@ -202,7 +202,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void playMusic(int n){
         sound.setFile(n);
-        sound.setVolume(0.1f);
+        sound.setVolume(0.05f);
     
         sound.play();
         sound.loop();

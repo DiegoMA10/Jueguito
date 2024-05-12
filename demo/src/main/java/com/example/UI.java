@@ -17,6 +17,7 @@ public class UI {
     int subState=0;
     int numCommand=0;
     Font arial40;
+    public String currentDialogue;
 
     
 
@@ -48,14 +49,18 @@ public class UI {
     playTimer+= 1.0/60; 
     g2.setFont(arial40);
     
+  switch (gp.gameState) {
+    case GamePanel.titleState:break;
+    case GamePanel.menuState:drawMenuWindows();break;
+    case GamePanel.playState:break;
+    case GamePanel.battleState:drawBattleMenu();break;
    
-    if (gp.gameState == gp.menuState) {
-        drawMenuWindows();
-    }
+       
+  }
+  
 
-    if (gp.gameState==gp.playState) {
-        
-    }
+    
+    
    
   
 
@@ -63,21 +68,43 @@ public class UI {
 
     public void drawMenuWindows(){
         int windowsX=5;
-        int windowsY=0;
+        int windowsY=5;
         int width = gp.screenWidth-10;
-        int height = gp.screenHeight;
+        int height = gp.screenHeight-10;
         BufferedImage image = null;
         image = cursor;
         drawSubwindows(windowsX, windowsY, width, height);
-        g2.drawImage(gp.grupo.getGroup().get(0).portrait, windowsX+gp.tileSize, windowsY+gp.tileSize ,gp.tileSize*2,gp.tileSize*2,null);
+        windowsX+=gp.tileSize*2;
+        windowsY+=gp.tileSize;
+        g2.drawImage(gp.grupo.getGroup().get(0).portrait, windowsX, windowsY ,gp.tileSize*2,gp.tileSize*2,null);
+
+        windowsY+=gp.tileSize*3;
+        g2.drawImage(gp.grupo.getGroup().get(1).portrait, windowsX, windowsY ,gp.tileSize*2,gp.tileSize*2,null);
+
+        windowsY+=gp.tileSize*3;
+        g2.drawImage(gp.grupo.getGroup().get(2).portrait, windowsX, windowsY ,gp.tileSize*2,gp.tileSize*2,null);
         switch (subState) {
             case 0:menuSelection();break;
             default:break;
         }
     }
 
+    public void drawBattleMenu(){
+        int windowsX=5;
+        int windowsY=gp.screenHeight-gp.tileSize*3-5;
+        int width = gp.screenWidth-10;
+        int height = gp.tileSize*3; 
+     
+        BufferedImage image = null;
+        image = cursor;
+        drawSubwindows(windowsX, windowsY, width, height);
+        
+       
+    }
+
+
     public void menuSelection(){
-        int x = gp.tileSize*12-5;
+        int x = gp.screenWidth-(gp.tileSize*4+5);
         int y = 5;
         int width = gp.tileSize*4;
         int height = gp.tileSize*6+16;
@@ -105,7 +132,9 @@ public class UI {
     }
 
     public void drawSubwindows(int x , int y , int width , int height){
-           GradientPaint color = new GradientPaint(x,y, new Color(100,99,171,255), x,height, new Color(0,0,90,255),false);
+            int gradientStartY = y;
+            int gradientEndY = y + height;
+           GradientPaint color = new GradientPaint(x,gradientStartY, new Color(100,99,171,255), x,gradientEndY, new Color(0,0,90,255),false);
            g2.setPaint(color);
            g2.fillRoundRect(x,y,width,height, 35, 35);
            g2.setColor(Color.LIGHT_GRAY);

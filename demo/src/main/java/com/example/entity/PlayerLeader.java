@@ -30,7 +30,13 @@ public class PlayerLeader extends Entity {
         screenX = gp.screenWidth / 2 - (gp.tileSize / 2);
         screenY = gp.screenHeight / 2 - (gp.tileSize / 2);
 
-        solidArea = new Rectangle(5, 21, 35, 50);
+        hitBox = new Rectangle();
+        hitBox.x = 5;
+        hitBox.y = 25;
+        hitboxDefaultX = hitBox.x;
+        hitboxDefaultY = hitBox.y;
+        hitBox.width = 35;
+        hitBox .height = 45;
         setDefaultValues();
         getPlayerImagen();
     }
@@ -47,19 +53,19 @@ public class PlayerLeader extends Entity {
 
     public void getPlayerImagen() {
 
-         left = group.getGroup().get(2).left;
-        left1 = group.getGroup().get(2).left1;
+        left = group.getGroup().get(1).left;
+        left1 = group.getGroup().get(1).left1;
 
-        right = group.getGroup().get(2).right;
-        right1 = group.getGroup().get(2).right1;
+        right = group.getGroup().get(1).right;
+        right1 = group.getGroup().get(1).right1;
 
-        up = group.getGroup().get(2).up;
-        up1 = group.getGroup().get(2).up1;
-        up2 = group.getGroup().get(2).up2;
+        up = group.getGroup().get(1).up;
+        up1 = group.getGroup().get(1).up1;
+        up2 = group.getGroup().get(1).up2;
 
-        down = group.getGroup().get(2).down;
-        down1 = group.getGroup().get(2).down1;
-        down2 = group.getGroup().get(2).down2; 
+        down = group.getGroup().get(1).down;
+        down1 = group.getGroup().get(1).down1;
+        down2 = group.getGroup().get(1).down2; 
     }
 
     public void update() {
@@ -77,9 +83,11 @@ public class PlayerLeader extends Entity {
             direction = "right";
 
         }
-
+        
+      
         collisionOn = false;
         gp.ck.checkTile(this);
+       // gp.ck.checkEntity(this, null);
 
         if (collisionOn == false) {
 
@@ -118,10 +126,10 @@ public class PlayerLeader extends Entity {
 
     public void draw(Graphics2D g2) {
 
-        /*
-         * g2.setColor(Color.white);
-         * g2.fillRect(x, y, gp.titleSize, gp.titleSize);
-         */
+        
+         /*  g2.setColor(Color.white);
+          g2.fillRect(gp.tileSize, 0, gp.tileSize, gp.tileSize);
+          */
         BufferedImage image = null;
         switch (direction) {
             case "left":
@@ -184,8 +192,8 @@ public class PlayerLeader extends Entity {
         }
 
         g2.drawImage(image, screenX, screenY, sizeWidth, sizeHeight, null);
-
         g2.setColor(Color.red);
-        g2.drawRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
+        g2.drawRect(screenX + hitBox.x, screenY + hitBox.y, hitBox.width, hitBox.height);
+        
     }
 }
