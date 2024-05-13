@@ -189,9 +189,9 @@ true
 094.png
 true
 095.png
-false
+true
 096.png
-false
+true
 097.png
 true
 098.png

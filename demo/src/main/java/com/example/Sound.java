@@ -14,6 +14,7 @@ public class Sound {
     public Sound(){
         soundURL[0] = getClass().getResource("/com/example/sound/battleTheme.wav");
         soundURL[1] = getClass().getResource("/com/example/sound/townTheme.wav");
+        soundURL[2] = getClass().getResource("/com/example/sound/doorOpen.wav");
     }
 
 

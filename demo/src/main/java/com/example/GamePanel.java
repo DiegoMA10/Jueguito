@@ -4,9 +4,14 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
@@ -34,11 +39,12 @@ public class GamePanel extends JPanel implements Runnable {
     public final int worldWidth = maxWorldCol*tileSize;
     public final int worldHeight = maxWorldRow*tileSize;
 
-    public final int maxMap = 10;
+    public final int maxMap = 3;
     public int currentMap = 0;
 
     public KeyHandler keyH = new KeyHandler(this);
-
+    public EventHandler eHandler = new EventHandler(this);
+    public AssetSetter aSetter = new AssetSetter(this);
     Thread gameThread;
     Sound sound = new Sound();
     TileManager tl = new TileManager(this);
@@ -49,7 +55,9 @@ public class GamePanel extends JPanel implements Runnable {
     Cloud cloud = new Cloud(this);
     Group grupo = new Group();
     
-    public PlayerLeader player ;
+    public PlayerLeader player;
+    public Entity[] npc = new Entity[5];
+    public ArrayList<Entity> entityList = new ArrayList<>();
     public CollisionCheck ck = new CollisionCheck(this);
     public UI ui = new UI(this);
    
@@ -61,13 +69,14 @@ public class GamePanel extends JPanel implements Runnable {
     public static final int playState = 1;
     public static final int menuState = 2;
     public static final int battleState = 3;
+    public static final int transitionState = 4;
+    public static final int dialogueState = 5;
    
     public GamePanel(){
       
      
         setGroup();
         player = new PlayerLeader(this, keyH,grupo);
-      
         this.setPreferredSize(new Dimension(screenWidth,screenHeight));
         this.setBackground(Color.black);
         this.setDoubleBuffered(true);
@@ -84,6 +93,7 @@ public class GamePanel extends JPanel implements Runnable {
     public void setUpGame(){
        
         gameState=1;
+        aSetter.setNPC();
         playMusic(1);
        
         
@@ -150,7 +160,7 @@ public class GamePanel extends JPanel implements Runnable {
               
                 }
                 if (timer >= 1000000000) {
-                   // System.out.pri    ºntln("FPS: "+drawCount );
+                    //System.out.println("FPS: "+drawCount );
                     drawCount = 0;
                     timer = 0;
                     
@@ -175,16 +185,30 @@ public class GamePanel extends JPanel implements Runnable {
    
 
 
-        if (gameState == playState){
-                tl.draw(g2);
-                player.draw(g2);    
-                tl.drawSuperior(g2);
-                ui.draw(g2);
-        }else if (gameState == titleState || gameState == menuState) {
+         if (gameState == titleState || gameState == menuState) {
             ui.draw(g2);
         }else if(gameState == battleState){
             battle.draw(g2);
             ui.draw(g2);
+        }else{
+                tl.draw(g2);
+               
+
+                entityList.add(player);
+                for (int i = 0; i < npc.length; i++) {
+                    if (npc[i]!=null) {
+                       entityList.add(npc[i]);
+                    }
+                }
+
+              
+                Collections.sort(entityList);
+                for (Entity entity : entityList) {
+                    entity.draw(g2);
+                }
+
+                tl.drawSuperior(g2);
+                ui.draw(g2);
         }
       
         
@@ -194,7 +218,7 @@ public class GamePanel extends JPanel implements Runnable {
         
          
         long tiempo = end-start;
-        System.out.println(tiempo);
+      //  System.out.println(tiempo);
        
        
         g2.dispose();

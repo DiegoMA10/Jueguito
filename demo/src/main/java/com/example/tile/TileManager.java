@@ -31,7 +31,7 @@ public class TileManager {
         getTileImage();
         loadMap("src/main/resources/com/example/worlds/mapa.txt", 0);
         loadMap("src/main/resources/com/example/worlds/interior.txt", 1);
-        loadMap("src/main/resources/com/example/worlds/mapaSup.txt", 9);
+        loadMap("src/main/resources/com/example/worlds/mapaSup.txt", 2);
        
     }
 
@@ -136,7 +136,7 @@ public class TileManager {
 
             for (int worldCol = 0; worldCol < gp.maxWorldCol; worldCol++) {
 
-                int n = mapaNumber[9][worldCol][worldRow];
+                int n = mapaNumber[2][worldCol][worldRow];
               
                 if (n!=2) {
                     int worldX = worldCol*gp.tileSize;

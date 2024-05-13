@@ -20,7 +20,9 @@ public class PlayerLeader extends Entity {
     public int screenX;
     public int screenY;
     Group group;
-
+     boolean action , actionX;
+    int defaultX;
+ 
     public PlayerLeader(GamePanel gp, KeyHandler keyH, Group group) {
         super(gp);
         this.keyH = keyH;
@@ -29,7 +31,7 @@ public class PlayerLeader extends Entity {
         sizeHeight = 23 * gp.scale;
         screenX = gp.screenWidth / 2 - (gp.tileSize / 2);
         screenY = gp.screenHeight / 2 - (gp.tileSize / 2);
-
+        defaultX = screenX;
         hitBox = new Rectangle();
         hitBox.x = 5;
         hitBox.y = 25;
@@ -68,6 +70,8 @@ public class PlayerLeader extends Entity {
         down2 = group.getGroup().get(1).down2; 
     }
 
+
+
     public void update() {
 
         if (keyH.upPressed == true) {
@@ -87,8 +91,12 @@ public class PlayerLeader extends Entity {
       
         collisionOn = false;
         gp.ck.checkTile(this);
-       // gp.ck.checkEntity(this, null);
-
+        int indexNPC = gp.ck.checkEntity(this, gp.npc);
+        interactNPC(indexNPC);
+        gp.eHandler.checkEvent();
+        
+        gp.keyH.enterPressed=false;
+       
         if (collisionOn == false) {
 
             if (keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed) {
@@ -124,6 +132,15 @@ public class PlayerLeader extends Entity {
 
     }
 
+    public void interactNPC(int i){
+        if (i!=999) {
+            if (keyH.enterPressed) {
+                gp.npc[i].speak();
+            
+            }
+        }
+    }
+
     public void draw(Graphics2D g2) {
 
         
@@ -149,7 +166,7 @@ public class PlayerLeader extends Entity {
 
             case "right":
 
-                if (keyH.rightPressed) {
+                if (keyH.rightPressed ) {
                     if (spriteNumber == 1) {
                         image = right;
                     }
@@ -196,4 +213,30 @@ public class PlayerLeader extends Entity {
         g2.drawRect(screenX + hitBox.x, screenY + hitBox.y, hitBox.width, hitBox.height);
         
     }
+
+    /*  public void pruebas(){
+       
+        if (action) {
+
+            if (actionX) {
+                screenX-=3;
+                direction="left";
+                if (screenX<gp.tileSize*2) {
+                    actionX=false;
+                    direction="right";
+                }
+
+            }else{
+                screenX+=3;
+                direction="right";
+                if (defaultX<screenX) {
+                    action=false;
+                    direction ="left";
+                }
+            }
+
+        
+    }
+    }  */
+
 }

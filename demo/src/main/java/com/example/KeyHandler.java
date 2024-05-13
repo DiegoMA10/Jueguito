@@ -26,7 +26,8 @@ public class KeyHandler implements KeyListener {
     switch (gp.gameState) {
       case GamePanel.playState: playState(code);break;
       case GamePanel.menuState: menuState(code);break;
-      default: break;
+      case GamePanel.dialogueState : dialoguesState(code);break;
+   
     }
    
    
@@ -64,12 +65,25 @@ public class KeyHandler implements KeyListener {
               gp.ui.numCommand++;
             }
             break;
-   
+
+      case KeyEvent.VK_ENTER:  enterPressed=true; break;
     }
    
 
    
   }
+
+  public void dialoguesState(int code) {
+    switch (code) {
+      case KeyEvent.VK_ESCAPE:gp.gameState = GamePanel.playState; break;
+      
+      case KeyEvent.VK_ENTER: gp.gameState = GamePanel.playState; break;
+    }
+   
+
+   
+  }
+
 
   
 
