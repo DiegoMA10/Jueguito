@@ -9,6 +9,8 @@ import java.awt.image.BufferedImage;
 
 import javax.imageio.ImageIO;
 
+import com.example.entity.Entity;
+
 public class UI {
     GamePanel gp;
     Graphics2D g2;
@@ -19,6 +21,7 @@ public class UI {
     Font arial40;
     public String currentDialogue;
     int cont = 0;
+    Entity npc;
 
     public UI(GamePanel gp) {
         this.gp = gp;
@@ -47,30 +50,104 @@ public class UI {
         this.g2 = g2;
         playTimer += 1.0 / 60;
         g2.setFont(arial40);
-
+        
         switch (gp.gameState) {
-            case GamePanel.titleState:
-                break;
-            case GamePanel.menuState:
-                drawMenuWindows();
-                break;
-            case GamePanel.playState:
-                break;
-            case GamePanel.battleState:
-                drawBattleMenu();
-                break;
+            case GamePanel.titleState:break;
+            case GamePanel.menuState:drawMenuWindows();break;
+            case GamePanel.playState:break;
+            case GamePanel.battleState:drawBattleMenu();break;
             case GamePanel.transitionState:
                 drawTransition();
                 break;
             case GamePanel.dialogueState:
                 drawDialogues();
                 break;
-
+            case GamePanel.breakState:
+                
+                breakOptions();
+                break;
+                
         }
-
+      
     }
 
-    private void drawDialogues() {
+
+    public Boolean state = true;
+
+    public void breakOptions(){
+    
+    switch (subState) {
+        case 0:breakMenu();break;
+        case 1:breakTransition();break;
+      }
+
+     gp.keyH.enterPressed=false;
+    }
+   
+       
+    public void breakMenu(){
+        
+        drawDialogues();
+        int x=gp.screenWidth - (gp.tileSize * 5 + 5);
+        int y = gp.tileSize*5-24;
+        int width =  gp.tileSize*4;
+        int height  =  gp.tileSize*3-gp.tileSize/2;
+        drawSubwindows(x, y, width, height);
+        g2.setColor(Color.white);
+        x+=gp.tileSize/2;
+        y+=gp.tileSize;
+        g2.drawString("dormir", x, y);
+        if (numCommand==0) {
+            g2.drawImage(cursor, x - gp.tileSize, y - gp.tileSize + 20, gp.tileSize, gp.tileSize, null);
+            if (gp.keyH.enterPressed==true) {
+                
+                subState = 1;
+            }
+        }
+        y+=gp.tileSize;
+        g2.drawString("irse", x, y);
+        if (numCommand==1) {
+            g2.drawImage(cursor, x - gp.tileSize, y - gp.tileSize + 20, gp.tileSize, gp.tileSize, null);
+            if (gp.keyH.enterPressed==true) {
+                numCommand = 0;
+                subState = 0;
+                 gp.gameState=GamePanel.playState;
+              
+            }
+        }
+       
+    }
+
+    public void breakTransition() {
+        if (state) {
+            cont++;
+        }else{
+            cont--;
+        }
+        
+        int alfa = cont *4;
+        if (alfa>255) {
+            alfa=255;
+        }
+        g2.setColor(new Color(0, 0, 0, (alfa)));
+        g2.fillRect(0, 0, gp.screenWidth, gp.screenHeight);
+        if (cont == 90) {
+            state = false;
+            gp.grupo.breakGroup();
+            gp.playSE(4);
+        }
+
+        if (cont==0 && !state) {
+           
+            subState=0;
+            gp.gameState=GamePanel.playState;
+            cont = 0;
+            state = true;
+            
+        }
+    }
+
+    public void drawDialogues() {
         int x = gp.tileSize * 1;
         int y = gp.tileSize / 2;
         int width = gp.screenWidth - (gp.tileSize * 2);
@@ -86,12 +163,12 @@ public class UI {
             g2.drawString(line, x + 2, y + 2);
             g2.setColor(Color.white);
             g2.drawString(line, x, y);
-            y+=gp.tileSize-10;
+            y += gp.tileSize - 10;
         }
 
     }
 
-    private void drawTransition() {
+    public void drawTransition() {
         cont += 2;
         g2.setColor(new Color(0, 0, 0, (cont * 5)));
         g2.fillRect(0, 0, gp.screenWidth, gp.screenHeight);
@@ -106,6 +183,7 @@ public class UI {
     }
 
     public void drawMenuWindows() {
+        
         int windowsX = 5;
         int windowsY = 5;
         int width = gp.screenWidth - 10;
@@ -116,12 +194,24 @@ public class UI {
         windowsX += gp.tileSize * 2;
         windowsY += gp.tileSize;
         g2.drawImage(gp.grupo.getGroup().get(0).portrait, windowsX, windowsY, gp.tileSize * 2, gp.tileSize * 2, null);
+        g2.drawString(gp.grupo.getGroup().get(0).name, windowsX+gp.tileSize*4, windowsY+20);
+        g2.drawString(gp.grupo.getGroup().get(0).MaxHp+"/", windowsX+gp.tileSize*4, windowsY+gp.tileSize*3);
+        g2.drawString(gp.grupo.getGroup().get(0).hp+"", windowsX+gp.tileSize*5+10, windowsY+gp.tileSize*3);
+
 
         windowsY += gp.tileSize * 3;
         g2.drawImage(gp.grupo.getGroup().get(1).portrait, windowsX, windowsY, gp.tileSize * 2, gp.tileSize * 2, null);
 
         windowsY += gp.tileSize * 3;
         g2.drawImage(gp.grupo.getGroup().get(2).portrait, windowsX, windowsY, gp.tileSize * 2, gp.tileSize * 2, null);
+        windowsX = gp.screenWidth - (gp.tileSize * 4 + 5);
+        windowsY = gp.screenHeight - gp.tileSize * 4;
+        width = gp.tileSize * 4;
+        height = gp.tileSize * 2;
+        drawSubwindows(windowsX, windowsY, width, height);
+        windowsX += gp.tileSize / 2;
+        windowsY += gp.tileSize;
+        g2.drawString("gil: " + gp.grupo.gil, windowsX, windowsY);
         switch (subState) {
             case 0:
                 menuSelection();
@@ -144,6 +234,9 @@ public class UI {
     }
 
     public void menuSelection() {
+        if (gp.keyH.enterPressed) {
+            System.out.println("hola");
+        }
         int x = gp.screenWidth - (gp.tileSize * 4 + 5);
         int y = 5;
         int width = gp.tileSize * 4;
@@ -156,6 +249,7 @@ public class UI {
         if (numCommand == 0) {
 
             g2.drawImage(cursor, x - gp.tileSize, y - gp.tileSize + 10, gp.tileSize, gp.tileSize, null);
+          
         }
 
         y += gp.tileSize;
@@ -165,7 +259,9 @@ public class UI {
         if (numCommand == 1) {
 
             g2.drawImage(cursor, x - gp.tileSize, y - gp.tileSize + 10, gp.tileSize, gp.tileSize, null);
+            
         }
+        gp.keyH.enterPressed=false;
 
     }
 
@@ -181,4 +277,43 @@ public class UI {
         g2.drawRoundRect(x, y, width, height, 20, 20);
 
     }
+
+    String[] prueba2 = { "hola", "hola1", "hola2", "hola3", "hola4", "hola5", "hola6", "hola7" };
+
+    String[] prueba = { "hola", "hola1", "hola2", "hola3", "hola4", "hola5", "hola6", "hola7", "hola8", "hola9",
+            "hola10", "hola11'", "hola¡", "hol3", "hola7", "hola23", "hola32", "hola12", "hola423", "hola423", "hola4",
+            "hola324", "hola34", "hola34", "ultima" };
+
+    public void pruebas() {
+        // scroll menu
+        int x = gp.screenWidth - (gp.tileSize * 4 + 5);
+        int y = 5;
+        int width = gp.tileSize * 4;
+        int height = gp.tileSize * 6 + 16;
+        drawSubwindows(x, y, width, height);
+        x += gp.tileSize - 24;
+        y += gp.tileSize;
+
+        g2.setColor(Color.white);
+        int contadorCursor = 0;
+        contadorCursor = numCommand - 5;
+
+        for (int i = 0; i < 6; i++) {
+
+            if (numCommand > 5) {
+                g2.drawString(prueba[contadorCursor + i], x, y);
+            } else {
+                g2.drawString(prueba[i], x, y);
+            }
+
+            if (numCommand == i || (numCommand > 5 && numCommand == i + contadorCursor)) {
+
+                g2.drawImage(cursor, x - gp.tileSize, y - gp.tileSize + 10, gp.tileSize, gp.tileSize, null);
+
+            }
+
+            y += gp.tileSize;
+        }
+    }
+
 }

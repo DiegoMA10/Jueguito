@@ -1,6 +1,6 @@
 package com.example;
 
-
+import com.example.entity.Entity;
 
 public class EventHandler {
 
@@ -50,15 +50,33 @@ public class EventHandler {
         if (canTouchEvent) {
             if (hit(0, 19, 37, "any")) {teleport(1, 26, 40);}
             if (hit(1, 26, 41, "any")) {teleport(0, 19, 37);}
-
             if (hit(0, 12, 37, "any")) {teleport(1, 15, 40);}
             if (hit(1, 15, 41, "any")) {teleport(0, 12, 37);}
-
             if (hit(0, 28, 37, "any")) {teleport(1, 32, 13);}
             if (hit(1, 32, 14, "any")) {teleport(0, 28, 37);}
-
             if (hit(0, 17, 14, "any")) {teleport(1, 16, 16);}
             if (hit(1, 16, 17, "any")) {teleport(0, 17, 14);}
+
+            if (hit(1, 15 ,35, "up")) {speak(gp.npc[1][0]);}
+            if (hit(1, 26 ,35, "up")) {speak(gp.npc[1][1]);}
+            if (hit(1, 16 ,12, "up")) {speak(gp.npc[1][2]);}
+            if (hit(1, 14 ,10, "right")) {speak(gp.npc[1][2]);}
+            if (hit(1, 32 ,10, "up")) {speak(gp.npc[1][3]);}
+            if (hit(1, 34 ,8, "left")) {speak(gp.npc[1][3]);}
+
+
+
+        }
+    }
+
+    private void speak(Entity entity) {
+       
+        if (gp.keyH.enterPressed==true) {
+            gp.gameState=GamePanel.dialogueState;
+    
+            entity.speak();  
+            
+            
         }
     }
 
@@ -69,7 +87,7 @@ public class EventHandler {
             gp.player.hitBox.y = gp.player.worldY + gp.player.hitBox.y;
             eventRect[map][col][row].x = col*gp.tileSize + eventRect[map][col][row].x;
             eventRect[map][col][row].y = row*gp.tileSize + eventRect[map][col][row].y;
-    
+            
             if (gp.player.hitBox.intersects(eventRect[map][col][row])) {
                 if (gp.player.direction.equals(direction) || direction.equals("any")) {
                  hit = true;   
@@ -89,10 +107,10 @@ public class EventHandler {
     }
 
     public void teleport(int map ,int col , int row){
-        gp.gameState = GamePanel.transitionState;
         tpMap = map;
         tpCol = col;
         tpRow = row;
+        gp.gameState = GamePanel.transitionState;
         canTouchEvent=false;
         gp.playSE(2);
     }

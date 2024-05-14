@@ -75,44 +75,44 @@ public class CollisionCheck {
 
     }
 
-    public int checkEntity(Entity e, Entity[] target) {
+    public int checkEntity(Entity e, Entity[][] target) {
         int index = 999;
 
-        for (int i = 0; i < target.length; i++) {
+        for (int i = 0; i < target[1].length; i++) {
 
-            if (target[i] != null) {
+            if (target[gp.currentMap][i] != null) {
 
                 e.hitBox.x = e.worldX + e.hitBox.x;
                 e.hitBox.y = e.worldY + e.hitBox.y;
 
-                target[i].hitBox.x = target[i].worldX + target[i].hitBox.x;
-                target[i].hitBox.y = target[i].worldY + target[i].hitBox.y;
+                target[gp.currentMap][i].hitBox.x = target[gp.currentMap][i].worldX + target[gp.currentMap][i].hitBox.x;
+                target[gp.currentMap][i].hitBox.y = target[gp.currentMap][i].worldY + target[gp.currentMap][i].hitBox.y;
 
                 switch (e.direction) {
                     case "up":
                         e.hitBox.y -= e.speed;
-                        if (e.hitBox.intersects(target[i].hitBox)) {
+                        if (e.hitBox.intersects(target[gp.currentMap][i].hitBox)) {
                             e.collisionOn=true;
                             index = i;
                         }
                         break;
                     case "down":
                         e.hitBox.y += e.speed;
-                        if (e.hitBox.intersects(target[i].hitBox)) {
+                        if (e.hitBox.intersects(target[gp.currentMap][i].hitBox)) {
                             e.collisionOn=true;
                             index = i;
                         }
                         break;
                     case "left":
                         e.hitBox.x -= e.speed;
-                        if (e.hitBox.intersects(target[i].hitBox)) {
+                        if (e.hitBox.intersects(target[gp.currentMap][i].hitBox)) {
                             e.collisionOn=true;
                             index = i;
                         }
                         break;
                     case "right":
                         e.hitBox.x += e.speed;
-                        if (e.hitBox.intersects(target[i].hitBox)) {
+                        if (e.hitBox.intersects(target[gp.currentMap][i].hitBox)) {
                             e.collisionOn=true;
                             index = i;
                         }
@@ -121,8 +121,8 @@ public class CollisionCheck {
 
                 e.hitBox.x = e.hitboxDefaultX;
                 e.hitBox.y = e.hitboxDefaultY;
-                target[i].hitBox.x = target[i].hitboxDefaultX;
-                target[i].hitBox.y = target[i].hitboxDefaultY;
+                target[gp.currentMap][i].hitBox.x = target[gp.currentMap][i].hitboxDefaultX;
+                target[gp.currentMap][i].hitBox.y = target[gp.currentMap][i].hitboxDefaultY;
 
             }
 

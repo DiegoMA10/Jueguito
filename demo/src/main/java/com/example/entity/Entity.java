@@ -80,6 +80,7 @@ public class Entity implements Comparable <Entity>{
 
     public void speak() {
         gp.gameState = GamePanel.dialogueState;
+       
         if (dialogues[dialogueI] == null) {
             dialogueI = 0;
         }
@@ -92,6 +93,7 @@ public class Entity implements Comparable <Entity>{
             case "left":direction = "right";break;
             case "right":direction = "left";break;
         }
+        
     }
 
     @Override

@@ -15,14 +15,15 @@ import com.example.KeyHandler;
 import com.example.UtilityTool;
 
 public class PlayerLeader extends Entity {
-    
+
     KeyHandler keyH;
     public int screenX;
     public int screenY;
     Group group;
-     boolean action , actionX;
+    boolean action, actionX;
     int defaultX;
- 
+    public boolean salida = true;;
+
     public PlayerLeader(GamePanel gp, KeyHandler keyH, Group group) {
         super(gp);
         this.keyH = keyH;
@@ -38,7 +39,7 @@ public class PlayerLeader extends Entity {
         hitboxDefaultX = hitBox.x;
         hitboxDefaultY = hitBox.y;
         hitBox.width = 35;
-        hitBox .height = 45;
+        hitBox.height = 45;
         setDefaultValues();
         getPlayerImagen();
     }
@@ -51,102 +52,101 @@ public class PlayerLeader extends Entity {
 
     }
 
-   
-
     public void getPlayerImagen() {
 
-        left = group.getGroup().get(1).left;
-        left1 = group.getGroup().get(1).left1;
+        left = group.getGroup().get(2).left;
+        left1 = group.getGroup().get(2).left1;
 
-        right = group.getGroup().get(1).right;
-        right1 = group.getGroup().get(1).right1;
+        right = group.getGroup().get(2).right;
+        right1 = group.getGroup().get(2).right1;
 
-        up = group.getGroup().get(1).up;
-        up1 = group.getGroup().get(1).up1;
-        up2 = group.getGroup().get(1).up2;
+        up = group.getGroup().get(2).up;
+        up1 = group.getGroup().get(2).up1;
+        up2 = group.getGroup().get(2).up2;
 
-        down = group.getGroup().get(1).down;
-        down1 = group.getGroup().get(1).down1;
-        down2 = group.getGroup().get(1).down2; 
+        down = group.getGroup().get(2).down;
+        down1 = group.getGroup().get(2).down1;
+        down2 = group.getGroup().get(2).down2;
     }
-
-
 
     public void update() {
 
-        if (keyH.upPressed == true) {
-            direction = "up";
+     
+            if (keyH.upPressed == true) {
+                direction = "up";
 
-        } else if (keyH.downPressed == true) {
-            direction = "down";
+            } else if (keyH.downPressed == true) {
+                direction = "down";
 
-        } else if (keyH.leftPressed == true) {
-            direction = "left";
+            } else if (keyH.leftPressed == true) {
+                direction = "left";
 
-        } else if (keyH.rightPressed == true) {
-            direction = "right";
+            } else if (keyH.rightPressed == true) {
+                direction = "right";
 
-        }
-        
-      
-        collisionOn = false;
-        gp.ck.checkTile(this);
-        int indexNPC = gp.ck.checkEntity(this, gp.npc);
-        interactNPC(indexNPC);
-        gp.eHandler.checkEvent();
-        
-        gp.keyH.enterPressed=false;
-       
-        if (collisionOn == false) {
+            }
 
-            if (keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed) {
-                switch (direction) {
-                    case "up":
-                        worldY -= speed;
-                        break;
-                    case "down":
-                        worldY += speed;
-                        break;
-                    case "left":
-                        worldX -= speed;
-                        break;
-                    case "right":
-                        worldX += speed;
-                        break;
+            collisionOn = false;
+            gp.ck.checkTile(this);
+            int indexNPC = gp.ck.checkEntity(this, gp.npc);
+            gp.eHandler.checkEvent();
+            interactNPC(indexNPC);
+
+            gp.keyH.enterPressed = false;
+            if (collisionOn == false) {
+
+                if (keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed) {
+                    switch (direction) {
+                        case "up":
+                            worldY -= speed;
+                            break;
+                        case "down":
+                            worldY += speed;
+                            break;
+                        case "left":
+                            worldX -= speed;
+                            break;
+                        case "right":
+                            worldX += speed;
+                            break;
+                    }
                 }
+
+            }
+        
+            spritCount++;
+            if (spritCount > 15) {
+
+                if (spriteNumber == 1) {
+
+                    spriteNumber = 2;
+                } else if (spriteNumber == 2) {
+                    spriteNumber = 1;
+                }
+                spritCount = 0;
             }
 
         }
 
-        spritCount++;
-        if (spritCount > 15) {
+    
 
-            if (spriteNumber == 1) {
+    public void interactNPC(int i) {
+        if (i != 999) {
+            if (keyH.enterPressed == true) {
+                System.out.println("hgola");
 
-                spriteNumber = 2;
-            } else if (spriteNumber == 2) {
-                spriteNumber = 1;
-            }
-            spritCount = 0;
-        }
+                gp.npc[gp.currentMap][i].speak();
 
-    }
-
-    public void interactNPC(int i){
-        if (i!=999) {
-            if (keyH.enterPressed) {
-                gp.npc[i].speak();
-            
             }
         }
     }
 
     public void draw(Graphics2D g2) {
 
-        
-         /*  g2.setColor(Color.white);
-          g2.fillRect(gp.tileSize, 0, gp.tileSize, gp.tileSize);
-          */
+        /*
+         * g2.setColor(Color.white);
+         * g2.fillRect(gp.tileSize, 0, gp.tileSize, gp.tileSize);
+         */
         BufferedImage image = null;
         switch (direction) {
             case "left":
@@ -166,7 +166,7 @@ public class PlayerLeader extends Entity {
 
             case "right":
 
-                if (keyH.rightPressed ) {
+                if (keyH.rightPressed) {
                     if (spriteNumber == 1) {
                         image = right;
                     }
@@ -211,32 +211,34 @@ public class PlayerLeader extends Entity {
         g2.drawImage(image, screenX, screenY, sizeWidth, sizeHeight, null);
         g2.setColor(Color.red);
         g2.drawRect(screenX + hitBox.x, screenY + hitBox.y, hitBox.width, hitBox.height);
-        
+
     }
 
-    /*  public void pruebas(){
-       
-        if (action) {
-
-            if (actionX) {
-                screenX-=3;
-                direction="left";
-                if (screenX<gp.tileSize*2) {
-                    actionX=false;
-                    direction="right";
-                }
-
-            }else{
-                screenX+=3;
-                direction="right";
-                if (defaultX<screenX) {
-                    action=false;
-                    direction ="left";
-                }
-            }
-
-        
-    }
-    }  */
+    /*
+     * public void pruebas(){
+     * 
+     * if (action) {
+     * 
+     * if (actionX) {
+     * screenX-=3;
+     * direction="left";
+     * if (screenX<gp.tileSize*2) {
+     * actionX=false;
+     * direction="right";
+     * }
+     * 
+     * }else{
+     * screenX+=3;
+     * direction="right";
+     * if (defaultX<screenX) {
+     * action=false;
+     * direction ="left";
+     * }
+     * }
+     * 
+     * 
+     * }
+     * }
+     */
 
 }

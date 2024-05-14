@@ -15,7 +15,9 @@ public class Tifa extends Character{
          sizeWidth = 15*gp.scale;
         sizeHeight = 23*gp.scale;
         getPlayerImagen();
-       
+       name = "tifa";
+       MaxHp= 10;
+       hp=3;
     }
 
     

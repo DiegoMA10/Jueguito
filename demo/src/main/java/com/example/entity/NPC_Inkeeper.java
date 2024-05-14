@@ -4,9 +4,9 @@ import java.awt.Graphics2D;
 
 import com.example.GamePanel;
 
-public class NPC_Guardian extends Entity {
+public class NPC_Inkeeper extends Entity{
 
-    public NPC_Guardian(GamePanel gp) {
+    public NPC_Inkeeper(GamePanel gp) {
         super(gp);
         direction = "down";
         sizeWidth = 15*gp.scale;
@@ -18,17 +18,14 @@ public class NPC_Guardian extends Entity {
     public void getImagen() {
         String carpeta = "/com/example/image/npc/";
 
-        left = setUp(carpeta + "guardian_left");
-        right = setUp(carpeta + "guardian_right");
-        up = setUp(carpeta + "guardian_up");
-        down = setUp(carpeta + "guardian_down");
+        left = setUp(carpeta+ "inkeeper_left");
+        down = setUp(carpeta + "inkeeper_down");
 
     }
 
     public void setDialogue(){
-        dialogues[0] = "Hola que tal estamos";
-        dialogues[1] = "Que buen tiempo hace no?";
-        dialogues[2] = "jeje\ngoz";
+        dialogues[0] = "Buenas aventurero\nte apertece descansar ?";
+      
     }
 
     public void draw(Graphics2D g2){
@@ -40,6 +37,7 @@ public class NPC_Guardian extends Entity {
     public void speak(){
         super.speak();
        
+        gp.gameState = GamePanel.breakState;
+       
     }
-
 }

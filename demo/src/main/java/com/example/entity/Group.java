@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Group {
     List<Character> group = new ArrayList<>();
-
+    public int gil = 500;
     public Group() {
         
     } 
@@ -19,5 +19,11 @@ public class Group {
     }
     
     
-    
+    public void breakGroup(){
+        for (Character character : group) {
+            character.hp=character.MaxHp;
+            character.mp=character.MaxMp;
+        }
+      
+    }
 }
