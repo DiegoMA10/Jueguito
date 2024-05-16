@@ -1,10 +1,10 @@
 package com.example;
 
-import com.example.entity.NPC_Guardian;
-import com.example.entity.NPC_Inkeeper;
-import com.example.entity.NPC_Item;
-import com.example.entity.NPC_Spell;
-import com.example.entity.NPC_Weapon;
+import com.example.entity.npc.NPC_Guardian;
+import com.example.entity.npc.NPC_Inkeeper;
+import com.example.entity.npc.NPC_Item;
+import com.example.entity.npc.NPC_Spell;
+import com.example.entity.npc.NPC_Weapon;
 
 public class AssetSetter {
 

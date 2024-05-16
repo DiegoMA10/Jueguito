@@ -7,6 +7,7 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.List;
+import java.util.function.IntFunction;
 
 import javax.imageio.ImageIO;
 
@@ -23,6 +24,10 @@ public class PlayerLeader extends Entity {
     boolean action, actionX;
     int defaultX;
     public boolean salida = true;;
+    int cont = 0;
+    int spriteCont=0;
+    UtilityTool tool = new UtilityTool();
+    
 
     public PlayerLeader(GamePanel gp, KeyHandler keyH, Group group) {
         super(gp);
@@ -53,87 +58,87 @@ public class PlayerLeader extends Entity {
     }
 
     public void getPlayerImagen() {
+         
+        left = group.getGroup().get(0).left;
+        left1 = group.getGroup().get(0).left1;
 
-        left = group.getGroup().get(2).left;
-        left1 = group.getGroup().get(2).left1;
+        right = group.getGroup().get(0).right;
+        right1 = group.getGroup().get(0).right1;
 
-        right = group.getGroup().get(2).right;
-        right1 = group.getGroup().get(2).right1;
+        up = group.getGroup().get(0).up;
+        up1 = group.getGroup().get(0).up1;
+        up2 = group.getGroup().get(0).up2;
 
-        up = group.getGroup().get(2).up;
-        up1 = group.getGroup().get(2).up1;
-        up2 = group.getGroup().get(2).up2;
-
-        down = group.getGroup().get(2).down;
-        down1 = group.getGroup().get(2).down1;
-        down2 = group.getGroup().get(2).down2;
+        down = group.getGroup().get(0).down;
+        down1 = group.getGroup().get(0).down1;
+        down2 = group.getGroup().get(0).down2;
     }
 
     public void update() {
 
-     
-            if (keyH.upPressed == true) {
-                direction = "up";
+        if (keyH.upPressed == true) {
+            direction = "up";
 
-            } else if (keyH.downPressed == true) {
-                direction = "down";
+        } else if (keyH.downPressed == true) {
+            direction = "down";
 
-            } else if (keyH.leftPressed == true) {
-                direction = "left";
+        } else if (keyH.leftPressed == true) {
+            direction = "left";
 
-            } else if (keyH.rightPressed == true) {
-                direction = "right";
+        } else if (keyH.rightPressed == true) {
+            direction = "right";
 
-            }
+        }
 
-            collisionOn = false;
-            gp.ck.checkTile(this);
-            int indexNPC = gp.ck.checkEntity(this, gp.npc);
-            gp.eHandler.checkEvent();
-            interactNPC(indexNPC);
+      
+       
+        collisionOn = false;
+        gp.ck.checkTile(this);
+        int indexNPC = gp.ck.checkEntity(this, gp.npc);
+        gp.eHandler.checkEvent();
+        interactNPC(indexNPC);
 
-            gp.keyH.enterPressed = false;
-            if (collisionOn == false) {
+        gp.keyH.enterPressed = false;
+        if (collisionOn == false) {
 
-                if (keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed) {
-                    switch (direction) {
-                        case "up":
-                            worldY -= speed;
-                            break;
-                        case "down":
-                            worldY += speed;
-                            break;
-                        case "left":
-                            worldX -= speed;
-                            break;
-                        case "right":
-                            worldX += speed;
-                            break;
-                    }
+            if (keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed) {
+                switch (direction) {
+                    case "up":
+                        worldY -= speed;
+                        break;
+                    case "down":
+                        worldY += speed;
+                        break;
+                    case "left":
+                        worldX -= speed;
+                        break;
+                    case "right":
+                        worldX += speed;
+                        break;
                 }
-
-            }
-        
-            spritCount++;
-            if (spritCount > 15) {
-
-                if (spriteNumber == 1) {
-
-                    spriteNumber = 2;
-                } else if (spriteNumber == 2) {
-                    spriteNumber = 1;
-                }
-                spritCount = 0;
             }
 
         }
 
-    
+        spritCount++;
+        if (spritCount > 15) {
+
+            if (spriteNumber == 1) {
+
+                spriteNumber = 2;
+            } else if (spriteNumber == 2) {
+                spriteNumber = 1;
+            }
+            spritCount = 0;
+        }
+
+    }
+
+
 
     public void interactNPC(int i) {
         if (i != 999) {
             if (keyH.enterPressed == true) {
-                System.out.println("hgola");
 
                 gp.npc[gp.currentMap][i].speak();
 
@@ -207,10 +212,17 @@ public class PlayerLeader extends Entity {
 
                 break;
         }
-
+      
         g2.drawImage(image, screenX, screenY, sizeWidth, sizeHeight, null);
         g2.setColor(Color.red);
         g2.drawRect(screenX + hitBox.x, screenY + hitBox.y, hitBox.width, hitBox.height);
+        cont++;
+        
+
+             
+        
+        
+        
 
     }
 

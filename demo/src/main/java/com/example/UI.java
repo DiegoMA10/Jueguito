@@ -9,6 +9,8 @@ import java.awt.image.BufferedImage;
 
 import javax.imageio.ImageIO;
 
+
+
 import com.example.entity.Entity;
 
 public class UI {
@@ -18,7 +20,9 @@ public class UI {
     BufferedImage cursor;
     int subState = 0;
     int numCommand = 0;
+    Color blueMenu = new Color(0,223,223);
     Font arial40;
+    Font normalFont;
     public String currentDialogue;
     int cont = 0;
     Entity npc;
@@ -27,6 +31,8 @@ public class UI {
         this.gp = gp;
         getCursorImagen();
         arial40 = new Font("Arial", Font.PLAIN, 40);
+        normalFont = new Font("Arial",Font.PLAIN,30);
+
     }
 
     public BufferedImage setUp(String path) {
@@ -100,7 +106,7 @@ public class UI {
         if (numCommand==0) {
             g2.drawImage(cursor, x - gp.tileSize, y - gp.tileSize + 20, gp.tileSize, gp.tileSize, null);
             if (gp.keyH.enterPressed==true) {
-                
+              
                 subState = 1;
             }
         }
@@ -119,6 +125,7 @@ public class UI {
     }
 
     public void breakTransition() {
+        
         if (state) {
             cont++;
         }else{
@@ -154,15 +161,12 @@ public class UI {
         int height = gp.tileSize * 4;
         drawSubwindows(x, y, width, height);
 
-        g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 30f));
+        g2.setFont(normalFont);
         x += gp.tileSize / 2;
         y += gp.tileSize;
 
         for (String line : currentDialogue.split("\n")) {
-            g2.setColor(Color.BLACK);
-            g2.drawString(line, x + 2, y + 2);
-            g2.setColor(Color.white);
-            g2.drawString(line, x, y);
+            drawText(line,x,y ,Color.white);
             y += gp.tileSize - 10;
         }
 
@@ -194,16 +198,15 @@ public class UI {
         windowsX += gp.tileSize * 2;
         windowsY += gp.tileSize;
         g2.drawImage(gp.grupo.getGroup().get(0).portrait, windowsX, windowsY, gp.tileSize * 2, gp.tileSize * 2, null);
-        g2.drawString(gp.grupo.getGroup().get(0).name, windowsX+gp.tileSize*4, windowsY+20);
-        g2.drawString(gp.grupo.getGroup().get(0).MaxHp+"/", windowsX+gp.tileSize*4, windowsY+gp.tileSize*3);
-        g2.drawString(gp.grupo.getGroup().get(0).hp+"", windowsX+gp.tileSize*5+10, windowsY+gp.tileSize*3);
-
-
-        windowsY += gp.tileSize * 3;
+        drawStatsPj(windowsX, windowsY, 0);
+       
+        windowsY += gp.tileSize * 4;
         g2.drawImage(gp.grupo.getGroup().get(1).portrait, windowsX, windowsY, gp.tileSize * 2, gp.tileSize * 2, null);
+        drawStatsPj(windowsX, windowsY, 1);
 
-        windowsY += gp.tileSize * 3;
+        windowsY += gp.tileSize * 4;
         g2.drawImage(gp.grupo.getGroup().get(2).portrait, windowsX, windowsY, gp.tileSize * 2, gp.tileSize * 2, null);
+        drawStatsPj(windowsX, windowsY, 2);
         windowsX = gp.screenWidth - (gp.tileSize * 4 + 5);
         windowsY = gp.screenHeight - gp.tileSize * 4;
         width = gp.tileSize * 4;
@@ -234,9 +237,7 @@ public class UI {
     }
 
     public void menuSelection() {
-        if (gp.keyH.enterPressed) {
-            System.out.println("hola");
-        }
+        
         int x = gp.screenWidth - (gp.tileSize * 4 + 5);
         int y = 5;
         int width = gp.tileSize * 4;
@@ -316,4 +317,36 @@ public class UI {
         }
     }
 
+    
+    
+    public void drawText(String text,int x,int y ,Color c){
+        if (c==null) {
+            c = Color.WHITE;
+        }
+        g2.setColor(Color.BLACK);
+        g2.drawString(text, x + 2, y + 2);
+        g2.setColor(c);
+        g2.drawString(text, x, y);
+    }
+
+    public void drawStatsPj(int windowsX, int windowsY ,int i){
+        int textX = windowsX+gp.tileSize*3;
+        int textY = windowsY+20;
+        g2.setFont(normalFont);
+        drawText(gp.grupo.getGroup().get(i).name, textX, textY, null);
+        textY+=40;
+        textX+=20;
+        drawText("LV", textX, textY, blueMenu);
+        drawText(gp.grupo.getGroup().get(i).level+"", textX+gp.tileSize*2, textY, null);
+        textY+=25;
+        drawText("PV", textX, textY, blueMenu);
+        String vida = gp.grupo.getGroup().get(i).hp+"/"+gp.grupo.getGroup().get(i).MaxHp;
+        drawText(vida, textX+gp.tileSize*2, textY, null);
+       
+        textY+=25;
+        drawText("PM", textX, textY, blueMenu); 
+        String mp = gp.grupo.getGroup().get(i).mp+"/"+gp.grupo.getGroup().get(i).MaxMp;
+        drawText(mp, textX+gp.tileSize*2, textY, null);
+
+    }
 }

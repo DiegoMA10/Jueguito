@@ -1,10 +1,13 @@
 package com.example.entity;
 
 import java.util.ArrayList;
-import java.util.List;
+
+import com.example.object.Item;
+
 
 public class Group {
-    List<Character> group = new ArrayList<>();
+    ArrayList<Character> group = new ArrayList<>();
+    ArrayList<Item>inventory = new ArrayList<>();
     public int gil = 500;
     public Group() {
         
@@ -14,7 +17,7 @@ public class Group {
         group.add(c);
     }
 
-    public List<Character> getGroup() {
+    public ArrayList<Character> getGroup() {
         return this.group;
     }
     

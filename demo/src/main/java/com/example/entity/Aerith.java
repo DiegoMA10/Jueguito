@@ -14,9 +14,26 @@ public class Aerith extends Character {
         sizeWidth = 15*gp.scale;
         sizeHeight = 23*gp.scale;
         getPlayerImagen();
+        RawStats();
+    }
+    
+    public void RawStats(){
+        name = "Aerith";
+        level = 1;
+        indexGroup=1;
+        exp = 0;
+        MaxHp = 40;
+        hp = MaxHp;
+        MaxMp = 20;
+        mp = MaxMp;
+        strength = 25;
+        speed = 30;
+        magic = 40;
+        attack = 15;
+        defense = 80;
+        magicDefense=80;
        
     }
-
     
     public void getPlayerImagen(){
         String carpeta = "/com/example/image/characters/";

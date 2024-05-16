@@ -14,6 +14,24 @@ public class Cloud extends Character {
         sizeWidth = 15*gp.scale;
         sizeHeight = 23*gp.scale;
         getPlayerImagen();
+        RawStats();
+    }
+
+    public void RawStats(){
+        name = "Cloud";
+        indexGroup=3;
+        level = 1;
+        exp = 0;
+        MaxHp = 50;
+        hp = MaxHp;
+        MaxMp = 14;
+        mp = MaxMp;
+        strength = 35;
+        speed = 35;
+        magic = 30;
+        attack = 20;
+        defense = 80;
+        magicDefense=80;
        
     }
 

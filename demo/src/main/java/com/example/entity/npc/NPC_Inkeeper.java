@@ -1,8 +1,9 @@
-package com.example.entity;
+package com.example.entity.npc;
 
 import java.awt.Graphics2D;
 
 import com.example.GamePanel;
+import com.example.entity.Entity;
 
 public class NPC_Inkeeper extends Entity{
 

@@ -15,9 +15,27 @@ public class Tifa extends Character{
          sizeWidth = 15*gp.scale;
         sizeHeight = 23*gp.scale;
         getPlayerImagen();
-       name = "tifa";
-       MaxHp= 10;
-       hp=3;
+        RawStats();
+       
+    }
+
+    public void RawStats(){
+        name = "Tifa";
+        level = 1;
+        indexGroup=2;
+        exp = 0;
+        MaxHp = 50;
+        hp = MaxHp;
+        MaxMp = 7;
+        mp = MaxMp;
+        strength = 40;
+        speed = 40;
+        magic = 25;
+        attack = 25;
+        defense = 80;
+        magicDefense=80;
+
+       
     }
 
     

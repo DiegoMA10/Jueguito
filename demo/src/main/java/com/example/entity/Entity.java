@@ -10,18 +10,18 @@ import com.example.GamePanel;
 import com.example.UtilityTool;
 
 public class Entity implements Comparable <Entity>{
-    public GamePanel gp;
-    public int sizeWidth, sizeHeight;
+    protected GamePanel gp;
+    protected int sizeWidth, sizeHeight;
     public int worldX, worldY;
     public int speed;
-    public BufferedImage left, left1, left2, right, right1, right2, up, up1, up2, down, down1, down2;
+    protected BufferedImage left, left1, left2, right, right1, right2, up, up1, up2, down, down1, down2;
     public String direction;
-    public int spritCount = 0;
-    public int spriteNumber = 1;
+    protected int spritCount = 0;
+    protected int spriteNumber = 1;
     public Rectangle hitBox = new Rectangle(0, 20, 40, 45);
     public int hitboxDefaultX,hitboxDefaultY;
     public boolean collisionOn = false;
-    String dialogues[] = new String[10];
+    protected String dialogues[] = new String[10];
     int dialogueI = 0;
 
     public Entity(GamePanel gp) {
@@ -96,7 +96,7 @@ public class Entity implements Comparable <Entity>{
         
     }
 
-    @Override
+  
     public int compareTo(Entity e1) {
        
         return Integer.compare(this.worldY, e1.worldY);

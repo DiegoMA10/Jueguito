@@ -42,8 +42,10 @@ public class GamePanel extends JPanel implements Runnable {
     public KeyHandler keyH = new KeyHandler(this);
     public EventHandler eHandler = new EventHandler(this);
     public AssetSetter aSetter = new AssetSetter(this);
+    public Databases databases = new Databases(this);;
     Thread gameThread;
-    Sound sound = new Sound();
+    Sound music = new Sound();
+    Sound soundEfect = new Sound();
     TileManager tl = new TileManager(this);
     BattlePanel battle = new BattlePanel(this);
 
@@ -89,10 +91,10 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void setUpGame() {
-
+       
         gameState = 1;
         aSetter.setNPC();
-        // playMusic(1);
+        playMusic(1);
 
     }
 
@@ -216,19 +218,20 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void playMusic(int n) {
-        sound.setFile(n);
-        sound.setVolume(0.05f);
+        music.setFile(n);
+        music.setVolume(0.05f);
 
-        sound.play();
-        sound.loop();
+        music.play();
+        music.loop();
     }
 
-    public void stopMusic(int n) {
-        sound.stop();
+    public void stopMusic() {
+        
+        music.stop();
     }
 
     public void playSE(int n) {
-        sound.setFile(n);
-        sound.play();
+        soundEfect.setFile(n);
+        soundEfect.play();
     }
 }
