@@ -3,6 +3,7 @@ package com.example.entity;
 import java.awt.image.BufferedImage;
 
 import com.example.GamePanel;
+import com.example.UtilityTool;
 
 public class Character extends Entity  {
 
@@ -46,7 +47,11 @@ public class Character extends Entity  {
 
  */
 
-
+    public static void changeInexGroup(Character c1 , Character c2){
+        int aux= c1.indexGroup;
+        c1.indexGroup=c2.indexGroup;
+        c2.indexGroup=aux;
+    }
 }
  
 

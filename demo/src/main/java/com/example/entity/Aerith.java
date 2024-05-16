@@ -20,7 +20,7 @@ public class Aerith extends Character {
     public void RawStats(){
         name = "Aerith";
         level = 1;
-        indexGroup=1;
+        indexGroup=0;
         exp = 0;
         MaxHp = 40;
         hp = MaxHp;

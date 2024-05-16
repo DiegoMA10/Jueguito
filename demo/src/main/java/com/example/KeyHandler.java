@@ -83,10 +83,21 @@ public class KeyHandler implements KeyListener {
 
   }
 
-  public void menuState(int code) {
+  public void menuState(int code ){
+
+    switch (gp.ui.subState) {
+      case 0:menuSelector(code);break;
+      case 2:orderSelector(code);break;
+    
+  
+    }
+  }
+
+  public void menuSelector(int code) {
     switch (code) {
       case KeyEvent.VK_ESCAPE:
         gp.gameState = GamePanel.playState;
+        gp.ui.numCommand=0;
         break;
       case KeyEvent.VK_W:
         if (gp.ui.numCommand > 0) {
@@ -97,7 +108,7 @@ public class KeyHandler implements KeyListener {
         break;
       case KeyEvent.VK_S:
 
-        if (gp.ui.numCommand < 1) {
+        if (gp.ui.numCommand < 5) {
           gp.ui.numCommand++;
 
         }
@@ -108,6 +119,35 @@ public class KeyHandler implements KeyListener {
         break;
     }
 
+  }
+
+  public void orderSelector(int code){
+    switch (code) {
+      case KeyEvent.VK_ESCAPE:
+        gp.ui.subState=0;
+        gp.ui.order=0;
+        gp.ui.subNumCommand=0;
+        gp.ui.menuStatus=false;
+        break;
+      case KeyEvent.VK_W:
+        if (gp.ui.subNumCommand > 0) {
+          gp.ui.subNumCommand--;
+
+        }
+
+        break;
+      case KeyEvent.VK_S:
+
+        if (gp.ui.subNumCommand < 2) {
+          gp.ui.subNumCommand++;
+
+        }
+        break;
+
+      case KeyEvent.VK_ENTER:
+        enterPressed = true;
+        break;
+    }
   }
 
   public void dialoguesState(int code) {

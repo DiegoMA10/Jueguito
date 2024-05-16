@@ -19,7 +19,7 @@ public class Cloud extends Character {
 
     public void RawStats(){
         name = "Cloud";
-        indexGroup=3;
+        indexGroup=2;
         level = 1;
         exp = 0;
         MaxHp = 50;

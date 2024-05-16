@@ -42,7 +42,7 @@ public class GamePanel extends JPanel implements Runnable {
     public KeyHandler keyH = new KeyHandler(this);
     public EventHandler eHandler = new EventHandler(this);
     public AssetSetter aSetter = new AssetSetter(this);
-    public Databases databases = new Databases(this);;
+    //public Databases databases = new Databases(this);;
     Thread gameThread;
     Sound music = new Sound();
     Sound soundEfect = new Sound();
@@ -99,8 +99,8 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void setGroup() {
-        grupo.agregarPersonaje(tifa);
         grupo.agregarPersonaje(aerith);
+        grupo.agregarPersonaje(tifa);
         grupo.agregarPersonaje(cloud);
     }
 

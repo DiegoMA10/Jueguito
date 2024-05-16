@@ -22,7 +22,7 @@ public class Tifa extends Character{
     public void RawStats(){
         name = "Tifa";
         level = 1;
-        indexGroup=2;
+        indexGroup=1;
         exp = 0;
         MaxHp = 50;
         hp = MaxHp;
