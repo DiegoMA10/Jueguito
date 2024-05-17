@@ -123,6 +123,7 @@ public class TileManager {
                     (worldY - gp.tileSize < gp.player.worldY + gp.player.screenY)) {
                     g2.drawImage(tile[n].image, screenX, screenY, gp.tileSize, gp.tileSize, null);
                     
+                    
                 }
                 
             }

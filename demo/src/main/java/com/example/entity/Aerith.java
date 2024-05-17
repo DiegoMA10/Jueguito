@@ -22,12 +22,13 @@ public class Aerith extends Character {
         level = 1;
         indexGroup=0;
         exp = 0;
+        nextLevelExp=32;
         MaxHp = 40;
         hp = MaxHp;
         MaxMp = 20;
         mp = MaxMp;
         strength = 25;
-        speed = 30;
+        dexterity = 30;
         magic = 40;
         attack = 15;
         defense = 80;

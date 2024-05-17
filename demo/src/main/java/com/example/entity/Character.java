@@ -16,7 +16,7 @@ public class Character extends Entity  {
     public int MaxMp;
     public int mp;
     public int strength;
-    public int speed;
+    public int dexterity;
     public int magic;
     public int defense;
     public int magicDefense;
@@ -24,7 +24,6 @@ public class Character extends Entity  {
     public int exp;
     public int nextLevelExp;
     public Entity currentWeapon;
-    public boolean posicion;
 
     public Character(GamePanel gp) {
         super(gp);

@@ -23,10 +23,21 @@ public class KeyHandler implements KeyListener {
     int code = e.getKeyCode();
 
     switch (gp.gameState) {
-      case GamePanel.playState:playState(code);break;
-      case GamePanel.menuState:menuState(code);break;
-      case GamePanel.dialogueState:dialoguesState(code);break;
-      case GamePanel.breakState:breakState(code);break;
+      case GamePanel.titleState:
+        titleState(code);
+        break;
+      case GamePanel.playState:
+        playState(code);
+        break;
+      case GamePanel.menuState:
+        menuState(code);
+        break;
+      case GamePanel.dialogueState:
+        dialoguesState(code);
+        break;
+      case GamePanel.breakState:
+        breakState(code);
+        break;
 
     }
 
@@ -35,27 +46,54 @@ public class KeyHandler implements KeyListener {
   private void breakState(int code) {
     switch (code) {
       case KeyEvent.VK_W:
-    
+
         if (gp.ui.numCommand > 0) {
           gp.ui.numCommand--;
-       
-        } 
+
+        }
         break;
       case KeyEvent.VK_S:
         if (gp.ui.numCommand < 1) {
           gp.ui.numCommand++;
-       
+
         }
         break;
       case KeyEvent.VK_ENTER:
-      enterPressed = true;   
-      break;
-    
+        enterPressed = true;
+        break;
+
     }
   }
 
   public void titleState(int code) {
+    switch (code) {
+      case KeyEvent.VK_W:
 
+        if (gp.ui.numCommand > 0) {
+          gp.ui.numCommand--;
+
+        }
+        break;
+      case KeyEvent.VK_S:
+        if (gp.ui.numCommand < 2) {
+          gp.ui.numCommand++;
+
+        }
+        break;
+        
+      case KeyEvent.VK_ENTER:
+          if (gp.ui.numCommand==0) {
+            gp.gameState = GamePanel.playState;
+            gp.stopMusic();
+            gp.playMusic(1);
+          }
+
+          if (gp.ui.numCommand==2) {
+            System.exit(0);
+          }
+        break;
+
+    }
   }
 
   public void playState(int code) {
@@ -74,7 +112,7 @@ public class KeyHandler implements KeyListener {
         break;
       case KeyEvent.VK_ESCAPE:
         gp.gameState = GamePanel.menuState;
-      
+
         break;
       case KeyEvent.VK_ENTER:
         enterPressed = true;
@@ -83,13 +121,19 @@ public class KeyHandler implements KeyListener {
 
   }
 
-  public void menuState(int code ){
+  public void menuState(int code) {
 
     switch (gp.ui.subState) {
-      case 0:menuSelector(code);break;
-      case 2:orderSelector(code);break;
-    
-  
+      case 0:
+        menuSelector(code);
+        break;
+      case 2:
+        statsSelector(code);
+        break;
+      case 3:
+        orderSelector(code);
+        break;
+
     }
   }
 
@@ -97,7 +141,7 @@ public class KeyHandler implements KeyListener {
     switch (code) {
       case KeyEvent.VK_ESCAPE:
         gp.gameState = GamePanel.playState;
-        gp.ui.numCommand=0;
+        gp.ui.numCommand = 0;
         break;
       case KeyEvent.VK_W:
         if (gp.ui.numCommand > 0) {
@@ -108,7 +152,7 @@ public class KeyHandler implements KeyListener {
         break;
       case KeyEvent.VK_S:
 
-        if (gp.ui.numCommand < 5) {
+        if (gp.ui.numCommand < 6) {
           gp.ui.numCommand++;
 
         }
@@ -121,13 +165,13 @@ public class KeyHandler implements KeyListener {
 
   }
 
-  public void orderSelector(int code){
+  public void orderSelector(int code) {
     switch (code) {
       case KeyEvent.VK_ESCAPE:
-        gp.ui.subState=0;
-        gp.ui.order=0;
-        gp.ui.subNumCommand=0;
-        gp.ui.menuStatus=false;
+        gp.ui.subState = 0;
+        gp.ui.order = 0;
+        gp.ui.subNumCommand = 0;
+        gp.ui.menuStatus = false;
         break;
       case KeyEvent.VK_W:
         if (gp.ui.subNumCommand > 0) {
@@ -139,6 +183,36 @@ public class KeyHandler implements KeyListener {
       case KeyEvent.VK_S:
 
         if (gp.ui.subNumCommand < 2) {
+          gp.ui.subNumCommand++;
+
+        }
+        break;
+
+      case KeyEvent.VK_ENTER:
+        enterPressed = true;
+        break;
+    }
+  }
+
+  public void statsSelector(int code) {
+    switch (code) {
+      case KeyEvent.VK_ESCAPE:
+
+        gp.ui.menuStatus = false;
+        gp.ui.subState = 0;
+        gp.ui.subNumCommand = 0;
+
+        break;
+      case KeyEvent.VK_W:
+        if (gp.ui.subNumCommand > 0 && !gp.ui.menuStatus) {
+          gp.ui.subNumCommand--;
+
+        }
+
+        break;
+      case KeyEvent.VK_S:
+
+        if (gp.ui.subNumCommand < 2 && !gp.ui.menuStatus) {
           gp.ui.subNumCommand++;
 
         }

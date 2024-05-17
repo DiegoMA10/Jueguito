@@ -12,7 +12,7 @@ public class Tifa extends Character{
     
     public Tifa(GamePanel gp){
         super(gp);
-         sizeWidth = 15*gp.scale;
+        sizeWidth = 15*gp.scale;
         sizeHeight = 23*gp.scale;
         getPlayerImagen();
         RawStats();
@@ -24,12 +24,13 @@ public class Tifa extends Character{
         level = 1;
         indexGroup=1;
         exp = 0;
+        nextLevelExp=32;
         MaxHp = 50;
         hp = MaxHp;
-        MaxMp = 7;
+        MaxMp = 9;
         mp = MaxMp;
         strength = 40;
-        speed = 40;
+        dexterity = 40;
         magic = 25;
         attack = 25;
         defense = 80;

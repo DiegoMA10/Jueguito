@@ -9,6 +9,7 @@ public class Group {
     ArrayList<Character> group = new ArrayList<>();
     ArrayList<Item>inventory = new ArrayList<>();
     public int gil = 500;
+    
     public Group() {
         
     } 

@@ -92,9 +92,9 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void setUpGame() {
        
-        gameState = 1;
+        gameState = titleState;
         aSetter.setNPC();
-        playMusic(1);
+        playMusic(6);
 
     }
 
@@ -148,7 +148,7 @@ public class GamePanel extends JPanel implements Runnable {
         while (gameThread != null) {
             currentTime = System.nanoTime();
             delta += (currentTime - lastTime) / drawInterval;
-            timer += (currentTime - lastTime);
+         
             lastTime = currentTime;
             if (delta >= 1) {
                 update();
@@ -157,12 +157,7 @@ public class GamePanel extends JPanel implements Runnable {
                 drawCount++;
 
             }
-            if (timer >= 1000000000) {
-                // System.out.println("FPS: "+drawCount );
-                drawCount = 0;
-                timer = 0;
-
-            }
+           
 
         }
 
@@ -219,7 +214,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void playMusic(int n) {
         music.setFile(n);
-        music.setVolume(0.05f);
+        music.setVolume(0.07f);
 
         music.play();
         music.loop();
@@ -232,6 +227,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void playSE(int n) {
         soundEfect.setFile(n);
+        music.setVolume(0.07f);
         soundEfect.play();
     }
 }

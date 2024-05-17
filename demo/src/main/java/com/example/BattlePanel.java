@@ -4,10 +4,12 @@ import java.awt.image.BufferedImage;
 
 import javax.imageio.ImageIO;
 
+import com.example.entity.Entity;
 import com.example.tile.Tile;
 public class BattlePanel {
    BufferedImage[] background = new BufferedImage[10];
    GamePanel gp;
+   //public Entity[][] moustros = new Entity[2][4];
 
    public BattlePanel(GamePanel gp){
     this.gp = gp;
