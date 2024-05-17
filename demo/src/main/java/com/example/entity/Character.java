@@ -3,11 +3,11 @@ package com.example.entity;
 import java.awt.image.BufferedImage;
 
 import com.example.GamePanel;
-import com.example.UtilityTool;
+
 
 public class Character extends Entity  {
 
-    public BufferedImage portrait= null;
+    public BufferedImage portrait;
     public int indexGroup;
     public String name;
     public int level;

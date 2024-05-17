@@ -42,7 +42,7 @@ public class GamePanel extends JPanel implements Runnable {
     public KeyHandler keyH = new KeyHandler(this);
     public EventHandler eHandler = new EventHandler(this);
     public AssetSetter aSetter = new AssetSetter(this);
-    //public Databases databases = new Databases(this);;
+    //public Database dataBase = new Databases(this);;
     Thread gameThread;
     Sound music = new Sound();
     Sound soundEfect = new Sound();
@@ -74,8 +74,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     public GamePanel() {
 
-        setGroup();
-        player = new PlayerLeader(this, keyH, grupo);
+  
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
         this.setBackground(Color.black);
         this.setDoubleBuffered(true);
@@ -91,7 +90,8 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void setUpGame() {
-       
+        setGroup();
+        player = new PlayerLeader(this, keyH, grupo);
         gameState = titleState;
         aSetter.setNPC();
         playMusic(6);
@@ -137,14 +137,14 @@ public class GamePanel extends JPanel implements Runnable {
      * 
      * }
      */
+
     @Override
     public void run() {
         double drawInterval = 1000000000 / FPS;
         double delta = 0;
         long lastTime = System.nanoTime();
         long currentTime;
-        long timer = 0;
-        int drawCount = 0;
+      
         while (gameThread != null) {
             currentTime = System.nanoTime();
             delta += (currentTime - lastTime) / drawInterval;
@@ -154,7 +154,7 @@ public class GamePanel extends JPanel implements Runnable {
                 update();
                 repaint();
                 delta--;
-                drawCount++;
+              
 
             }
            

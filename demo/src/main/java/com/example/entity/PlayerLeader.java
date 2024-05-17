@@ -26,7 +26,7 @@ public class PlayerLeader extends Entity {
     public boolean salida = true;;
     int cont = 0;
     int spriteCont=0;
-    UtilityTool tool = new UtilityTool();
+    
     
 
     public PlayerLeader(GamePanel gp, KeyHandler keyH, Group group) {

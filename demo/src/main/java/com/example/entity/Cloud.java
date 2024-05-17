@@ -24,9 +24,9 @@ public class Cloud extends Character {
         exp = 0;
         nextLevelExp=32;
         MaxHp = 50;
-        hp = MaxHp;
+        hp = 20;
         MaxMp = 14;
-        mp = MaxMp;
+        mp = 2;
         strength = 35;
         dexterity = 35;
         magic = 30;

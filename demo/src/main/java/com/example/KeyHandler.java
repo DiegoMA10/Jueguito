@@ -127,6 +127,9 @@ public class KeyHandler implements KeyListener {
       case 0:
         menuSelector(code);
         break;
+        case 1:
+        itemSelector(code);
+        break;
       case 2:
         statsSelector(code);
         break;
@@ -134,6 +137,35 @@ public class KeyHandler implements KeyListener {
         orderSelector(code);
         break;
 
+    }
+  }
+
+  private void itemSelector(int code) {
+    switch (code) {
+      case KeyEvent.VK_ESCAPE:
+        gp.ui.subState = 0;
+        gp.ui.order = 0;
+        gp.ui.subNumCommand = 0;
+        gp.ui.menuStatus = false;
+        break;
+      case KeyEvent.VK_W:
+        if (gp.ui.subNumCommand > 0) {
+          gp.ui.subNumCommand--;
+
+        }
+
+        break;
+      case KeyEvent.VK_S:
+
+        if (gp.ui.subNumCommand < gp.ui.prueba.length-1) {
+          gp.ui.subNumCommand++;
+
+        }
+        break;
+
+      case KeyEvent.VK_ENTER:
+        enterPressed = true;
+        break;
     }
   }
 

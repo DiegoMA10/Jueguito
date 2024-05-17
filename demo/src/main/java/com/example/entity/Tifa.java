@@ -26,9 +26,9 @@ public class Tifa extends Character{
         exp = 0;
         nextLevelExp=32;
         MaxHp = 50;
-        hp = MaxHp;
+        hp = 20;
         MaxMp = 9;
-        mp = MaxMp;
+        mp = 2;
         strength = 40;
         dexterity = 40;
         magic = 25;

@@ -4,16 +4,16 @@ import java.awt.image.BufferedImage;
 
 import com.example.BattlePanel;
 
-public class Item {
+public class Object {
     protected BufferedImage[] animation;
-    BattlePanel bp;
-    public int idItem;
+   
+    public int idObject;
     protected String name;
     protected String description;
     protected int amount=1;
     protected int price;
 
-    public Item(BattlePanel bp){
-        this.bp = bp;
+    public Object(){
+       
     }
 }

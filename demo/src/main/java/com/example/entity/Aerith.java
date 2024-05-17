@@ -1,9 +1,7 @@
 package com.example.entity;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
+
 import com.example.GamePanel;
-import com.example.UtilityTool;
 
 public class Aerith extends Character {
    
@@ -24,9 +22,9 @@ public class Aerith extends Character {
         exp = 0;
         nextLevelExp=32;
         MaxHp = 40;
-        hp = MaxHp;
+        hp = 20;
         MaxMp = 20;
-        mp = MaxMp;
+        mp = 2;
         strength = 25;
         dexterity = 30;
         magic = 40;

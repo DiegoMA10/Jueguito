@@ -275,6 +275,7 @@ public class UI {
                 menuSelection();
                 break;
             case 1:
+                itemSelector();
                 break;
             case 2:
                 statsSelector();
@@ -293,6 +294,63 @@ public class UI {
         }
 
         gp.keyH.enterPressed = false;
+    }
+
+    String[] prueba = { "hola", "hola1", "hola2", "hola3", "hola4", "hola5", "hola6", "hola7", "hola8", "hola9",
+            "hola10", "hola11'", "hola¡", "hol3", "hola7", "hola23", "hola32", "hola12", "hola423", "hola423", "hola4",
+            "hola324", "hola34", "hola34", "ultima" };
+    private void itemSelector() {
+        int windowsX = 5;
+        int windowsY = 5;
+        int width = gp.screenWidth - 10;
+        int height = gp.screenHeight - 10;
+        
+        drawSubwindows(windowsX, windowsY, width, height);
+       
+        width = gp.tileSize * 2;
+        height = gp.tileSize * 1+20;
+        drawSubwindows(windowsX, windowsY, width, height);
+        int textX = windowsX + gp.tileSize/2;
+        int textY = windowsY + 20 + gp.tileSize / 2;
+        g2.setFont(normalFont);
+        drawText("Obj.", textX, textY, blueMenu);
+        windowsY += gp.tileSize * 1+25;
+        width = gp.screenWidth - 10;
+        height = gp.tileSize * 2+5;
+        drawSubwindows(windowsX, windowsY, width, height);
+        //descripcion del objeto
+
+
+        windowsY += gp.tileSize * 2+10;
+        width = gp.screenWidth - 10;
+        height = gp.tileSize * 10;
+        drawSubwindows(windowsX, windowsY, width, height);
+
+
+        g2.setColor(Color.white);
+        int contadorCursor = 0;
+        contadorCursor = subNumCommand - 8;
+        windowsX+=gp.tileSize;
+        windowsY+=gp.tileSize;
+        for (int i = 0; i < 9; i++) {
+
+            if (subNumCommand > 8) {
+                g2.drawString(prueba[contadorCursor + i], windowsX, windowsY);
+            } else {
+                g2.drawString(prueba[i], windowsX, windowsY);
+            }
+
+            if (subNumCommand == i || (subNumCommand > 8 && subNumCommand == i + contadorCursor)) {
+
+                g2.drawImage(cursor, windowsX - gp.tileSize, windowsY - gp.tileSize + 10, gp.tileSize, gp.tileSize, null);
+
+            }
+
+            windowsY += gp.tileSize;
+        }
+       
+
+
     }
 
     private void drawMenu() {
@@ -412,13 +470,13 @@ public class UI {
         int x = 5;
         int y = 5;
         int width = gp.tileSize * 4;
-        int height = gp.tileSize * 2;
+        int height = gp.tileSize * 2-10;
         drawSubwindows(x, y, width, height);
         int textX = x + gp.tileSize / 2;
         int textY = y + gp.tileSize;
         g2.setFont(arial40);
 
-        drawText("Order", textX, textY, null);
+        drawText("Order", textX, textY, blueMenu);
 
         int windowsX = 205 + gp.tileSize;
         int windowsY = gp.tileSize * 2;
@@ -501,6 +559,9 @@ public class UI {
         y += gp.tileSize;
 
         if (numCommand == 0) {
+            if (gp.keyH.enterPressed) {
+                subState = 1;
+            }
             g2.drawImage(cursor, x - gp.tileSize, y - gp.tileSize + 10, gp.tileSize, gp.tileSize, null);
         }
         y += gp.tileSize;
@@ -565,11 +626,42 @@ public class UI {
 
     }
 
+   
+
+    public void drawText(String text, int x, int y, Color c) {
+        if (c == null) {
+            c = Color.WHITE;
+        }
+        g2.setColor(Color.BLACK);
+        g2.drawString(text, x + 3, y + 3);
+        g2.setColor(c);
+        g2.drawString(text, x, y);
+    }
+
+    public void drawStatsPj(int windowsX, int windowsY, int i) {
+        int textX = windowsX + gp.tileSize * 3;
+        int textY = windowsY + 20;
+        g2.setFont(normalFont);
+        drawText(gp.grupo.getGroup().get(i).name, textX, textY, null);
+        textY += 40;
+        textX += 20;
+        drawText("LV", textX, textY, blueMenu);
+        drawText(gp.grupo.getGroup().get(i).level + "", textX + gp.tileSize * 2, textY, null);
+        textY += 25;
+        drawText("PV", textX, textY, blueMenu);
+        String vida = gp.grupo.getGroup().get(i).hp + "/" + gp.grupo.getGroup().get(i).MaxHp;
+        drawText(vida, textX + gp.tileSize * 2, textY, null);
+
+        textY += 25;
+        drawText("PM", textX, textY, blueMenu);
+        String mp = gp.grupo.getGroup().get(i).mp + "/" + gp.grupo.getGroup().get(i).MaxMp;
+        drawText(mp, textX + gp.tileSize * 2, textY, null);
+
+    }
+
+
     String[] prueba2 = { "hola", "hola1", "hola2", "hola3", "hola4", "hola5", "hola6", "hola7" };
 
-    String[] prueba = { "hola", "hola1", "hola2", "hola3", "hola4", "hola5", "hola6", "hola7", "hola8", "hola9",
-            "hola10", "hola11'", "hola¡", "hol3", "hola7", "hola23", "hola32", "hola12", "hola423", "hola423", "hola4",
-            "hola324", "hola34", "hola34", "ultima" };
 
     public void pruebas() {
         // scroll menu
@@ -601,36 +693,5 @@ public class UI {
 
             y += gp.tileSize;
         }
-    }
-
-    public void drawText(String text, int x, int y, Color c) {
-        if (c == null) {
-            c = Color.WHITE;
-        }
-        g2.setColor(Color.BLACK);
-        g2.drawString(text, x + 3, y + 3);
-        g2.setColor(c);
-        g2.drawString(text, x, y);
-    }
-
-    public void drawStatsPj(int windowsX, int windowsY, int i) {
-        int textX = windowsX + gp.tileSize * 3;
-        int textY = windowsY + 20;
-        g2.setFont(normalFont);
-        drawText(gp.grupo.getGroup().get(i).name, textX, textY, null);
-        textY += 40;
-        textX += 20;
-        drawText("LV", textX, textY, blueMenu);
-        drawText(gp.grupo.getGroup().get(i).level + "", textX + gp.tileSize * 2, textY, null);
-        textY += 25;
-        drawText("PV", textX, textY, blueMenu);
-        String vida = gp.grupo.getGroup().get(i).hp + "/" + gp.grupo.getGroup().get(i).MaxHp;
-        drawText(vida, textX + gp.tileSize * 2, textY, null);
-
-        textY += 25;
-        drawText("PM", textX, textY, blueMenu);
-        String mp = gp.grupo.getGroup().get(i).mp + "/" + gp.grupo.getGroup().get(i).MaxMp;
-        drawText(mp, textX + gp.tileSize * 2, textY, null);
-
     }
 }
