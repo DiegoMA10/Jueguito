@@ -2,7 +2,9 @@ package com.example.entity;
 
 import java.util.ArrayList;
 
+import com.example.object.Eter;
 import com.example.object.Object;
+import com.example.object.Potion;
 
 
 public class Group {
@@ -11,7 +13,7 @@ public class Group {
     public int gil = 500;
     
     public Group() {
-        
+      
     } 
 
     public void agregarPersonaje(Character c){
@@ -25,9 +27,19 @@ public class Group {
     
     public void breakGroup(){
         for (Character character : group) {
-            character.hp=character.MaxHp;
-            character.mp=character.MaxMp;
+            character.setHp(character.getMaxHp());
+            character.setMp(character.getMaxMp());
         }
       
     }
+
+    public ArrayList<Object> getInventory() {
+        return inventory;
+    }
+
+    public int getGil() {
+        return gil;
+    }
+
+    
 }

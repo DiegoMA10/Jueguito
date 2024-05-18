@@ -1,12 +1,9 @@
 package com.example;
 
-import java.awt.Color;
+
 
 import javax.swing.JFrame;
-import javax.swing.JProgressBar;
 
-import javafx.scene.control.ProgressBar;
-import javafx.scene.layout.VBox;
 
 public class Main {
     public static void main(String[] args) {

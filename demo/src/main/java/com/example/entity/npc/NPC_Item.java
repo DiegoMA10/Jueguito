@@ -38,6 +38,6 @@ public class NPC_Item extends Entity {
 
     public void speak(){
         super.speak();
-       
+        gp.gameState = GamePanel.tradeState;
     }
 }

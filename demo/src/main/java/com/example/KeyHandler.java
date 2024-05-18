@@ -38,9 +38,33 @@ public class KeyHandler implements KeyListener {
       case GamePanel.breakState:
         breakState(code);
         break;
+      case GamePanel.tradeState:
+        tradeState(code);
+        break;
 
     }
 
+  }
+
+  private void tradeState(int code) {
+    switch (code) {
+      case KeyEvent.VK_W:
+
+        if (gp.ui.numCommand > 0) {
+          gp.ui.numCommand--;
+
+        }
+        break;
+      case KeyEvent.VK_S:
+        if (gp.ui.numCommand < 1) {
+          gp.ui.numCommand++;
+
+        }
+        break;
+      case KeyEvent.VK_ENTER:
+        enterPressed = true;
+        break;
+      }
   }
 
   private void breakState(int code) {
@@ -80,17 +104,17 @@ public class KeyHandler implements KeyListener {
 
         }
         break;
-        
-      case KeyEvent.VK_ENTER:
-          if (gp.ui.numCommand==0) {
-            gp.gameState = GamePanel.playState;
-            gp.stopMusic();
-            gp.playMusic(1);
-          }
 
-          if (gp.ui.numCommand==2) {
-            System.exit(0);
-          }
+      case KeyEvent.VK_ENTER:
+        if (gp.ui.numCommand == 0) {
+          gp.gameState = GamePanel.playState;
+          gp.stopMusic();
+          gp.playMusic(1);
+        }
+
+        if (gp.ui.numCommand == 2) {
+          System.exit(0);
+        }
         break;
 
     }
@@ -127,7 +151,7 @@ public class KeyHandler implements KeyListener {
       case 0:
         menuSelector(code);
         break;
-        case 1:
+      case 1:
         itemSelector(code);
         break;
       case 2:
@@ -143,24 +167,45 @@ public class KeyHandler implements KeyListener {
   private void itemSelector(int code) {
     switch (code) {
       case KeyEvent.VK_ESCAPE:
-        gp.ui.subState = 0;
-        gp.ui.order = 0;
-        gp.ui.subNumCommand = 0;
-        gp.ui.menuStatus = false;
+
+        if (gp.ui.subState2 == 1) {
+          gp.ui.subState2 = 0;
+          gp.ui.order = 0;
+        } else {
+          gp.ui.subState = 0;
+          gp.ui.order = 0;
+          gp.ui.subNumCommand = 0;
+        }
         break;
       case KeyEvent.VK_W:
-        if (gp.ui.subNumCommand > 0) {
-          gp.ui.subNumCommand--;
 
+        if (gp.ui.subState2 == 1) {
+          if (gp.ui.subNumCommand2 > 0) {
+            gp.ui.subNumCommand2--;
+
+          }
+        } else {
+          if (gp.ui.subNumCommand > 0) {
+            gp.ui.subNumCommand--;
+
+          }
         }
 
         break;
       case KeyEvent.VK_S:
 
-        if (gp.ui.subNumCommand < gp.ui.prueba.length-1) {
-          gp.ui.subNumCommand++;
+        if (gp.ui.subState2 == 1) {
+          if (gp.ui.subNumCommand2 < 2) {
+            gp.ui.subNumCommand2++;
 
+          }
+        } else {
+          if (gp.ui.subNumCommand < gp.group.getInventory().size() - 1) {
+            gp.ui.subNumCommand++;
+
+          }
         }
+
         break;
 
       case KeyEvent.VK_ENTER:

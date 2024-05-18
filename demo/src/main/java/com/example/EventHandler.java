@@ -49,13 +49,13 @@ public class EventHandler {
         }
 
         if (canTouchEvent) {
-            if (hit(0, 19, 37, "any")) {teleport(1, 26, 40);}
+            if (hit(0, 19, 36, "any")) {teleport(1, 26, 40);}
             if (hit(1, 26, 41, "any")) {teleport(0, 19, 37);}
-            if (hit(0, 12, 37, "any")) {teleport(1, 15, 40);}
+            if (hit(0, 12, 36, "any")) {teleport(1, 15, 40);}
             if (hit(1, 15, 41, "any")) {teleport(0, 12, 37);}
-            if (hit(0, 28, 37, "any")) {teleport(1, 32, 13);}
+            if (hit(0, 28, 36, "any")) {teleport(1, 32, 13);}
             if (hit(1, 32, 14, "any")) {teleport(0, 28, 37);}
-            if (hit(0, 17, 14, "any")) {teleport(1, 16, 16);}
+            if (hit(0, 17, 13, "any")) {teleport(1, 16, 16);}
             if (hit(1, 16, 17, "any")) {teleport(0, 17, 14);}
             if (hit(1, 15, 35, "up")) {speak(gp.npc[1][0]);}
             if (hit(1, 26, 35, "up")) {speak(gp.npc[1][1]);}
@@ -94,7 +94,7 @@ public class EventHandler {
             }
 
             gp.player.hitBox.x = gp.player.hitboxDefaultX;
-            gp.player.hitBox.y = gp.player.hitboxDefaultY;
+            gp.player.hitBox.y = gp.player.hitboxDefaultY; 
             eventRect[map][col][row].x = eventRect[map][col][row].eventRectDefaultX;
             eventRect[map][col][row].y = eventRect[map][col][row].eventRectDefaultY;
 

@@ -25,7 +25,7 @@ public class UtilityTool {
      private static class CharacterIndexGroupComparator implements Comparator<com.example.entity.Character> {
         @Override
         public int compare(com.example.entity.Character c1, com.example.entity.Character c2) {
-            return Integer.compare(c1.indexGroup, c2.indexGroup);
+            return Integer.compare(c1.getIndexGroup(), c2.getIndexGroup());
         }
     }
 }

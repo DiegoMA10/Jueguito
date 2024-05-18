@@ -116,16 +116,39 @@ public class TileManager {
                 int worldY = worldRow * gp.tileSize;
                 int screenX = worldX - gp.player.worldX + gp.player.screenX;
                 int screenY = worldY - gp.player.worldY + gp.player.screenY;
+
+                if (gp.player.screenX>gp.player.worldX) {
+                    screenX = worldX;
+                }
+
+                if (gp.player.screenY>gp.player.worldY) {
+                    screenY = worldY;
+                }
+
+                int rightX = gp.screenWidth - gp.player.screenX;
+                if (rightX>gp.worldWidth-gp.player.worldX) {
+                    screenX = gp.screenWidth - (gp.worldWidth - worldX);
+                }
+
+                int bottomY = gp.screenHeight - gp.player.screenY;
+                if (bottomY>gp.worldHeight-gp.player.worldY) {
+                    screenY = gp.screenHeight - (gp.worldHeight - worldY);
+                }
+                
                
                 if ((worldX + gp.tileSize > gp.player.worldX - gp.player.screenX) && 
                     (worldX - gp.tileSize < gp.player.worldX + gp.player.screenX) &&
                     (worldY + gp.tileSize > gp.player.worldY - gp.player.screenY) && 
                     (worldY - gp.tileSize < gp.player.worldY + gp.player.screenY)) {
                     g2.drawImage(tile[n].image, screenX, screenY, gp.tileSize, gp.tileSize, null);
-                    
-                    
+                      
+                }else if (gp.player.screenX>gp.player.worldX ||
+                          gp.player.screenY>gp.player.worldY ||
+                          rightX> gp.worldWidth - gp.player.worldX ||
+                          bottomY> gp.worldHeight - gp.player.worldY) {
+                    g2.drawImage(tile[n].image, screenX, screenY, gp.tileSize, gp.tileSize, null);
                 }
-                
+                    
             }
         }
         
@@ -145,13 +168,38 @@ public class TileManager {
                     int screenX = worldX - gp.player.worldX + gp.player.screenX;
                     int screenY = worldY - gp.player.worldY + gp.player.screenY;
                  
-                    if ((worldX + gp.tileSize > gp.player.worldX - gp.player.screenX) && 
-                        (worldX - gp.tileSize  < gp.player.worldX + gp.player.screenX) &&
-                        (worldY + gp.tileSize > gp.player.worldY - gp.player.screenY) && 
-                        (worldY - gp.tileSize < gp.player.worldY + gp.player.screenY)) {
-                         
-                        g2.drawImage(tile[n].image, screenX, screenY, gp.tileSize, gp.tileSize, null);
-                    }
+                   
+                if (gp.player.screenX>gp.player.worldX) {
+                    screenX = worldX;
+                }
+
+                if (gp.player.screenY>gp.player.worldY) {
+                    screenY = worldY;
+                }
+               
+                int rightX = gp.screenWidth - gp.player.screenX;
+                if (rightX>gp.worldWidth-gp.player.worldX) {
+                    screenX = gp.screenWidth - (gp.worldWidth - worldX);
+                }
+
+                int bottomY = gp.screenHeight - gp.player.screenY;
+                if (bottomY>gp.worldHeight-gp.player.worldY) {
+                    screenY = gp.screenHeight - (gp.worldHeight - worldY);
+                }
+                
+               
+                if ((worldX + gp.tileSize > gp.player.worldX - gp.player.screenX) && 
+                    (worldX - gp.tileSize < gp.player.worldX + gp.player.screenX) &&
+                    (worldY + gp.tileSize > gp.player.worldY - gp.player.screenY) && 
+                    (worldY - gp.tileSize < gp.player.worldY + gp.player.screenY)) {
+                    g2.drawImage(tile[n].image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+                      
+                }else if (gp.player.screenX>gp.player.worldX ||
+                          gp.player.screenY>gp.player.worldY ||
+                          rightX> gp.worldWidth - gp.player.worldX ||
+                          bottomY> gp.worldHeight - gp.player.worldY) {
+                    g2.drawImage(tile[n].image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+                }
                     
                 }
               

@@ -16,21 +16,21 @@ public class Aerith extends Character {
     }
     
     public void RawStats(){
-        name = "Aerith";
-        level = 1;
-        indexGroup=0;
-        exp = 0;
-        nextLevelExp=32;
-        MaxHp = 40;
-        hp = 20;
-        MaxMp = 20;
-        mp = 2;
-        strength = 25;
-        dexterity = 30;
-        magic = 40;
-        attack = 15;
-        defense = 80;
-        magicDefense=80;
+        setName("Aerith");
+        setLevel(1);
+        setIndexGroup(0);
+        setExp(0);
+        setNextLevelExp(32);
+        setMaxHp(40);
+        setHp(20);
+        setMaxMp(20);
+        setMp(2);
+        setStrength(25);
+        setDexterity(30);
+        setMagic(40);
+        setAttack(15);
+        setDefense(80);
+        setMagicDefense(80);
        
     }
     

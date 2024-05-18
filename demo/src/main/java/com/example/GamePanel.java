@@ -5,21 +5,18 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.awt.Rectangle;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.util.ArrayList;
 
-import javax.imageio.ImageIO;
-import javax.swing.JFrame;
+import java.util.Collections;
+
+import java.awt.image.BufferedImage;
+
+
+
 import javax.swing.JPanel;
-import javax.swing.JProgressBar;
+
 
 import com.example.entity.*;
-import com.example.tile.*;;
+import com.example.tile.*;
 
 public class GamePanel extends JPanel implements Runnable {
     final int originalTitleSize = 16;
@@ -49,10 +46,8 @@ public class GamePanel extends JPanel implements Runnable {
     TileManager tl = new TileManager(this);
     BattlePanel battle = new BattlePanel(this);
 
-    Tifa tifa = new Tifa(this);
-    Aerith aerith = new Aerith(this);
-    Cloud cloud = new Cloud(this);
-    public Group grupo = new Group();
+ 
+    public Group group = new Group();
 
     public PlayerLeader player;
     public Entity[][] npc = new Entity[2][4];
@@ -71,6 +66,7 @@ public class GamePanel extends JPanel implements Runnable {
     public static final int transitionState = 4;
     public static final int dialogueState = 5;
     public static final int breakState = 6;
+    public static final int tradeState = 7;
 
     public GamePanel() {
 
@@ -90,19 +86,17 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void setUpGame() {
-        setGroup();
-        player = new PlayerLeader(this, keyH, grupo);
+        aSetter.setGroup();   
+        player = new PlayerLeader(this, keyH, group); 
+        
         gameState = titleState;
         aSetter.setNPC();
+        aSetter.setObjectStart();
         playMusic(6);
 
     }
 
-    public void setGroup() {
-        grupo.agregarPersonaje(aerith);
-        grupo.agregarPersonaje(tifa);
-        grupo.agregarPersonaje(cloud);
-    }
+  
 
     /*
      * @Override
@@ -177,7 +171,7 @@ public class GamePanel extends JPanel implements Runnable {
         super.paintComponent(g);
 
         Graphics2D g2 = (Graphics2D) g;
-        long start = System.nanoTime();
+       // long start = System.nanoTime();
 
         if (gameState == titleState || gameState == menuState) {
             ui.draw(g2);
@@ -203,9 +197,9 @@ public class GamePanel extends JPanel implements Runnable {
                
         }
 
-        long end = System.nanoTime();
+        //long end = System.nanoTime();
 
-        long tiempo = end - start;
+        //long tiempo = end - start;
         // System.out.println(tiempo);
 
         g2.dispose();

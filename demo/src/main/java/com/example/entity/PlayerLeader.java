@@ -37,7 +37,7 @@ public class PlayerLeader extends Entity {
         sizeHeight = 23 * gp.scale;
         screenX = gp.screenWidth / 2 - (gp.tileSize / 2);
         screenY = gp.screenHeight / 2 - (gp.tileSize / 2);
-        defaultX = screenX;
+       // defaultX = screenX;
         hitBox = new Rectangle();
         hitBox.x = 5;
         hitBox.y = 25;
@@ -212,10 +212,29 @@ public class PlayerLeader extends Entity {
 
                 break;
         }
+
+        int x = screenX;
+        int y = screenY;
+
+        if (screenX>worldX) {
+            x = worldX;
+        }
+        if (screenY>worldY) {
+            y = worldY;
+        }
+        int rightX = gp.screenWidth - screenX;
+        if (rightX>gp.worldWidth-worldX) {
+            x = gp.screenWidth - (gp.worldWidth - worldX);
+        }
+        int bottomY = gp.screenHeight - screenY;
+        if (bottomY>gp.worldHeight-gp.player.worldY) {
+
+            y = gp.screenHeight - (gp.worldHeight - worldY);
+        }
       
-        g2.drawImage(image, screenX, screenY, sizeWidth, sizeHeight, null);
+        g2.drawImage(image, x, y, sizeWidth, sizeHeight, null);
         g2.setColor(Color.red);
-        g2.drawRect(screenX + hitBox.x, screenY + hitBox.y, hitBox.width, hitBox.height);
+        g2.drawRect(x + hitBox.x, y + hitBox.y, hitBox.width, hitBox.height);
         cont++;
         
 

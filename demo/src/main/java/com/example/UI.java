@@ -20,14 +20,17 @@ public class UI {
     private BufferedImage cursor;
     private BufferedImage titleScreen;
     public int subState = 0;
+    public int subState2 = 0;
     public int numCommand = 0;
     public int subNumCommand = 0;
+    public int subNumCommand2 = 0;
     public int numIndexGroup;
     public boolean menuStatus = false;
     private Color blueMenu = new Color(0, 223, 223);
     private Font arial40;
     private Font normalFont;
-    public String currentDialogue;
+    public String currentDialogue; 
+    private Boolean animationState = true;
     int cont = 0;
     Entity npc;
 
@@ -75,7 +78,8 @@ public class UI {
             case GamePanel.battleState:drawBattleMenu(); break;
             case GamePanel.transitionState:drawTransition();break;
             case GamePanel.dialogueState: drawDialogues(); break;
-            case GamePanel.breakState:breakOptions();break;
+            case GamePanel.breakState:breakSelector();break;
+            case GamePanel.tradeState:breakSelector();break;
 
         }
 
@@ -85,7 +89,7 @@ public class UI {
         g2.setFont(g2.getFont().deriveFont(Font.BOLD,40F));
         g2.setColor(Color.BLACK);
         g2.drawImage(titleScreen, 0, 0,gp.screenWidth,gp.screenWidth,null);
-        String text = "New Game";
+        String text = "Start Game";
         int x = getXforCenteredText(text);
         int y=gp.screenHeight/2+gp.tileSize*2;
        
@@ -122,9 +126,53 @@ public class UI {
         return x;
     }
 
-    public Boolean state = true;
+    private void TradeOptions() {
 
-    private void breakOptions() {
+        switch (subState) {
+            case 0:
+                tradeMenu();
+                break;
+            case 1:
+              
+                break;
+        }
+
+        gp.keyH.enterPressed = false;
+    }
+
+
+    private void tradeMenu() {
+        drawDialogues();
+        int x = gp.screenWidth - (gp.tileSize * 5 + 5);
+        int y = gp.tileSize * 5 - 24;
+        int width = gp.tileSize * 4;
+        int height = gp.tileSize * 3 - gp.tileSize / 2;
+        drawSubwindows(x, y, width, height);
+        g2.setColor(Color.white);
+        x += gp.tileSize / 2;
+        y += gp.tileSize;
+        drawText("Comprar", x, y, null);
+        if (numCommand == 0) {
+            g2.drawImage(cursor, x - gp.tileSize, y - gp.tileSize + 20, gp.tileSize, gp.tileSize, null);
+            if (gp.keyH.enterPressed == true) {
+
+                subState = 1;
+            }
+        }
+        y += gp.tileSize;
+        drawText("irse", x, y, null);
+        if (numCommand == 1) {
+            g2.drawImage(cursor, x - gp.tileSize, y - gp.tileSize + 20, gp.tileSize, gp.tileSize, null);
+            if (gp.keyH.enterPressed == true) {
+                numCommand = 0;
+                subState = 0;
+                gp.gameState = GamePanel.playState;
+
+            }
+        }
+    }
+
+    private void breakSelector() {
 
         switch (subState) {
             case 0:
@@ -173,7 +221,7 @@ public class UI {
 
     public void breakTransition() {
 
-        if (state) {
+        if (animationState) {
             cont++;
         } else {
             cont--;
@@ -186,17 +234,17 @@ public class UI {
         g2.setColor(new Color(0, 0, 0, (alfa)));
         g2.fillRect(0, 0, gp.screenWidth, gp.screenHeight);
         if (cont == 90) {
-            state = false;
-            gp.grupo.breakGroup();
+            animationState = false;
+            gp.group.breakGroup();
             gp.playSE(4);
         }
 
-        if (cont == 0 && !state) {
+        if (cont == 0 && !animationState) {
 
             subState = 0;
             gp.gameState = GamePanel.playState;
             cont = 0;
-            state = true;
+            animationState = true;
 
         }
     }
@@ -246,17 +294,17 @@ public class UI {
         drawSubwindows(windowsX + order, windowsY, width, height);
         windowsX += gp.tileSize * 2;
         windowsY += gp.tileSize;
-        g2.drawImage(gp.grupo.getGroup().get(0).portrait, windowsX + order, windowsY, gp.tileSize * 2, gp.tileSize * 2,
+        g2.drawImage(gp.group.getGroup().get(0).portrait, windowsX + order, windowsY, gp.tileSize * 2, gp.tileSize * 2,
                 null);
         drawStatsPj(windowsX + order, windowsY, 0);
 
         windowsY += gp.tileSize * 4;
-        g2.drawImage(gp.grupo.getGroup().get(1).portrait, windowsX + order, windowsY, gp.tileSize * 2, gp.tileSize * 2,
+        g2.drawImage(gp.group.getGroup().get(1).portrait, windowsX + order, windowsY, gp.tileSize * 2, gp.tileSize * 2,
                 null);
         drawStatsPj(windowsX + order, windowsY, 1);
 
         windowsY += gp.tileSize * 4;
-        g2.drawImage(gp.grupo.getGroup().get(2).portrait, windowsX + order, windowsY, gp.tileSize * 2, gp.tileSize * 2,
+        g2.drawImage(gp.group.getGroup().get(2).portrait, windowsX + order, windowsY, gp.tileSize * 2, gp.tileSize * 2,
                 null);
         drawStatsPj(windowsX + order, windowsY, 2);
         windowsX = gp.screenWidth - (gp.tileSize * 4 + 5);
@@ -266,7 +314,7 @@ public class UI {
         drawSubwindows(windowsX + order, windowsY, width, height);
         windowsX += gp.tileSize;
         windowsY += gp.tileSize;
-        drawText("gil: " + gp.grupo.gil, windowsX + order, windowsY, null);
+        drawText("gil: " + gp.group.gil, windowsX + order, windowsY, null);
 
         drawMenu();
 
@@ -275,7 +323,7 @@ public class UI {
                 menuSelection();
                 break;
             case 1:
-                itemSelector();
+                drawItemMenu();
                 break;
             case 2:
                 statsSelector();
@@ -296,9 +344,7 @@ public class UI {
         gp.keyH.enterPressed = false;
     }
 
-    String[] prueba = { "hola", "hola1", "hola2", "hola3", "hola4", "hola5", "hola6", "hola7", "hola8", "hola9",
-            "hola10", "hola11'", "hola¡", "hol3", "hola7", "hola23", "hola32", "hola12", "hola423", "hola423", "hola4",
-            "hola324", "hola34", "hola34", "ultima" };
+  
     private void itemSelector() {
         int windowsX = 5;
         int windowsY = 5;
@@ -307,21 +353,24 @@ public class UI {
         
         drawSubwindows(windowsX, windowsY, width, height);
        
-        width = gp.tileSize * 2;
+        width = gp.tileSize * 3;
         height = gp.tileSize * 1+20;
         drawSubwindows(windowsX, windowsY, width, height);
         int textX = windowsX + gp.tileSize/2;
         int textY = windowsY + 20 + gp.tileSize / 2;
         g2.setFont(normalFont);
-        drawText("Obj.", textX, textY, blueMenu);
-        windowsY += gp.tileSize * 1+25;
+        drawText("items", textX, textY, blueMenu);
+        windowsY += gp.tileSize * 1+30;
         width = gp.screenWidth - 10;
-        height = gp.tileSize * 2+5;
+        height = gp.tileSize * 2-5;
         drawSubwindows(windowsX, windowsY, width, height);
-        //descripcion del objeto
+        int descripcionTextX=textX;
+        int descripcionTextY = windowsY+gp.tileSize;
+       
+      
 
 
-        windowsY += gp.tileSize * 2+10;
+        windowsY += gp.tileSize * 2+5;
         width = gp.screenWidth - 10;
         height = gp.tileSize * 10;
         drawSubwindows(windowsX, windowsY, width, height);
@@ -329,29 +378,102 @@ public class UI {
 
         g2.setColor(Color.white);
         int contadorCursor = 0;
-        contadorCursor = subNumCommand - 8;
-        windowsX+=gp.tileSize;
+        contadorCursor = subNumCommand - 13;
+        windowsX+=gp.tileSize+5;
         windowsY+=gp.tileSize;
-        for (int i = 0; i < 9; i++) {
+        for (int i = 0; i < 14 && i<gp.group.getInventory().size(); i++) {
 
-            if (subNumCommand > 8) {
-                g2.drawString(prueba[contadorCursor + i], windowsX, windowsY);
+            if (subNumCommand > 13) {
+                drawText(gp.group.getInventory().get(i+contadorCursor).getName(), windowsX, windowsY, null);
+                drawText(":", windowsX + gp.tileSize * 4, windowsY, null);
+                drawText(gp.group.getInventory().get(i+contadorCursor).getAmount()+"", windowsX + gp.tileSize * 5, windowsY, null);
             } else {
-                g2.drawString(prueba[i], windowsX, windowsY);
+                drawText(gp.group.getInventory().get(i).getName(), windowsX, windowsY, null);
+                drawText(":", windowsX + gp.tileSize * 4, windowsY, null);
+                drawText(gp.group.getInventory().get(i).getAmount()+"", windowsX + gp.tileSize * 5, windowsY, null);
             }
 
-            if (subNumCommand == i || (subNumCommand > 8 && subNumCommand == i + contadorCursor)) {
-
-                g2.drawImage(cursor, windowsX - gp.tileSize, windowsY - gp.tileSize + 10, gp.tileSize, gp.tileSize, null);
+            if (subNumCommand == i || (subNumCommand > 13 && subNumCommand == i + contadorCursor)) {
+                if (gp.keyH.enterPressed) {
+                    subState2=1;
+                    order=300;
+                    gp.keyH.enterPressed=false;
+                }
+                drawText(gp.group.getInventory().get(i).getDescription(), descripcionTextX, descripcionTextY, null);
+                g2.drawImage(cursor, windowsX - gp.tileSize, windowsY - gp.tileSize + 15, gp.tileSize, gp.tileSize, null);
 
             }
 
-            windowsY += gp.tileSize;
+            windowsY += gp.tileSize/2+5;
         }
        
-
+        gp.keyH.enterPressed=false;
 
     }
+
+    private void drawItemMenu(){
+        switch (subState2) {
+            case 0: itemSelector();break;
+            case 1: itemUseSelector();break;   
+        }
+        
+    }
+
+    private void itemUseSelector() {
+       
+        int x = 5;
+        int y = 5;
+        int width = gp.tileSize * 6+5;
+        int height = gp.tileSize * 2-10;
+        drawSubwindows(x, y, width, height);
+        int textX = x + gp.tileSize*2-24;
+        int textY = y + gp.tileSize+5;
+        g2.setFont(arial40);
+        drawText(gp.group.getInventory().get(subNumCommand).getName(), textX, textY, null);
+        y+=gp.tileSize*2+5;
+        drawSubwindows(x, y, width, height);
+        textY += y;
+        drawText("Tienes: "+gp.group.getInventory().get(subNumCommand).getAmount(), textX, textY, null);
+
+            int windowsX = gp.tileSize+300;
+            int windowsY = gp.tileSize * 2;
+            if (subNumCommand2 == 0) {
+                if (gp.keyH.enterPressed) {
+                    if (gp.group.getGroup().get(subNumCommand2).useObject(gp.group.getInventory().get(subNumCommand))) {
+                        subState2=0;
+                        subNumCommand2=0;
+                    }
+                   gp.keyH.enterPressed=false;
+                }
+                g2.drawImage(cursor, windowsX, windowsY, gp.tileSize, gp.tileSize, null);
+            }
+            ;
+            windowsY += gp.tileSize * 4;
+            if (subNumCommand2 == 1) {
+                if (gp.keyH.enterPressed) {
+                    if (gp.group.getGroup().get(subNumCommand2).useObject(gp.group.getInventory().get(subNumCommand))) {
+                        subState2=0;
+                        subNumCommand2=0;
+                    }
+                   
+                   gp.keyH.enterPressed=false;
+                }
+                g2.drawImage(cursor, windowsX, windowsY, gp.tileSize, gp.tileSize, null);
+            }
+
+            windowsY += gp.tileSize * 4;
+            if (subNumCommand2 == 2) {
+                if (gp.keyH.enterPressed) {
+                    if (gp.group.getGroup().get(subNumCommand2).useObject(gp.group.getInventory().get(subNumCommand))) {
+                        subState2=0;
+                        subNumCommand2=0;
+                    }
+                   gp.keyH.enterPressed=false;
+                }
+                g2.drawImage(cursor, windowsX, windowsY, gp.tileSize, gp.tileSize, null);
+            }
+        }
+    
 
     private void drawMenu() {
         int x = gp.screenWidth - (gp.tileSize * 4 + 5) + order;
@@ -398,39 +520,39 @@ public class UI {
 
         windowsX += gp.tileSize * 2;
         windowsY += gp.tileSize * 2;
-        g2.drawImage(gp.grupo.getGroup().get(i).portrait, windowsX, windowsY, gp.tileSize * 2, gp.tileSize * 2, null);
+        g2.drawImage(gp.group.getGroup().get(i).portrait, windowsX, windowsY, gp.tileSize * 2, gp.tileSize * 2, null);
         drawStatsPj(windowsX, windowsY, i);
         textX = gp.tileSize;
         textY = windowsY + gp.tileSize * 3;
         drawText("Your Exp:", textX, textY, blueMenu);
         textY += gp.tileSize - 10;
-        drawText(gp.grupo.getGroup().get(i).exp + "", textX + gp.tileSize * 3, textY, null);
+        drawText(gp.group.getGroup().get(i).getExp() + "", textX + gp.tileSize * 3, textY, null);
         textY += gp.tileSize + 10;
         drawText("For level up:", textX, textY, blueMenu);
         textY += gp.tileSize - 10;
-        drawText(gp.grupo.getGroup().get(i).nextLevelExp + "", textX + gp.tileSize * 3, textY, null);
+        drawText(gp.group.getGroup().get(i).getNextLevelExp() + "", textX + gp.tileSize * 3, textY, null);
 
         textY += gp.tileSize * 2;
         drawText("Strenght", textX, textY, blueMenu);
         drawText("··", textX + gp.tileSize * 3, textY, blueMenu);
-        drawText(gp.grupo.getGroup().get(i).strength + "", textX + gp.tileSize * 4, textY, null);
+        drawText(gp.group.getGroup().get(i).getStrength() + "", textX + gp.tileSize * 4, textY, null);
         drawText("Attack", textX + gp.tileSize * 8, textY, blueMenu);
         drawText("··", textX + gp.tileSize * 11, textY, blueMenu);
-        drawText(gp.grupo.getGroup().get(i).attack + "", textX + gp.tileSize * 12, textY, null);
+        drawText(gp.group.getGroup().get(i).getAttack() + "", textX + gp.tileSize * 12, textY, null);
         textY += gp.tileSize - 10;
         drawText("Dexterity", textX, textY, blueMenu);
         drawText("··", textX + gp.tileSize * 3, textY, blueMenu);
-        drawText(gp.grupo.getGroup().get(i).dexterity + "", textX + gp.tileSize * 4, textY, null);
+        drawText(gp.group.getGroup().get(i).getDexterity() + "", textX + gp.tileSize * 4, textY, null);
         drawText("Defense", textX + gp.tileSize * 8, textY, blueMenu);
         drawText("··", textX + gp.tileSize * 11, textY, blueMenu);
-        drawText(gp.grupo.getGroup().get(i).defense + "", textX + gp.tileSize * 12, textY, null);
+        drawText(gp.group.getGroup().get(i).getDefense() + "", textX + gp.tileSize * 12, textY, null);
         textY += gp.tileSize - 10;
         drawText("Magic", textX, textY, blueMenu);
         drawText("··", textX + gp.tileSize * 3, textY, blueMenu);
-        drawText(gp.grupo.getGroup().get(i).magic + "", textX + gp.tileSize * 4, textY, null);
+        drawText(gp.group.getGroup().get(i).getMagic() + "", textX + gp.tileSize * 4, textY, null);
         drawText("Mag.Def", textX + gp.tileSize * 8, textY, blueMenu);
         drawText("··", textX + gp.tileSize * 11, textY, blueMenu);
-        drawText(gp.grupo.getGroup().get(i).magicDefense + "", textX + gp.tileSize * 12, textY, null);
+        drawText(gp.group.getGroup().get(i).getMagicDefense() + "", textX + gp.tileSize * 12, textY, null);
 
     }
 
@@ -486,9 +608,9 @@ public class UI {
                 if (menuStatus) {
                     menuStatus = false;
                     gp.keyH.enterPressed = false;
-                    Character.changeInexGroup(gp.grupo.getGroup().get(numIndexGroup),
-                            gp.grupo.getGroup().get(subNumCommand));
-                    UtilityTool.sortByIndexGroup(gp.grupo.getGroup());
+                    Character.changeInexGroup(gp.group.getGroup().get(numIndexGroup),
+                            gp.group.getGroup().get(subNumCommand));
+                    UtilityTool.sortByIndexGroup(gp.group.getGroup());
                     gp.player.getPlayerImagen();
                 } else {
                     menuStatus = true;
@@ -505,9 +627,9 @@ public class UI {
                 if (menuStatus) {
                     menuStatus = false;
                     gp.keyH.enterPressed = false;
-                    Character.changeInexGroup(gp.grupo.getGroup().get(numIndexGroup),
-                            gp.grupo.getGroup().get(subNumCommand));
-                    UtilityTool.sortByIndexGroup(gp.grupo.getGroup());
+                    Character.changeInexGroup(gp.group.getGroup().get(numIndexGroup),
+                            gp.group.getGroup().get(subNumCommand));
+                    UtilityTool.sortByIndexGroup(gp.group.getGroup());
                     gp.player.getPlayerImagen();
                 } else {
                     menuStatus = true;
@@ -524,9 +646,9 @@ public class UI {
                 if (menuStatus) {
                     menuStatus = false;
                     gp.keyH.enterPressed = false;
-                    Character.changeInexGroup(gp.grupo.getGroup().get(numIndexGroup),
-                            gp.grupo.getGroup().get(subNumCommand));
-                    UtilityTool.sortByIndexGroup(gp.grupo.getGroup());
+                    Character.changeInexGroup(gp.group.getGroup().get(numIndexGroup),
+                            gp.group.getGroup().get(subNumCommand));
+                    UtilityTool.sortByIndexGroup(gp.group.getGroup());
                     gp.player.getPlayerImagen();
                 } else {
                     menuStatus = true;
@@ -642,56 +764,22 @@ public class UI {
         int textX = windowsX + gp.tileSize * 3;
         int textY = windowsY + 20;
         g2.setFont(normalFont);
-        drawText(gp.grupo.getGroup().get(i).name, textX, textY, null);
+        drawText(gp.group.getGroup().get(i).getName(), textX, textY, null);
         textY += 40;
         textX += 20;
         drawText("LV", textX, textY, blueMenu);
-        drawText(gp.grupo.getGroup().get(i).level + "", textX + gp.tileSize * 2, textY, null);
+        drawText(gp.group.getGroup().get(i).getLevel() + "", textX + gp.tileSize * 2, textY, null);
         textY += 25;
         drawText("PV", textX, textY, blueMenu);
-        String vida = gp.grupo.getGroup().get(i).hp + "/" + gp.grupo.getGroup().get(i).MaxHp;
+        String vida = gp.group.getGroup().get(i).getHp() + "/" + gp.group.getGroup().get(i).getMaxHp();
         drawText(vida, textX + gp.tileSize * 2, textY, null);
 
         textY += 25;
         drawText("PM", textX, textY, blueMenu);
-        String mp = gp.grupo.getGroup().get(i).mp + "/" + gp.grupo.getGroup().get(i).MaxMp;
+        String mp = gp.group.getGroup().get(i).getMp() + "/" + gp.group.getGroup().get(i).getMaxMp();
         drawText(mp, textX + gp.tileSize * 2, textY, null);
 
     }
 
 
-    String[] prueba2 = { "hola", "hola1", "hola2", "hola3", "hola4", "hola5", "hola6", "hola7" };
-
-
-    public void pruebas() {
-        // scroll menu
-        int x = gp.screenWidth - (gp.tileSize * 4 + 5);
-        int y = 5;
-        int width = gp.tileSize * 4;
-        int height = gp.tileSize * 6 + 16;
-        drawSubwindows(x, y, width, height);
-        x += gp.tileSize - 24;
-        y += gp.tileSize;
-
-        g2.setColor(Color.white);
-        int contadorCursor = 0;
-        contadorCursor = numCommand - 5;
-
-        for (int i = 0; i < 6; i++) {
-
-            if (numCommand > 5) {
-                g2.drawString(prueba[contadorCursor + i], x, y);
-            } else {
-                g2.drawString(prueba[i], x, y);
-            }
-
-            if (numCommand == i || (numCommand > 5 && numCommand == i + contadorCursor)) {
-
-                g2.drawImage(cursor, x - gp.tileSize, y - gp.tileSize + 10, gp.tileSize, gp.tileSize, null);
-
-            }
-
-            y += gp.tileSize;
-        }
-    }
 }

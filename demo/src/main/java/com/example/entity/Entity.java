@@ -72,7 +72,27 @@ public class Entity implements Comparable <Entity>{
                     break;
             }
 
-            g2.drawImage(image, screenX, screenY, sizeWidth, sizeHeight, null);
+            int x = screenX;
+            int y = screenY;
+
+        if (screenX>worldX) {
+            x = worldX;
+        }
+        if (screenY>worldY) {
+
+            y = worldY;
+        }
+        int rightX = gp.screenWidth - screenX;
+        if (rightX>gp.worldWidth-worldX) {
+            x = gp.screenWidth - (gp.worldWidth - worldX);
+        }
+        int bottomY = gp.screenHeight - screenY;
+        if (bottomY>gp.worldHeight-worldY) {
+
+            y = gp.screenHeight - (gp.worldHeight - worldY);
+        }
+      
+            g2.drawImage(image, x, y, sizeWidth, sizeHeight, null);
 
         }
 

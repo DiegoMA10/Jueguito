@@ -18,25 +18,27 @@ public class Cloud extends Character {
     }
 
     public void RawStats(){
-        name = "Cloud";
-        indexGroup=2;
-        level = 1;
-        exp = 0;
-        nextLevelExp=32;
-        MaxHp = 50;
-        hp = 20;
-        MaxMp = 14;
-        mp = 2;
-        strength = 35;
-        dexterity = 35;
-        magic = 30;
-        attack = 20;
-        defense = 80;
-        magicDefense=80;
+        setName("Cloud");
+        setIndexGroup(2);
+        setLevel(1);
+        setExp(0);
+        setNextLevelExp(32);
+        setMaxHp(50);
+        setHp(20);
+        setMaxMp(14);
+        setMp(2);
+        setStrength(35);
+        setDexterity(35);
+        setMagic(30);
+        setAttack(20);
+        setDefense(80);
+        setMagicDefense(80);
        
     }
 
     
+    
+
     public void getPlayerImagen(){
         String carpeta = "/com/example/image/characters/";
         left = setUp(carpeta+"cloud_left");
