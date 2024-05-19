@@ -1,5 +1,7 @@
 package com.example;
 
+import com.example.Items.Eter;
+import com.example.Items.Potion;
 import com.example.entity.Aerith;
 import com.example.entity.Cloud;
 import com.example.entity.Tifa;
@@ -8,15 +10,16 @@ import com.example.entity.npc.NPC_Inkeeper;
 import com.example.entity.npc.NPC_Item;
 import com.example.entity.npc.NPC_Spell;
 import com.example.entity.npc.NPC_Weapon;
-import com.example.object.Eter;
-import com.example.object.Potion;
 
 public class AssetSetter {
 
     private GamePanel gp;
-
+    Eter eter;
+    Potion potion;
     public AssetSetter(GamePanel gp) {
-        this.gp = gp;
+        this.gp = gp; 
+        potion = new Potion(this.gp);
+        eter = new Eter(this.gp);
     }
 
     public void setNPC() {
@@ -52,17 +55,24 @@ public class AssetSetter {
         gp.npc[1][i] = new NPC_Item(gp);
         gp.npc[1][i].worldX = gp.tileSize * 32;
         gp.npc[1][i].worldY = gp.tileSize * 8 - (gp.tileSize / 2);
+        
 
     }
-
+     
     public void setObjectStart() {
-        Potion potion = new Potion(gp);
         potion.setAmount(5);
-        Eter eter = new Eter(gp);
         eter.setAmount(5);
         gp.group.getInventory().add(potion);
         gp.group.getInventory().add(eter);
     }
+
+    public void setNPCObjectStart() {
+    NPC_Item npc = (NPC_Item)gp.npc[1][3];
+     npc.getInventory().add(eter);
+     npc.getInventory().add(potion);
+     gp.npc[1][3] = npc; 
+    }
+
 
     public void setGroup() {
         Tifa tifa = new Tifa(gp);

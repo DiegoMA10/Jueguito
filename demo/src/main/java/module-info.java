@@ -4,7 +4,7 @@ module com.example {
     requires java.desktop;
     requires java.sql;
     exports com.example.entity;
-
+    exports com.example.entity.npc;
     opens com.example to javafx.fxml;
     exports com.example;
 }

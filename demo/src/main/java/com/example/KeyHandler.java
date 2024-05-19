@@ -3,6 +3,8 @@ package com.example;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import com.example.Items.Item;
+
 public class KeyHandler implements KeyListener {
 
   public boolean upPressed, downPressed, leftPressed, rightPressed, enterPressed;
@@ -47,16 +49,114 @@ public class KeyHandler implements KeyListener {
   }
 
   private void tradeState(int code) {
+
+    switch (gp.ui.subState) {
+      case 0:
+        TradeSelector(code);
+        break;
+      case 1:
+        tradeBuySelector(code);
+        break;
+      case 2:
+
+        break;
+      case 3:
+
+        break;
+
+    }
+  }
+
+  private void tradeBuySelector(int code) {
     switch (code) {
+      case KeyEvent.VK_ESCAPE:
+        if (gp.ui.subState2 == 1) {
+          gp.ui.subState2 = 0;
+          gp.ui.subNumCommand2 = 0;
+        } else {
+          gp.ui.subState = 0;
+        }
+
+        break;
       case KeyEvent.VK_W:
+
+        if (gp.ui.subState2 == 1) {
+
+          int newAmount = gp.ui.subNumCommand2 + 10;
+          int maxAmount = Item.maxAmount - gp.ui.itemNpc.getInventory().get(gp.ui.subNumCommand).getAmount();
+          int itemPrice = gp.ui.itemNpc.getInventory().get(gp.ui.subNumCommand).getPrice();
+
+          if (gp.group.getGil() >= itemPrice * newAmount) {
+            gp.ui.subNumCommand2 = Math.min(maxAmount, newAmount);
+          } else {
+            gp.ui.subNumCommand2 = gp.group.getGil() / itemPrice;
+          }
+
+        } else {
+          if (gp.ui.subNumCommand > 0) {
+            gp.ui.subNumCommand--;
+
+          }
+        }
+
+        break;
+
+      case KeyEvent.VK_S:
+        if (gp.ui.subState2 == 1) {
+
+          gp.ui.subNumCommand2 = Math.max(1, gp.ui.subNumCommand2 - 10);
+
+        } else {
+          if (gp.ui.subNumCommand < gp.ui.itemNpc.getInventory().size() - 1) {
+            gp.ui.subNumCommand++;
+
+          }
+        }
+
+        break;
+
+      case KeyEvent.VK_A:
+
+        if (gp.ui.subState2 == 1) {
+          if (gp.ui.subNumCommand2 > 1) {
+            gp.ui.subNumCommand2--;
+          }
+        }
+
+        break;
+      case KeyEvent.VK_D:
+        if (gp.ui.subState2 == 1) {
+          int newAmount = gp.ui.subNumCommand2 + 1;
+          int maxAmount = Item.maxAmount - gp.ui.itemNpc.getInventory().get(gp.ui.subNumCommand).getAmount();
+          int itemPrice = gp.ui.itemNpc.getInventory().get(gp.ui.subNumCommand).getPrice();
+
+          if (gp.group.getGil() >= itemPrice * newAmount) {
+            gp.ui.subNumCommand2 = Math.min(maxAmount, newAmount);
+          } else {
+            gp.ui.subNumCommand2 = gp.group.getGil() / itemPrice;
+          }
+        }
+
+        break;
+
+      case KeyEvent.VK_ENTER:
+        enterPressed = true;
+        break;
+    }
+  }
+
+  private void TradeSelector(int code) {
+    switch (code) {
+      case KeyEvent.VK_A:
 
         if (gp.ui.numCommand > 0) {
           gp.ui.numCommand--;
 
         }
+
         break;
-      case KeyEvent.VK_S:
-        if (gp.ui.numCommand < 1) {
+      case KeyEvent.VK_D:
+        if (gp.ui.numCommand < 2) {
           gp.ui.numCommand++;
 
         }
@@ -64,7 +164,7 @@ public class KeyHandler implements KeyListener {
       case KeyEvent.VK_ENTER:
         enterPressed = true;
         break;
-      }
+    }
   }
 
   private void breakState(int code) {

@@ -1,4 +1,4 @@
-package com.example.object;
+package com.example.Items;
 
 import java.awt.image.BufferedImage;
 
@@ -6,19 +6,19 @@ import com.example.BattlePanel;
 import com.example.GamePanel;
 import com.example.entity.Character;
 
-
-public abstract class Object {
+public abstract class Item {
     GamePanel gp;
     protected BufferedImage[] animation;
     public int idObject;
     protected String name;
     protected String description;
-    protected int amount=1;
+    protected int amount = 1;
     protected int price;
     protected int value;
+    public static int maxAmount = 99;
 
-    public Object(GamePanel gp){
-       this.gp= gp;
+    public Item(GamePanel gp) {
+        this.gp = gp;
     }
 
     public String getName() {
@@ -42,9 +42,5 @@ public abstract class Object {
     }
 
     public abstract boolean useObject(Character e);
-   
-    
-
-    
 
 }

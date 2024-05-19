@@ -3,7 +3,7 @@ package com.example.entity;
 import java.awt.image.BufferedImage;
 
 import com.example.GamePanel;
-import com.example.object.Object;
+import com.example.Items.Item;
 
 public class Character extends Entity {
 
@@ -47,7 +47,7 @@ public class Character extends Entity {
      * 
      */
 
-    public boolean useObject(Object o) {
+    public boolean useObject(Item o) {
 
         if (o.useObject(this)) {
             return true;

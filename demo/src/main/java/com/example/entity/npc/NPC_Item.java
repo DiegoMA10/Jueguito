@@ -1,12 +1,15 @@
 package com.example.entity.npc;
 
 import java.awt.Graphics2D;
+import java.util.ArrayList;
 
 import com.example.GamePanel;
+import com.example.Items.Item;
 import com.example.entity.Entity;
 
 public class NPC_Item extends Entity {
-
+    
+    
     public NPC_Item(GamePanel gp) {
         super(gp);
         direction = "down";
@@ -15,7 +18,7 @@ public class NPC_Item extends Entity {
         getImagen();
         setDialogue();
     }
-
+    ArrayList<Item>inventory = new ArrayList<>();
     public void getImagen() {
         String carpeta = "/com/example/image/npc/";
 
@@ -25,9 +28,7 @@ public class NPC_Item extends Entity {
     }
 
     public void setDialogue(){
-        dialogues[0] = "Hola que tal estamos";
-        dialogues[1] = "Que buen tiempo hace no?";
-        dialogues[2] = "jeje\ngoz";
+    
     }
 
     public void draw(Graphics2D g2){
@@ -38,6 +39,12 @@ public class NPC_Item extends Entity {
 
     public void speak(){
         super.speak();
+        gp.ui.itemNpc = this;
         gp.gameState = GamePanel.tradeState;
     }
+
+    public ArrayList<Item> getInventory() {
+        return inventory;
+    }
+
 }

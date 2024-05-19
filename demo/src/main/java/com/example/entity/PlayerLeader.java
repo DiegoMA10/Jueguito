@@ -25,9 +25,7 @@ public class PlayerLeader extends Entity {
     int defaultX;
     public boolean salida = true;;
     int cont = 0;
-    int spriteCont=0;
-    
-    
+    int spriteCont = 0;
 
     public PlayerLeader(GamePanel gp, KeyHandler keyH, Group group) {
         super(gp);
@@ -37,7 +35,7 @@ public class PlayerLeader extends Entity {
         sizeHeight = 23 * gp.scale;
         screenX = gp.screenWidth / 2 - (gp.tileSize / 2);
         screenY = gp.screenHeight / 2 - (gp.tileSize / 2);
-       // defaultX = screenX;
+        // defaultX = screenX;
         hitBox = new Rectangle();
         hitBox.x = 5;
         hitBox.y = 25;
@@ -58,7 +56,7 @@ public class PlayerLeader extends Entity {
     }
 
     public void getPlayerImagen() {
-         
+
         left = group.getGroup().get(0).left;
         left1 = group.getGroup().get(0).left1;
 
@@ -90,8 +88,6 @@ public class PlayerLeader extends Entity {
 
         }
 
-      
-       
         collisionOn = false;
         gp.ck.checkTile(this);
         int indexNPC = gp.ck.checkEntity(this, gp.npc);
@@ -134,8 +130,6 @@ public class PlayerLeader extends Entity {
 
     }
 
-
-
     public void interactNPC(int i) {
         if (i != 999) {
             if (keyH.enterPressed == true) {
@@ -148,10 +142,10 @@ public class PlayerLeader extends Entity {
 
     public void draw(Graphics2D g2) {
 
-        /* 
-          g2.setColor(Color.white);
-          g2.fillRect(gp.tileSize, 0, gp.tileSize, gp.tileSize);
-          */
+        /*
+         * g2.setColor(Color.white);
+         * g2.fillRect(gp.tileSize, 0, gp.tileSize, gp.tileSize);
+         */
         BufferedImage image = null;
         switch (direction) {
             case "left":
@@ -216,32 +210,27 @@ public class PlayerLeader extends Entity {
         int x = screenX;
         int y = screenY;
 
-        if (screenX>worldX) {
+        if (screenX > worldX) {
             x = worldX;
         }
-        if (screenY>worldY) {
+        if (screenY > worldY) {
             y = worldY;
         }
         int rightX = gp.screenWidth - screenX;
-        if (rightX>gp.worldWidth-worldX) {
+        if (rightX > gp.worldWidth - worldX) {
             x = gp.screenWidth - (gp.worldWidth - worldX);
         }
         int bottomY = gp.screenHeight - screenY;
-        if (bottomY>gp.worldHeight-gp.player.worldY) {
+        if (bottomY > gp.worldHeight - gp.player.worldY) {
 
             y = gp.screenHeight - (gp.worldHeight - worldY);
         }
-      
-        g2.drawImage(image, x, y, sizeWidth, sizeHeight, null);
-        g2.setColor(Color.red);
-        g2.drawRect(x + hitBox.x, y + hitBox.y, hitBox.width, hitBox.height);
-        cont++;
-        
 
-             
-        
-        
-        
+        g2.drawImage(image, x, y, sizeWidth, sizeHeight, null);
+
+        /* g2.setColor(Color.red);
+        g2.drawRect(x + hitBox.x, y + hitBox.y, hitBox.width, hitBox.height);
+        cont++; */
 
     }
 

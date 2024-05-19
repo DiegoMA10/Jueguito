@@ -9,7 +9,7 @@ import javax.imageio.ImageIO;
 import com.example.GamePanel;
 import com.example.UtilityTool;
 
-public class Entity implements Comparable <Entity>{
+public class Entity implements Comparable<Entity> {
     protected GamePanel gp;
     protected int sizeWidth, sizeHeight;
     public int worldX, worldY;
@@ -19,7 +19,7 @@ public class Entity implements Comparable <Entity>{
     protected int spritCount = 0;
     protected int spriteNumber = 1;
     public Rectangle hitBox = new Rectangle(0, 20, 40, 45);
-    public int hitboxDefaultX,hitboxDefaultY;
+    public int hitboxDefaultX, hitboxDefaultY;
     public boolean collisionOn = false;
     protected String dialogues[] = new String[10];
     int dialogueI = 0;
@@ -54,9 +54,9 @@ public class Entity implements Comparable <Entity>{
         int screenY = worldY - gp.player.worldY + gp.player.screenY;
 
         if ((worldX + gp.tileSize > gp.player.worldX - gp.player.screenX) &&
-            (worldX - gp.tileSize < gp.player.worldX + gp.player.screenX) &&
-            (worldY + gp.tileSize > gp.player.worldY - gp.player.screenY) &&
-            (worldY - gp.tileSize < gp.player.worldY + gp.player.screenY)) {
+                (worldX - gp.tileSize < gp.player.worldX + gp.player.screenX) &&
+                (worldY + gp.tileSize > gp.player.worldY - gp.player.screenY) &&
+                (worldY - gp.tileSize < gp.player.worldY + gp.player.screenY)) {
             switch (direction) {
                 case "left":
                     image = left;
@@ -75,23 +75,23 @@ public class Entity implements Comparable <Entity>{
             int x = screenX;
             int y = screenY;
 
-        if (screenX>worldX) {
-            x = worldX;
-        }
-        if (screenY>worldY) {
+            if (screenX > worldX) {
+                x = worldX;
+            }
+            if (screenY > worldY) {
 
-            y = worldY;
-        }
-        int rightX = gp.screenWidth - screenX;
-        if (rightX>gp.worldWidth-worldX) {
-            x = gp.screenWidth - (gp.worldWidth - worldX);
-        }
-        int bottomY = gp.screenHeight - screenY;
-        if (bottomY>gp.worldHeight-worldY) {
+                y = worldY;
+            }
+            int rightX = gp.screenWidth - screenX;
+            if (rightX > gp.worldWidth - worldX) {
+                x = gp.screenWidth - (gp.worldWidth - worldX);
+            }
+            int bottomY = gp.screenHeight - screenY;
+            if (bottomY > gp.worldHeight - worldY) {
 
-            y = gp.screenHeight - (gp.worldHeight - worldY);
-        }
-      
+                y = gp.screenHeight - (gp.worldHeight - worldY);
+            }
+
             g2.drawImage(image, x, y, sizeWidth, sizeHeight, null);
 
         }
@@ -100,7 +100,7 @@ public class Entity implements Comparable <Entity>{
 
     public void speak() {
         gp.gameState = GamePanel.dialogueState;
-       
+
         if (dialogues[dialogueI] == null) {
             dialogueI = 0;
         }
@@ -108,19 +108,25 @@ public class Entity implements Comparable <Entity>{
         dialogueI++;
 
         switch (gp.player.direction) {
-            case "up":direction = "down";break;
-            case "down":direction = "up";break;
-            case "left":direction = "right";break;
-            case "right":direction = "left";break;
+            case "up":
+                direction = "down";
+                break;
+            case "down":
+                direction = "up";
+                break;
+            case "left":
+                direction = "right";
+                break;
+            case "right":
+                direction = "left";
+                break;
         }
-        
+
     }
 
-  
     public int compareTo(Entity e1) {
-       
+
         return Integer.compare(this.worldY, e1.worldY);
     }
 
-    
 }

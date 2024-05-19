@@ -39,7 +39,7 @@ public class GamePanel extends JPanel implements Runnable {
     public KeyHandler keyH = new KeyHandler(this);
     public EventHandler eHandler = new EventHandler(this);
     public AssetSetter aSetter = new AssetSetter(this);
-    //public Database dataBase = new Databases(this);;
+    //public Database dataBase = new Databases(this);
     Thread gameThread;
     Sound music = new Sound();
     Sound soundEfect = new Sound();
@@ -70,7 +70,6 @@ public class GamePanel extends JPanel implements Runnable {
 
     public GamePanel() {
 
-  
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
         this.setBackground(Color.black);
         this.setDoubleBuffered(true);
@@ -91,6 +90,7 @@ public class GamePanel extends JPanel implements Runnable {
         
         gameState = titleState;
         aSetter.setNPC();
+        aSetter.setNPCObjectStart();
         aSetter.setObjectStart();
         playMusic(6);
 
