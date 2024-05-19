@@ -37,8 +37,11 @@ public abstract class Item {
         return price;
     }
 
-    public void setAmount(int amount) {
+    public boolean setAmount(int amount) {
+
         this.amount = amount;
+
+        return false;
     }
 
     public abstract boolean useObject(Character e);

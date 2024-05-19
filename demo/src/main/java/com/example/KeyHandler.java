@@ -58,13 +58,79 @@ public class KeyHandler implements KeyListener {
         tradeBuySelector(code);
         break;
       case 2:
-
+        tradeSellSelector(code);
         break;
-      case 3:
-
-        break;
-
     }
+  }
+
+  private void tradeSellSelector(int code) {
+    switch (code) {
+      case KeyEvent.VK_ESCAPE:
+        if (gp.ui.subState2 == 1) {
+          gp.ui.subState2 = 0;
+          gp.ui.subNumCommand2 = 0;
+        } else {
+          gp.ui.subState = 0;
+          gp.ui.subNumCommand = 0;
+        }
+
+        break;
+      case KeyEvent.VK_W:
+
+        if (gp.ui.subState2 == 1) {
+
+          int newAmount = gp.ui.subNumCommand2 + 10;
+          int maxAmount = gp.group.getInventory().get(gp.ui.subNumCommand).getAmount();
+
+          gp.ui.subNumCommand2 = Math.min(maxAmount, newAmount);
+
+        } else {
+          if (gp.ui.subNumCommand > 0) {
+            gp.ui.subNumCommand--;
+
+          }
+        }
+
+        break;
+
+      case KeyEvent.VK_S:
+        if (gp.ui.subState2 == 1) {
+
+          gp.ui.subNumCommand2 = Math.max(1, gp.ui.subNumCommand2 - 10);
+
+        } else {
+          if (gp.ui.subNumCommand < gp.ui.itemNpc.getInventory().size() - 1) {
+            gp.ui.subNumCommand++;
+
+          }
+        }
+
+        break;
+
+      case KeyEvent.VK_A:
+
+        if (gp.ui.subState2 == 1) {
+          if (gp.ui.subNumCommand2 > 1) {
+            gp.ui.subNumCommand2--;
+          }
+        }
+
+        break;
+      case KeyEvent.VK_D:
+        if (gp.ui.subState2 == 1) {
+          int newAmount = gp.ui.subNumCommand2 + 1;
+          int maxAmount = gp.group.getInventory().get(gp.ui.subNumCommand).getAmount();
+
+          gp.ui.subNumCommand2 = Math.min(maxAmount, newAmount);
+        }
+
+        break;
+
+      case KeyEvent.VK_ENTER:
+        enterPressed = true;
+        break;
+    }
+
   }
 
   private void tradeBuySelector(int code) {
@@ -75,6 +141,7 @@ public class KeyHandler implements KeyListener {
           gp.ui.subNumCommand2 = 0;
         } else {
           gp.ui.subState = 0;
+          gp.ui.subNumCommand = 0;
         }
 
         break;
@@ -207,7 +274,8 @@ public class KeyHandler implements KeyListener {
 
       case KeyEvent.VK_ENTER:
         if (gp.ui.numCommand == 0) {
-          gp.gameState = GamePanel.playState;
+
+          gp.ui.gameStateTransition = GamePanel.playState;
           gp.stopMusic();
           gp.playMusic(1);
         }
@@ -235,7 +303,8 @@ public class KeyHandler implements KeyListener {
         rightPressed = true;
         break;
       case KeyEvent.VK_ESCAPE:
-        gp.gameState = GamePanel.menuState;
+
+        gp.ui.gameStateTransition = GamePanel.menuState;
 
         break;
       case KeyEvent.VK_ENTER:
@@ -317,7 +386,7 @@ public class KeyHandler implements KeyListener {
   public void menuSelector(int code) {
     switch (code) {
       case KeyEvent.VK_ESCAPE:
-        gp.gameState = GamePanel.playState;
+        gp.ui.gameStateTransition = GamePanel.playState;
         gp.ui.numCommand = 0;
         break;
       case KeyEvent.VK_W:

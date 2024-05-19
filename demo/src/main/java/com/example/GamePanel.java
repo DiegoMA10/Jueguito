@@ -67,6 +67,7 @@ public class GamePanel extends JPanel implements Runnable {
     public static final int dialogueState = 5;
     public static final int breakState = 6;
     public static final int tradeState = 7;
+    
 
     public GamePanel() {
 
@@ -173,7 +174,7 @@ public class GamePanel extends JPanel implements Runnable {
         Graphics2D g2 = (Graphics2D) g;
        // long start = System.nanoTime();
 
-        if (gameState == titleState || gameState == menuState) {
+        if (gameState == titleState || gameState == menuState ) {
             ui.draw(g2);
         } else if (gameState == battleState) {
             battle.draw(g2);
@@ -208,7 +209,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void playMusic(int n) {
         music.setFile(n);
-        music.setVolume(0.07f);
+        music.setVolume(0);
 
         music.play();
         music.loop();
@@ -221,7 +222,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void playSE(int n) {
         soundEfect.setFile(n);
-        music.setVolume(0.07f);
+        soundEfect.setVolume(0.2f);
         soundEfect.play();
     }
 }

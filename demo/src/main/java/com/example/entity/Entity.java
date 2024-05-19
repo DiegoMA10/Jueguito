@@ -3,6 +3,7 @@ package com.example.entity;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import java.util.Arrays;
 
 import javax.imageio.ImageIO;
 
@@ -99,11 +100,16 @@ public class Entity implements Comparable<Entity> {
     }
 
     public void speak() {
-        gp.gameState = GamePanel.dialogueState;
+       
 
+        if (dialogues[0] != null) {
+            gp.gameState = GamePanel.dialogueState;
+        }
+        
         if (dialogues[dialogueI] == null) {
             dialogueI = 0;
         }
+
         gp.ui.currentDialogue = dialogues[dialogueI];
         dialogueI++;
 
