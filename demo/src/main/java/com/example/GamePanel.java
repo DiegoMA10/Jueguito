@@ -10,10 +10,7 @@ import java.util.Collections;
 
 import java.awt.image.BufferedImage;
 
-
-
 import javax.swing.JPanel;
-
 
 import com.example.entity.*;
 import com.example.tile.*;
@@ -46,7 +43,6 @@ public class GamePanel extends JPanel implements Runnable {
     TileManager tl = new TileManager(this);
     BattlePanel battle = new BattlePanel(this);
 
- 
     public Party party = new Party();
 
     public PlayerLeader player;
@@ -67,7 +63,6 @@ public class GamePanel extends JPanel implements Runnable {
     public static final int dialogueState = 5;
     public static final int breakState = 6;
     public static final int tradeState = 7;
-    
 
     public GamePanel() {
 
@@ -78,17 +73,15 @@ public class GamePanel extends JPanel implements Runnable {
         this.setFocusable(true);
     }
 
-    
-
     public void startGameThread() {
         gameThread = new Thread(this);
         gameThread.start();
     }
 
     public void setUpGame() {
-        aSetter.setGroup();   
-        player = new PlayerLeader(this, keyH, party); 
-        
+        aSetter.setGroup();
+        player = new PlayerLeader(this, keyH, party);
+
         gameState = titleState;
         aSetter.setNPC();
         aSetter.setNPCObjectStart();
@@ -96,8 +89,6 @@ public class GamePanel extends JPanel implements Runnable {
         playMusic(6);
 
     }
-
-  
 
     /*
      * @Override
@@ -139,20 +130,18 @@ public class GamePanel extends JPanel implements Runnable {
         double delta = 0;
         long lastTime = System.nanoTime();
         long currentTime;
-      
+
         while (gameThread != null) {
             currentTime = System.nanoTime();
             delta += (currentTime - lastTime) / drawInterval;
-         
+
             lastTime = currentTime;
             if (delta >= 1) {
                 update();
                 repaint();
                 delta--;
-              
 
             }
-           
 
         }
 
@@ -161,9 +150,9 @@ public class GamePanel extends JPanel implements Runnable {
     public void update() {
 
         if (gameState == playState) {
-             player.update();
+            player.update();
         }
-       
+
     }
 
     public BufferedImage imagen;
@@ -172,16 +161,16 @@ public class GamePanel extends JPanel implements Runnable {
         super.paintComponent(g);
 
         Graphics2D g2 = (Graphics2D) g;
-       // long start = System.nanoTime();
+        // long start = System.nanoTime();
 
-        if (gameState == titleState || gameState == menuState ) {
+        if (gameState == titleState || gameState == menuState) {
             ui.draw(g2);
         } else if (gameState == battleState) {
             battle.draw(g2);
             ui.draw(g2);
         } else {
             tl.draw(g2);
-           
+
             entityList.add(player);
             for (int i = 0; i < npc[1].length; i++) {
                 if (npc[currentMap][i] != null) {
@@ -192,15 +181,15 @@ public class GamePanel extends JPanel implements Runnable {
             Collections.sort(entityList);
             for (Entity entity : entityList) {
                 entity.draw(g2);
-            } 
-                tl.drawSuperior(g2);
-                ui.draw(g2);   
-               
+            }
+            tl.drawSuperior(g2);
+            ui.draw(g2);
+
         }
 
-        //long end = System.nanoTime();
+        // long end = System.nanoTime();
 
-        //long tiempo = end - start;
+        // long tiempo = end - start;
         // System.out.println(tiempo);
 
         g2.dispose();
@@ -216,7 +205,7 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void stopMusic() {
-        
+
         music.stop();
     }
 

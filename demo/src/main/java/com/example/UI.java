@@ -667,9 +667,8 @@ public class UI {
     }
 
     public void drawGameStateTransition() {
-        cont += 3;
-
-        g2.setColor(new Color(0, 0, 0, (cont * 4)));
+        cont += 2;
+        g2.setColor(new Color(0, 0, 0, (cont * 4) + 20));
         g2.fillRect(0, 0, gp.screenWidth, gp.screenHeight);
         if (cont > 50) {
             gp.gameState = gameStateTransition;
@@ -691,22 +690,7 @@ public class UI {
         int height = gp.screenHeight - 10;
         BufferedImage image = null;
         image = cursor;
-        drawSubwindows(windowsX + order, windowsY, width, height);
-        windowsX += gp.tileSize * 2;
-        windowsY += gp.tileSize;
-        g2.drawImage(gp.party.getParty().get(0).portrait, windowsX + order, windowsY, gp.tileSize * 2, gp.tileSize * 2,
-                null);
-        drawStatsPj(windowsX + order, windowsY, 0);
-
-        windowsY += gp.tileSize * 4;
-        g2.drawImage(gp.party.getParty().get(1).portrait, windowsX + order, windowsY, gp.tileSize * 2, gp.tileSize * 2,
-                null);
-        drawStatsPj(windowsX + order, windowsY, 1);
-
-        windowsY += gp.tileSize * 4;
-        g2.drawImage(gp.party.getParty().get(2).portrait, windowsX + order, windowsY, gp.tileSize * 2, gp.tileSize * 2,
-                null);
-        drawStatsPj(windowsX + order, windowsY, 2);
+        drawMenuPortrait(gp.party.getParty());
 
         drawMenu();
 
@@ -737,6 +721,31 @@ public class UI {
         gp.keyH.enterPressed = false;
     }
 
+    public void drawMenuPortrait(ArrayList<Character> party){
+        int windowsX = 5;
+        int windowsY = 5;
+        int width = gp.screenWidth - 10;
+        int height = gp.screenHeight - 10;
+        BufferedImage image = null;
+        image = cursor;
+        drawSubwindows(windowsX + order, windowsY, width, height);
+        windowsX += gp.tileSize * 2;
+        windowsY += gp.tileSize;
+        g2.drawImage(party.get(0).portrait, windowsX + order, windowsY, gp.tileSize * 2, gp.tileSize * 2,
+                null);
+        drawStatsPj(windowsX + order, windowsY, 0);
+
+        windowsY += gp.tileSize * 4;
+        g2.drawImage(party.get(1).portrait, windowsX + order, windowsY, gp.tileSize * 2, gp.tileSize * 2,
+                null);
+        drawStatsPj(windowsX + order, windowsY, 1);
+
+        windowsY += gp.tileSize * 4;
+        g2.drawImage(party.get(2).portrait, windowsX + order, windowsY, gp.tileSize * 2, gp.tileSize * 2,
+                null);
+        drawStatsPj(windowsX + order, windowsY, 2);
+    }
+
     private void saveSelector() {
         int x = 5;
         int y = 5;
@@ -748,112 +757,92 @@ public class UI {
         height = gp.tileSize * 4 - 5;
         drawSubwindows(x, y, width, height);
         if (gp.dataBase.checkSave(1)) {
-            ArrayList<Character> party1 = gp.dataBase.getCharactersByGame(1);
-            UtilityTool.sortByIndexGroup(party1);
-
-            drawText(party1.get(0).getName(), x + gp.tileSize, y + gp.tileSize * 1 + 10, null);
-            drawText("Time", x + gp.tileSize, y + gp.tileSize * 2 + 24, blueMenu);
-            drawText(formatSecondsToHoursMinutes(gp.dataBase.getPlayTime(1)), x + gp.tileSize, y + gp.tileSize * 3 + 10,
-                    null);
-
-            int textX = x + gp.tileSize * 5;
-
-            for (Character character : party1) {
-                g2.drawImage(character.left, textX, y + gp.tileSize * 1, character.sizeWidth, character.sizeHeight,
-                        null);
-                textX += gp.tileSize * 2;
+            if (subNumCommand==0) {
+                   if (gp.keyH.enterPressed) {
+                    gp.dataBase.updateSaveData(1,1);
+                    }
             }
-            textX += gp.tileSize * 2;
-            drawText("LV", textX, y + gp.tileSize * 1, blueMenu);
-            drawNumberText(party1.get(0).getLevel(), textX + gp.tileSize * 3, y + gp.tileSize * 1, null);
-            textX += 30;
-            drawNumberText(party1.get(0).getHp(), textX, y + gp.tileSize * 2, null);
-            drawText("/", textX, y + gp.tileSize * 2, null);
-            drawNumberText(party1.get(0).getMaxHp(), textX + gp.tileSize * 2, y + gp.tileSize * 2, null);
+         
+            drawSaveSlot(1, x, y);
         } else {
             drawText("Vacio", x + gp.tileSize, y + gp.tileSize * 1 + 10, null);
+            if (subNumCommand == 0) {
+                if (gp.keyH.enterPressed) {
+                    gp.dataBase.saveData(1,1);
+              
+                }
+            }
         }
         if (subNumCommand == 0) {
-            if (gp.keyH.enterPressed) {
-                gp.dataBase.saveData(subNumCommand + 1);
-            }
             g2.drawImage(cursor, x, y + gp.tileSize / 2, gp.tileSize, gp.tileSize, null);
         }
         y += gp.tileSize * 4 - 5;
         height = gp.tileSize * 4 - 5;
         drawSubwindows(x, y, width, height);
         if (gp.dataBase.checkSave(2)) {
-            ArrayList<Character> party2 = gp.dataBase.getCharactersByGame(2);
-            UtilityTool.sortByIndexGroup(party2);
-
-            drawText(party2.get(0).getName(), x + gp.tileSize, y + gp.tileSize * 1 + 10, null);
-            drawText("Time", x + gp.tileSize, y + gp.tileSize * 2 + 24, blueMenu);
-            drawText(formatSecondsToHoursMinutes(gp.dataBase.getPlayTime(2)), x + gp.tileSize, y + gp.tileSize * 3 + 10,
-                    null);
-
-            int textX = x + gp.tileSize * 5;
-
-            for (Character character : party2) {
-                g2.drawImage(character.left, textX, y + gp.tileSize * 1, character.sizeWidth, character.sizeHeight,
-                        null);
-                textX += gp.tileSize * 2;
-            }
-            textX += gp.tileSize * 2;
-            drawText("LV", textX, y + gp.tileSize * 1, blueMenu);
-            drawNumberText(party2.get(0).getLevel(), textX + gp.tileSize * 3, y + gp.tileSize * 1, null);
-            textX += 30;
-            drawNumberText(party2.get(0).getHp(), textX, y + gp.tileSize * 2, null);
-            drawText("/", textX, y + gp.tileSize * 2, null);
-            drawNumberText(party2.get(0).getMaxHp(), textX + gp.tileSize * 2, y + gp.tileSize * 2, null);
+            drawSaveSlot(2, x, y);
 
         } else {
             drawText("Vacio", x + gp.tileSize, y + gp.tileSize * 1 + 10, null);
+            if (subNumCommand == 1) {
+                if (gp.keyH.enterPressed) {
+                    gp.dataBase.saveData(2,2);
+                  
+                }
+            }
         }
 
         if (subNumCommand == 1) {
-            if (gp.keyH.enterPressed) {
-                gp.dataBase.saveData(subNumCommand + 1);
-            }
             g2.drawImage(cursor, x, y + gp.tileSize / 2, gp.tileSize, gp.tileSize, null);
         }
+
         y += gp.tileSize * 4 - 5;
         height = gp.tileSize * 4;
         drawSubwindows(x, y, width, height);
 
         if (gp.dataBase.checkSave(3)) {
-            ArrayList<Character> party3 = gp.dataBase.getCharactersByGame(3);
-            UtilityTool.sortByIndexGroup(party3);
-
-            drawText(party3.get(0).getName(), x + gp.tileSize, y + gp.tileSize * 1 + 10, null);
-            drawText("Time", x + gp.tileSize, y + gp.tileSize * 2 + 24, blueMenu);
-            drawText(formatSecondsToHoursMinutes(gp.dataBase.getPlayTime(3)), x + gp.tileSize, y + gp.tileSize * 3 + 10,
-                    null);
-
-            int textX = x + gp.tileSize * 5;
-
-            for (Character character : party3) {
-                g2.drawImage(character.left, textX, y + gp.tileSize * 1, character.sizeWidth, character.sizeHeight,
-                        null);
-                textX += gp.tileSize * 2;
-            }
-            textX += gp.tileSize * 2;
-            drawText("LV", textX, y + gp.tileSize * 1, blueMenu);
-            drawNumberText(party3.get(0).getLevel(), textX + gp.tileSize * 3, y + gp.tileSize * 1, null);
-            textX += 30;
-            drawNumberText(party3.get(0).getHp(), textX, y + gp.tileSize * 2, null);
-            drawText("/", textX, y + gp.tileSize * 2, null);
-            drawNumberText(party3.get(0).getMaxHp(), textX + gp.tileSize * 2, y + gp.tileSize * 2, null);
+           drawSaveSlot(3, x, y);
 
         } else {
             drawText("Vacio", x + gp.tileSize, y + gp.tileSize * 1 + 10, null);
-        }
-        if (subNumCommand == 2) {
-
-            if (gp.keyH.enterPressed) {
-                gp.dataBase.saveData(subNumCommand + 1);
+            if (subNumCommand == 2) {
+                if (gp.keyH.enterPressed) {
+                    gp.dataBase.saveData(3,3);
+                   
+                }
             }
+        }
+
+        if (subNumCommand == 2) {
             g2.drawImage(cursor, x, y + gp.tileSize / 2, gp.tileSize, gp.tileSize, null);
         }
+
+        gp.keyH.enterPressed=false;
+    }
+
+    private void drawSaveSlot(int partyID, int x, int y){
+        ArrayList<Character> party = gp.dataBase.getCharactersByGame(partyID);
+        UtilityTool.sortByIndexGroup(party);
+
+        drawText(party.get(0).getName(), x + gp.tileSize, y + gp.tileSize * 1 + 10, null);
+        drawText("Time", x + gp.tileSize, y + gp.tileSize * 2 + 24, blueMenu);
+        drawText(formatSecondsToHoursMinutes(gp.dataBase.getPlayTime(3)), x + gp.tileSize, y + gp.tileSize * 3 + 10,
+                null);
+
+        int textX = x + gp.tileSize * 5;
+
+        for (Character character : party) {
+            g2.drawImage(character.left, textX, y + gp.tileSize * 1, character.sizeWidth, character.sizeHeight,
+                    null);
+            textX += gp.tileSize * 2;
+        }
+        textX += gp.tileSize * 2;
+        drawText("LV", textX, y + gp.tileSize * 1, blueMenu);
+        drawNumberText(party.get(0).getLevel(), textX + gp.tileSize * 3, y + gp.tileSize * 1, null);
+        textX += 30;
+        drawNumberText(party.get(0).getHp(), textX, y + gp.tileSize * 2, null);
+        drawText("/", textX, y + gp.tileSize * 2, null);
+        drawNumberText(party.get(0).getMaxHp(), textX + gp.tileSize * 2, y + gp.tileSize * 2, null);
     }
 
     private void itemSelector() {

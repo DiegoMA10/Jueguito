@@ -14,6 +14,7 @@ import com.example.entity.Aerith;
 import com.example.entity.Character;
 import com.example.entity.Cloud;
 import com.example.entity.Tifa;
+import com.example.entity.npc.NPC_Item;
 
 public class Database {
     GamePanel gp;
@@ -22,20 +23,26 @@ public class Database {
     public Database(GamePanel gp) {
         this.gp = gp;
         try {
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/juego", "root", "123");
-            // con = DriverManager.getConnection("jdbc:mysql://localhost:33006/juego",
-            // "root", "dbrootpass");
+            //con = DriverManager.getConnection("jdbc:mysql://localhost:3306/juego", "root", "123");
+             con = DriverManager.getConnection("jdbc:mysql://localhost:33006/juego","root", "dbrootpass");
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
     }
 
-    public void saveData(int partyID) {
+    public void saveData(int gameID ,int partyID) {
         saveParty(partyID);
         saveCharacters(partyID);
         saveInventory(partyID);
-        saveGame(partyID, partyID);
+        saveGame(gameID, partyID);
+    }
+
+    public void updateSaveData(int gameID ,int partyID) {
+        updateParty(partyID);
+        updateCharacters(partyID);
+        updateInventory(partyID);
+        updateGame(gameID, partyID);
     }
 
     private void saveParty(int partyID) {
@@ -94,6 +101,73 @@ public class Database {
             e.printStackTrace();
         }
     }
+
+    private void updateParty(int partyID) {
+        String sql = "UPDATE party SET gil = ? WHERE partyID = ?";
+        try (PreparedStatement preparedStatement = con.prepareStatement(sql)) {
+            preparedStatement.setInt(1, gp.party.getGil());
+            preparedStatement.setInt(2, partyID);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    private void updateCharacters(int partyID) {
+        String sql = "UPDATE character_party SET level = ?, exp = ?, hp = ?, mp = ? WHERE partyID = ? AND characterID = ?";
+        try (PreparedStatement preparedStatement = con.prepareStatement(sql)) {
+            for (Character character : gp.party.getParty()) {
+                preparedStatement.setInt(1, character.getLevel());
+                preparedStatement.setInt(2, character.getExp());
+                preparedStatement.setInt(3, character.getHp());
+                preparedStatement.setInt(4, character.getMp());
+                preparedStatement.setInt(5, partyID);
+                preparedStatement.setInt(6, character.getCharacterID());
+                preparedStatement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    private void updateInventory(int partyID) {
+        String sql = "UPDATE inventory SET amount = ? WHERE partyID = ? AND itemID = ?";
+        try (PreparedStatement preparedStatement = con.prepareStatement(sql)) {
+            if (gp.party.getInventory().isEmpty()) {
+                
+                for (Item item : ((NPC_Item) gp.npc[1][3]).getInventory()) {
+                    preparedStatement.setInt(1, item.getAmount());
+                    preparedStatement.setInt(2, partyID);
+                    preparedStatement.setInt(3, item.idItem);
+                    preparedStatement.executeUpdate();
+                }
+
+            }else{
+                  for (Item item : gp.party.getInventory()) {
+                preparedStatement.setInt(1, item.getAmount());
+                preparedStatement.setInt(2, partyID);
+                preparedStatement.setInt(3, item.idItem);
+                preparedStatement.executeUpdate();
+            }
+            }
+          
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    private void updateGame(int gameID, int partyID) {
+        String sql = "UPDATE games SET playTime = ? WHERE gameID = ? AND partyID = ?";
+        try (PreparedStatement preparedStatement = con.prepareStatement(sql)) {
+            preparedStatement.setDouble(1, gp.ui.getPlayTimer());
+            preparedStatement.setInt(2, gameID);
+            preparedStatement.setInt(3, partyID);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
 
     public boolean checkSave(int i) {
 
@@ -157,6 +231,8 @@ public class Database {
         }
         return characters;
     }
+
+
     
     
 
