@@ -9,6 +9,7 @@ public class Potion extends Item {
 
     public Potion(GamePanel gp) {
         super(gp);
+        idItem=1;
         name = "Potion";
         description = "Recupera 150 PV";
         value = 4;
@@ -21,7 +22,7 @@ public class Potion extends Item {
             amount--;
             e.setHp(e.getHp() + value);
             if (amount == 0) {
-                gp.group.getInventory().remove(this);
+                gp.party.getInventory().remove(this);
                 return false;
             }
         }

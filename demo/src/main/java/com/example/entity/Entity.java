@@ -12,10 +12,11 @@ import com.example.UtilityTool;
 
 public class Entity implements Comparable<Entity> {
     protected GamePanel gp;
-    protected int sizeWidth, sizeHeight;
+    public int sizeWidth;
+    public int sizeHeight;
     public int worldX, worldY;
     public int speed;
-    protected BufferedImage left, left1, left2, right, right1, right2, up, up1, up2, down, down1, down2;
+    public BufferedImage left, left1, left2, right, right1, right2, up, up1, up2, down, down1, down2;
     public String direction;
     protected int spritCount = 0;
     protected int spriteNumber = 1;

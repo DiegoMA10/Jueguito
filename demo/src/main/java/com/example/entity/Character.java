@@ -8,21 +8,23 @@ import com.example.Items.Item;
 public class Character extends Entity {
 
     public BufferedImage portrait;
-    private int indexGroup;
-    private String name;
-    private int level;
-    private int MaxHp;
-    private int hp;
-    private int MaxMp;
-    private int mp;
-    private int strength;
-    private int dexterity;
-    private int magic;
-    private int defense;
-    private int magicDefense;
-    private int attack;
-    private int exp;
-    private int nextLevelExp;
+    protected int indexGroup;
+    protected String name;
+    protected int characterID;
+   
+    protected int level;
+    protected int MaxHp;
+    protected int hp;
+    protected int MaxMp;
+    protected int mp;
+    protected int strength;
+    protected int dexterity;
+    protected int magic;
+    protected int defense;
+    protected int magicDefense;
+    protected int attack;
+    protected int exp;
+    protected int nextLevelExp;
     protected boolean state;
     protected Entity currentWeapon;
 
@@ -56,11 +58,26 @@ public class Character extends Entity {
         }
 
     }
+    
+    public int getIndexGroup() {
+        return indexGroup;
+
+    }
+
+    public void setIndexGroup(int indexGroup) {
+        this.indexGroup = indexGroup;
+
+    }
+
 
     public static void changeInexGroup(Character c1, Character c2) {
         int aux = c1.getIndexGroup();
         c1.setIndexGroup(c2.getIndexGroup());
         c2.setIndexGroup(aux);
+    }
+
+    public int getCharacterID() {
+        return characterID;
     }
 
     public int getExp() {
@@ -208,14 +225,5 @@ public class Character extends Entity {
 
     }
 
-    public int getIndexGroup() {
-        return indexGroup;
-
-    }
-
-    public void setIndexGroup(int indexGroup) {
-        this.indexGroup = indexGroup;
-
-    }
-
+   
 }

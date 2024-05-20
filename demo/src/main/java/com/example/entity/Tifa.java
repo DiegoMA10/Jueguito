@@ -13,25 +13,40 @@ public class Tifa extends Character {
         super(gp);
         sizeWidth = 15 * gp.scale;
         sizeHeight = 23 * gp.scale;
+        characterID=2;
         getPlayerImagen();
-        RawStats();
+        RawStats(1);
 
     }
 
-    public void RawStats() {
+    public Tifa(GamePanel gp, int level, int exp, int partyIndex, int hp, int mp) {
+        super(gp);
+        sizeWidth = 15 * gp.scale;
+        sizeHeight = 23 * gp.scale;
+        characterID=2;
+        setLevel(level);
+        RawStats(level);
+        setHp(hp);
+        setIndexGroup(partyIndex);
+        setExp(exp);
+        setMp(mp);
+        getPlayerImagen();
+    }
+
+    public void RawStats(int level) {
         setName("Tifa");
         setLevel(1);
         setIndexGroup(1);
         setExp(0);
         setNextLevelExp(32);
-        setMaxHp(50);
+        setMaxHp(60);
         setHp(20);
         setMaxMp(9);
         setMp(2);
-        setStrength(40);
-        setDexterity(40);
-        setMagic(25);
-        setAttack(25);
+        setStrength(40+level-1);
+        setDexterity(40+level-1);
+        setMagic(25+level-1);
+        setAttack(25+level-1);
         setDefense(80);
         setMagicDefense(80);
 

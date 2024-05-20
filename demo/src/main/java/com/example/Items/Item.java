@@ -9,7 +9,7 @@ import com.example.entity.Character;
 public abstract class Item {
     GamePanel gp;
     protected BufferedImage[] animation;
-    public int idObject;
+    public int idItem;
     protected String name;
     protected String description;
     protected int amount = 1;

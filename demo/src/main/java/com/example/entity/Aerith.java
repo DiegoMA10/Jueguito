@@ -11,11 +11,26 @@ public class Aerith extends Character {
         super(gp);
         sizeWidth = 15*gp.scale;
         sizeHeight = 23*gp.scale;
+        characterID=1;
         getPlayerImagen();
-        RawStats();
+        RawStats(1);
     }
     
-    public void RawStats(){
+    public Aerith(GamePanel gp,int level, int exp, int partyIndex, int hp, int mp) {
+        super(gp);
+        sizeWidth = 15*gp.scale;
+        sizeHeight = 23*gp.scale;
+        characterID=1;
+        setLevel(level);
+        RawStats(level);
+        setHp(hp);
+        setIndexGroup(partyIndex);
+        setExp(exp);
+        setMp(mp);
+        getPlayerImagen();
+    }
+
+    public void RawStats(int level){
         setName("Aerith");
         setLevel(1);
         setIndexGroup(0);
@@ -25,10 +40,10 @@ public class Aerith extends Character {
         setHp(20);
         setMaxMp(20);
         setMp(2);
-        setStrength(25);
-        setDexterity(30);
-        setMagic(40);
-        setAttack(15);
+        setStrength(25+level-1);
+        setDexterity(30+level-1);
+        setMagic(40+level-1);
+        setAttack(15+level-1);
         setDefense(80);
         setMagicDefense(80);
        

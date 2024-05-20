@@ -80,7 +80,7 @@ public class KeyHandler implements KeyListener {
         if (gp.ui.subState2 == 1) {
 
           int newAmount = gp.ui.subNumCommand2 + 10;
-          int maxAmount = gp.group.getInventory().get(gp.ui.subNumCommand).getAmount();
+          int maxAmount = gp.party.getInventory().get(gp.ui.subNumCommand).getAmount();
 
           gp.ui.subNumCommand2 = Math.min(maxAmount, newAmount);
 
@@ -99,7 +99,7 @@ public class KeyHandler implements KeyListener {
           gp.ui.subNumCommand2 = Math.max(1, gp.ui.subNumCommand2 - 10);
 
         } else {
-          if (gp.ui.subNumCommand < gp.ui.itemNpc.getInventory().size() - 1) {
+          if (gp.ui.subNumCommand < gp.party.getInventory().size() - 1) {
             gp.ui.subNumCommand++;
 
           }
@@ -119,7 +119,7 @@ public class KeyHandler implements KeyListener {
       case KeyEvent.VK_D:
         if (gp.ui.subState2 == 1) {
           int newAmount = gp.ui.subNumCommand2 + 1;
-          int maxAmount = gp.group.getInventory().get(gp.ui.subNumCommand).getAmount();
+          int maxAmount = gp.party.getInventory().get(gp.ui.subNumCommand).getAmount();
 
           gp.ui.subNumCommand2 = Math.min(maxAmount, newAmount);
         }
@@ -153,10 +153,10 @@ public class KeyHandler implements KeyListener {
           int maxAmount = Item.maxAmount - gp.ui.itemNpc.getInventory().get(gp.ui.subNumCommand).getAmount();
           int itemPrice = gp.ui.itemNpc.getInventory().get(gp.ui.subNumCommand).getPrice();
 
-          if (gp.group.getGil() >= itemPrice * newAmount) {
+          if (gp.party.getGil() >= itemPrice * newAmount) {
             gp.ui.subNumCommand2 = Math.min(maxAmount, newAmount);
           } else {
-            gp.ui.subNumCommand2 = gp.group.getGil() / itemPrice;
+            gp.ui.subNumCommand2 = gp.party.getGil() / itemPrice;
           }
 
         } else {
@@ -197,10 +197,10 @@ public class KeyHandler implements KeyListener {
           int maxAmount = Item.maxAmount - gp.ui.itemNpc.getInventory().get(gp.ui.subNumCommand).getAmount();
           int itemPrice = gp.ui.itemNpc.getInventory().get(gp.ui.subNumCommand).getPrice();
 
-          if (gp.group.getGil() >= itemPrice * newAmount) {
+          if (gp.party.getGil() >= itemPrice * newAmount) {
             gp.ui.subNumCommand2 = Math.min(maxAmount, newAmount);
           } else {
-            gp.ui.subNumCommand2 = gp.group.getGil() / itemPrice;
+            gp.ui.subNumCommand2 = gp.party.getGil() / itemPrice;
           }
         }
 
@@ -329,7 +329,38 @@ public class KeyHandler implements KeyListener {
       case 3:
         orderSelector(code);
         break;
+        case 6:
+        saveSelector(code);
+        break;
 
+    }
+  }
+
+  private void saveSelector(int code) {
+    switch (code) {
+      case KeyEvent.VK_ESCAPE:
+        
+        gp.ui.subState = 0;
+        gp.ui.subNumCommand=0;
+        break;
+      case KeyEvent.VK_W:
+        if (gp.ui.subNumCommand > 0) {
+          gp.ui.subNumCommand--;   
+
+        }
+
+        break;
+      case KeyEvent.VK_S:
+
+        if (gp.ui.subNumCommand < 2) {
+          gp.ui.subNumCommand++;
+
+        }
+        break;
+
+      case KeyEvent.VK_ENTER:
+        enterPressed = true;
+        break;
     }
   }
 
@@ -369,7 +400,7 @@ public class KeyHandler implements KeyListener {
 
           }
         } else {
-          if (gp.ui.subNumCommand < gp.group.getInventory().size() - 1) {
+          if (gp.ui.subNumCommand < gp.party.getInventory().size() - 1) {
             gp.ui.subNumCommand++;
 
           }

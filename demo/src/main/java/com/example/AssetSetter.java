@@ -1,6 +1,6 @@
 package com.example;
 
-import com.example.Items.Eter;
+import com.example.Items.Ether;
 import com.example.Items.Potion;
 import com.example.entity.Aerith;
 import com.example.entity.Cloud;
@@ -14,12 +14,12 @@ import com.example.entity.npc.NPC_Weapon;
 public class AssetSetter {
 
     private GamePanel gp;
-    Eter eter;
+    Ether eter;
     Potion potion;
     public AssetSetter(GamePanel gp) {
         this.gp = gp; 
         potion = new Potion(this.gp);
-        eter = new Eter(this.gp);
+        eter = new Ether(this.gp);
     }
 
     public void setNPC() {
@@ -62,8 +62,8 @@ public class AssetSetter {
     public void setObjectStart() {
         potion.setAmount(5);
         eter.setAmount(5);
-        gp.group.getInventory().add(potion);
-        gp.group.getInventory().add(eter);
+        gp.party.getInventory().add(potion);
+        gp.party.getInventory().add(eter);
     }
 
     public void setNPCObjectStart() {
@@ -78,9 +78,9 @@ public class AssetSetter {
         Tifa tifa = new Tifa(gp);
         Aerith aerith = new Aerith(gp);
         Cloud cloud = new Cloud(gp);
-        gp.group.agregarPersonaje(aerith);
-        gp.group.agregarPersonaje(tifa);
-        gp.group.agregarPersonaje(cloud);
+        gp.party.agregarPersonaje(aerith);
+        gp.party.agregarPersonaje(tifa);
+        gp.party.agregarPersonaje(cloud);
     }
 
 }

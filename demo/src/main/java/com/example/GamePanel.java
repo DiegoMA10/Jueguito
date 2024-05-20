@@ -39,7 +39,7 @@ public class GamePanel extends JPanel implements Runnable {
     public KeyHandler keyH = new KeyHandler(this);
     public EventHandler eHandler = new EventHandler(this);
     public AssetSetter aSetter = new AssetSetter(this);
-    //public Database dataBase = new Databases(this);
+    public Database dataBase = new Database(this);
     Thread gameThread;
     Sound music = new Sound();
     Sound soundEfect = new Sound();
@@ -47,7 +47,7 @@ public class GamePanel extends JPanel implements Runnable {
     BattlePanel battle = new BattlePanel(this);
 
  
-    public Group group = new Group();
+    public Party party = new Party();
 
     public PlayerLeader player;
     public Entity[][] npc = new Entity[2][4];
@@ -87,7 +87,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void setUpGame() {
         aSetter.setGroup();   
-        player = new PlayerLeader(this, keyH, group); 
+        player = new PlayerLeader(this, keyH, party); 
         
         gameState = titleState;
         aSetter.setNPC();

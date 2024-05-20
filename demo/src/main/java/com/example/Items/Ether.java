@@ -4,14 +4,16 @@ import com.example.GamePanel;
 import com.example.entity.Character;
 import com.example.entity.Entity;
 
-public class Eter extends Item {
+public class Ether extends Item {
 
-    public Eter(GamePanel gp) {
+    public Ether(GamePanel gp) {
         super(gp);
-        name = "Eter";
+        idItem = 2;
+        name = "Ether";
         description = "Recupera 20 MP";
         value = 2;
         price = 100;
+
     }
 
     @Override
@@ -21,7 +23,7 @@ public class Eter extends Item {
             amount--;
             e.setMp(e.getMp() + value);
             if (amount == 0) {
-                gp.group.getInventory().remove(this);
+                gp.party.getInventory().remove(this);
                 return false;
             }
 

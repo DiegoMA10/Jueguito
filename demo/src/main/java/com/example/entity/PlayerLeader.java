@@ -20,14 +20,14 @@ public class PlayerLeader extends Entity {
     KeyHandler keyH;
     public int screenX;
     public int screenY;
-    Group group;
+    Party group;
     boolean action, actionX;
     int defaultX;
     public boolean salida = true;;
     int cont = 0;
     int spriteCont = 0;
 
-    public PlayerLeader(GamePanel gp, KeyHandler keyH, Group group) {
+    public PlayerLeader(GamePanel gp, KeyHandler keyH, Party group) {
         super(gp);
         this.keyH = keyH;
         this.group = group;
@@ -57,19 +57,19 @@ public class PlayerLeader extends Entity {
 
     public void getPlayerImagen() {
 
-        left = group.getGroup().get(0).left;
-        left1 = group.getGroup().get(0).left1;
+        left = group.getParty().get(0).left;
+        left1 = group.getParty().get(0).left1;
 
-        right = group.getGroup().get(0).right;
-        right1 = group.getGroup().get(0).right1;
+        right = group.getParty().get(0).right;
+        right1 = group.getParty().get(0).right1;
 
-        up = group.getGroup().get(0).up;
-        up1 = group.getGroup().get(0).up1;
-        up2 = group.getGroup().get(0).up2;
+        up = group.getParty().get(0).up;
+        up1 = group.getParty().get(0).up1;
+        up2 = group.getParty().get(0).up2;
 
-        down = group.getGroup().get(0).down;
-        down1 = group.getGroup().get(0).down1;
-        down2 = group.getGroup().get(0).down2;
+        down = group.getParty().get(0).down;
+        down1 = group.getParty().get(0).down1;
+        down2 = group.getParty().get(0).down2;
     }
 
     public void update() {

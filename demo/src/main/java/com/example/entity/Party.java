@@ -2,29 +2,29 @@ package com.example.entity;
 
 import java.util.ArrayList;
 
-import com.example.Items.Eter;
+import com.example.Items.Ether;
 import com.example.Items.Item;
 import com.example.Items.Potion;
 
-public class Group {
-    ArrayList<Character> group = new ArrayList<>();
+public class Party {
+    ArrayList<Character> party = new ArrayList<>();
     ArrayList<Item> inventory = new ArrayList<>();
     public int gil = 12343;
 
-    public Group() {
+    public Party() {
 
     }
 
     public void agregarPersonaje(Character c) {
-        group.add(c);
+        party.add(c);
     }
 
-    public ArrayList<Character> getGroup() {
-        return this.group;
+    public ArrayList<Character> getParty() {
+        return this.party;
     }
 
     public void breakGroup() {
-        for (Character character : group) {
+        for (Character character : party) {
             character.setHp(character.getMaxHp());
             character.setMp(character.getMaxMp());
         }

@@ -13,11 +13,26 @@ public class Cloud extends Character {
         super(gp);
         sizeWidth = 15*gp.scale;
         sizeHeight = 23*gp.scale;
+        characterID=3;
         getPlayerImagen();
-        RawStats();
+        RawStats(1);
     }
 
-    public void RawStats(){
+    public Cloud(GamePanel gp, int level, int exp, int partyIndex, int hp, int mp) {
+        super(gp);
+        sizeWidth = 15*gp.scale;
+        sizeHeight = 23*gp.scale;
+        characterID=3;
+        setLevel(level);
+        RawStats(level);
+        setHp(hp);
+        setIndexGroup(partyIndex);
+        setExp(exp);
+        setMp(mp);
+        getPlayerImagen();
+    }
+
+    public void RawStats(int level){
         setName("Cloud");
         setIndexGroup(2);
         setLevel(1);
@@ -27,10 +42,10 @@ public class Cloud extends Character {
         setHp(20);
         setMaxMp(14);
         setMp(2);
-        setStrength(35);
-        setDexterity(35);
-        setMagic(30);
-        setAttack(20);
+        setStrength(35+level-1);
+        setDexterity(35+level-1);
+        setMagic(30+level-1);
+        setAttack(20+level-1);
         setDefense(80);
         setMagicDefense(80);
        
