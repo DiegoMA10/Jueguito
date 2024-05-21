@@ -14,8 +14,9 @@ import com.example.entity.npc.NPC_Weapon;
 public class AssetSetter {
 
     private GamePanel gp;
-    Ether eter;
-    Potion potion;
+    public Ether eter;
+    public Potion potion;
+    
     public AssetSetter(GamePanel gp) {
         this.gp = gp; 
         potion = new Potion(this.gp);

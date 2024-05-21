@@ -9,7 +9,9 @@ import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.example.Items.Ether;
 import com.example.Items.Item;
+import com.example.Items.Potion;
 import com.example.entity.Aerith;
 import com.example.entity.Character;
 import com.example.entity.Cloud;
@@ -23,22 +25,33 @@ public class Database {
     public Database(GamePanel gp) {
         this.gp = gp;
         try {
-            //con = DriverManager.getConnection("jdbc:mysql://localhost:3306/juego", "root", "123");
-             con = DriverManager.getConnection("jdbc:mysql://localhost:33006/juego","root", "dbrootpass");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/juego", "root", "123");
+            // con =
+            // DriverManager.getConnection("jdbc:mysql://localhost:33006/juego","root",
+            // "dbrootpass");
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
     }
 
-    public void saveData(int gameID ,int partyID) {
+    public Database() {
+        try {
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/juego", "root", "123");
+        } catch (SQLException e) {
+
+            e.printStackTrace();
+        }
+    }
+
+    public void saveData(int gameID, int partyID) {
         saveParty(partyID);
         saveCharacters(partyID);
         saveInventory(partyID);
         saveGame(gameID, partyID);
     }
 
-    public void updateSaveData(int gameID ,int partyID) {
+    public void updateSaveData(int gameID, int partyID) {
         updateParty(partyID);
         updateCharacters(partyID);
         updateInventory(partyID);
@@ -112,29 +125,30 @@ public class Database {
             e.printStackTrace();
         }
     }
-    
+
     private void updateCharacters(int partyID) {
-        String sql = "UPDATE character_party SET level = ?, exp = ?, hp = ?, mp = ? WHERE partyID = ? AND characterID = ?";
+        String sql = "UPDATE character_party SET level = ?, exp = ?, hp = ?, mp = ?, party_index = ? WHERE partyID = ? AND characterID = ?";
         try (PreparedStatement preparedStatement = con.prepareStatement(sql)) {
             for (Character character : gp.party.getParty()) {
                 preparedStatement.setInt(1, character.getLevel());
                 preparedStatement.setInt(2, character.getExp());
                 preparedStatement.setInt(3, character.getHp());
                 preparedStatement.setInt(4, character.getMp());
-                preparedStatement.setInt(5, partyID);
-                preparedStatement.setInt(6, character.getCharacterID());
+                preparedStatement.setInt(5, character.getIndexGroup());
+                preparedStatement.setInt(6, partyID);
+                preparedStatement.setInt(7, character.getCharacterID());
                 preparedStatement.executeUpdate();
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
-    
+
     private void updateInventory(int partyID) {
         String sql = "UPDATE inventory SET amount = ? WHERE partyID = ? AND itemID = ?";
         try (PreparedStatement preparedStatement = con.prepareStatement(sql)) {
             if (gp.party.getInventory().isEmpty()) {
-                
+
                 for (Item item : ((NPC_Item) gp.npc[1][3]).getInventory()) {
                     preparedStatement.setInt(1, item.getAmount());
                     preparedStatement.setInt(2, partyID);
@@ -142,20 +156,20 @@ public class Database {
                     preparedStatement.executeUpdate();
                 }
 
-            }else{
-                  for (Item item : gp.party.getInventory()) {
-                preparedStatement.setInt(1, item.getAmount());
-                preparedStatement.setInt(2, partyID);
-                preparedStatement.setInt(3, item.idItem);
-                preparedStatement.executeUpdate();
+            } else {
+                for (Item item : gp.party.getInventory()) {
+                    preparedStatement.setInt(1, item.getAmount());
+                    preparedStatement.setInt(2, partyID);
+                    preparedStatement.setInt(3, item.idItem);
+                    preparedStatement.executeUpdate();
+                }
             }
-            }
-          
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
-    
+
     private void updateGame(int gameID, int partyID) {
         String sql = "UPDATE games SET playTime = ? WHERE gameID = ? AND partyID = ?";
         try (PreparedStatement preparedStatement = con.prepareStatement(sql)) {
@@ -167,7 +181,6 @@ public class Database {
             e.printStackTrace();
         }
     }
-    
 
     public boolean checkSave(int i) {
 
@@ -198,7 +211,7 @@ public class Database {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return 0.0; 
+        return 0.0;
     }
 
     public ArrayList<Character> getCharactersByGame(int gameID) {
@@ -216,14 +229,22 @@ public class Database {
                     int hp = resultSet.getInt("hp");
                     int mp = resultSet.getInt("mp");
 
-                   switch (characterID) {
-                    case 1: Aerith aerith = new Aerith(this.gp, level, exp, partyIndex, hp, mp); characters.add(aerith);break;
-                    case 2: Tifa tifa = new Tifa(this.gp, level, exp, partyIndex, hp, mp); characters.add(tifa);break;
-                    case 3: Cloud cloud = new Cloud(gp, level, exp, partyIndex, hp, mp); characters.add(cloud);break;
-                   
-                   }
-                   
-                    
+                    switch (characterID) {
+                        case 1:
+                            Aerith aerith = new Aerith(this.gp, level, exp, partyIndex, hp, mp);
+                            characters.add(aerith);
+                            break;
+                        case 2:
+                            Tifa tifa = new Tifa(this.gp, level, exp, partyIndex, hp, mp);
+                            characters.add(tifa);
+                            break;
+                        case 3:
+                            Cloud cloud = new Cloud(this.gp, level, exp, partyIndex, hp, mp);
+                            characters.add(cloud);
+                            break;
+
+                    }
+
                 }
             }
         } catch (SQLException e) {
@@ -232,8 +253,55 @@ public class Database {
         return characters;
     }
 
+    public int getGilByParty(int partyID) {
+        String sql = "SELECT gil FROM party WHERE partyID = ?";
+        try (PreparedStatement preparedStatement = con.prepareStatement(sql)) {
+            preparedStatement.setInt(1, partyID);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    return resultSet.getInt("gil");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
 
-    
-    
+    public ArrayList<Item> getInventoryByParty(int partyID) {
+        ArrayList<Item> inventoryList = new ArrayList<>();
+        String sql = "SELECT itemID, amount FROM inventory WHERE partyID = ?";
+        try (PreparedStatement preparedStatement = con.prepareStatement(sql)) {
+            preparedStatement.setInt(1, partyID);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    int itemID = resultSet.getInt("itemID");
+                    int amount = resultSet.getInt("amount");
+
+                    if (amount != 0) {
+                        switch (itemID) {
+                            case 1:
+                                Potion potion = new Potion(gp);
+                                potion.setAmount(amount);
+                                inventoryList.add(potion);
+                                break;
+
+                            case 2:
+                                Ether ether = new Ether(gp);
+                                ether.setAmount(amount);
+                                inventoryList.add(ether);
+
+                                break;
+
+                        }
+                    }
+
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return inventoryList;
+    }
 
 }

@@ -256,8 +256,20 @@ public class KeyHandler implements KeyListener {
     }
   }
 
+
+  private void titleSelector(int code){
+    switch (gp.ui.subState) {
+      case 0:
+        titleState(code);
+        break;
+      case 1: break;
+
+    }
+  }
+
   public void titleState(int code) {
     switch (code) {
+      
       case KeyEvent.VK_W:
 
         if (gp.ui.numCommand > 0) {
@@ -273,16 +285,7 @@ public class KeyHandler implements KeyListener {
         break;
 
       case KeyEvent.VK_ENTER:
-        if (gp.ui.numCommand == 0) {
-
-          gp.ui.gameStateTransition = GamePanel.playState;
-          gp.stopMusic();
-          gp.playMusic(1);
-        }
-
-        if (gp.ui.numCommand == 2) {
-          System.exit(0);
-        }
+        gp.keyH.enterPressed = true;
         break;
 
     }
@@ -329,7 +332,7 @@ public class KeyHandler implements KeyListener {
       case 3:
         orderSelector(code);
         break;
-        case 6:
+      case 6:
         saveSelector(code);
         break;
 
@@ -337,15 +340,27 @@ public class KeyHandler implements KeyListener {
   }
 
   private void saveSelector(int code) {
+    switch (gp.ui.subState2) {
+      case 0:
+        saveMenu(code);
+        break;
+      case 1:
+        updateMenu(code);
+        break;
+
+    }
+  }
+
+  private void saveMenu(int code) {
     switch (code) {
       case KeyEvent.VK_ESCAPE:
-        
+
         gp.ui.subState = 0;
-        gp.ui.subNumCommand=0;
+        gp.ui.subNumCommand = 0;
         break;
       case KeyEvent.VK_W:
         if (gp.ui.subNumCommand > 0) {
-          gp.ui.subNumCommand--;   
+          gp.ui.subNumCommand--;
 
         }
 
@@ -354,6 +369,33 @@ public class KeyHandler implements KeyListener {
 
         if (gp.ui.subNumCommand < 2) {
           gp.ui.subNumCommand++;
+
+        }
+        break;
+
+      case KeyEvent.VK_ENTER:
+        enterPressed = true;
+        break;
+    }
+  }
+
+  private void updateMenu(int code) {
+    switch (code) {
+      case KeyEvent.VK_ESCAPE:
+        gp.ui.subState2 = 0;
+        gp.ui.subNumCommand2 = 0;
+        break;
+      case KeyEvent.VK_W:
+        if (gp.ui.subNumCommand2 > 0) {
+          gp.ui.subNumCommand2--;
+
+        }
+
+        break;
+      case KeyEvent.VK_S:
+
+        if (gp.ui.subNumCommand2 < 1) {
+          gp.ui.subNumCommand2++;
 
         }
         break;

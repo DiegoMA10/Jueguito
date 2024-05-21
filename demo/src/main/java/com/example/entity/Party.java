@@ -2,17 +2,21 @@ package com.example.entity;
 
 import java.util.ArrayList;
 
-import com.example.Items.Ether;
 import com.example.Items.Item;
-import com.example.Items.Potion;
 
 public class Party {
-    ArrayList<Character> party = new ArrayList<>();
-    ArrayList<Item> inventory = new ArrayList<>();
-    public int gil = 12343;
+    private ArrayList<Character> party = new ArrayList<>();
+    private ArrayList<Item> inventory = new ArrayList<>();
+    private int gil = 12343;
 
     public Party() {
 
+    }
+    
+    public Party(ArrayList<Character> party, ArrayList<Item> inventory, int gil) {
+        this.party = party;
+        this.inventory = inventory;
+        this.gil = gil;
     }
 
     public void agregarPersonaje(Character c) {
@@ -21,6 +25,10 @@ public class Party {
 
     public ArrayList<Character> getParty() {
         return this.party;
+    }
+
+    public void setParty(ArrayList<Character> party) {
+        this.party = party;
     }
 
     public void breakGroup() {

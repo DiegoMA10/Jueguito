@@ -5,6 +5,7 @@ module com.example {
     requires java.sql;
     exports com.example.entity;
     exports com.example.entity.npc;
+    exports com.example.Items;
     opens com.example to javafx.fxml;
     exports com.example;
 }

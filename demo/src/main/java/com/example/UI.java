@@ -40,10 +40,16 @@ public class UI {
     int cont = 0;
     public NPC_Item itemNpc;
     private String menuMessage;
+    SaveSlot save1 = null;
+    SaveSlot save2 = null;
+    SaveSlot save3 = null;
 
     public UI(GamePanel gp) {
         this.gp = gp;
         getImagen();
+        save1 = new SaveSlot(gp, 1);
+        save2 = new SaveSlot(gp, 2);
+        save3 = new SaveSlot(gp, 3);
         arial40 = new Font("Arial", Font.PLAIN, 40);
         normalFont = new Font("Arial", Font.BOLD, 30);
 
@@ -95,7 +101,7 @@ public class UI {
 
         switch (gp.gameState) {
             case GamePanel.titleState:
-                drawTitleScreen();
+                titleSelector();
                 if (gameStateTransition != GamePanel.titleState) {
                     drawGameStateTransition();
                 }
@@ -135,6 +141,14 @@ public class UI {
 
     }
 
+    private void titleSelector(){
+        switch (subState) {
+            case 0:drawTitleScreen();break;
+            case 1:loadMenu();break;
+           
+        }
+    }
+
     private void drawTitleScreen() {
         g2.setFont(g2.getFont().deriveFont(Font.BOLD, 40F));
         g2.setColor(Color.BLACK);
@@ -145,6 +159,11 @@ public class UI {
 
         g2.drawString(text, x, y);
         if (numCommand == 0) {
+            if (gp.keyH.enterPressed) {
+                gp.ui.gameStateTransition = GamePanel.playState;
+                gp.stopMusic();
+                gp.playMusic(1);
+            }
             g2.drawImage(cursor, x - gp.tileSize - 10, y - gp.tileSize / 2 - 5, gp.tileSize, gp.tileSize, null);
         }
 
@@ -154,6 +173,9 @@ public class UI {
 
         g2.drawString(text, x, y);
         if (numCommand == 1) {
+            if (gp.keyH.enterPressed) {
+               subState=1;
+            }
             g2.drawImage(cursor, x - gp.tileSize - 10, y - gp.tileSize / 2 - 5, gp.tileSize, gp.tileSize, null);
         }
 
@@ -163,15 +185,110 @@ public class UI {
 
         g2.drawString(text, x, y);
         if (numCommand == 2) {
+            if (gp.keyH.enterPressed) {
+                System.exit(0);
+            }
             g2.drawImage(cursor, x - gp.tileSize - 10, y - gp.tileSize / 2 - 5, gp.tileSize, gp.tileSize, null);
         }
 
+        gp.keyH.enterPressed = false;
     }
 
     public int getXforCenteredText(String text) {
         int lenght = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
         int x = gp.screenWidth / 2 - lenght / 2;
         return x;
+    }
+
+    private void loadMenu(){
+        int x = 5;
+        int y = 5;
+        int width = gp.screenWidth - 10;
+        int height = gp.tileSize * 2;
+        g2.setFont(normalFont);
+        drawSubwindows(x, y, width, height);
+        drawText("Cargar", getXforCenteredText("Cargar"), y + gp.tileSize * 2 - 20, null);
+        y += gp.tileSize * 2;
+        height = gp.tileSize * 4 - 5;
+        drawSubwindows(x, y, width, height);
+
+        if (!save1.isEmpty()) {
+            if (subNumCommand == 0) {
+                if (gp.keyH.enterPressed) {
+                    subState2 = 1;
+
+                }
+            }
+
+            drawSaveSlot(save1, x, y);
+        } else {
+            drawText("Vacio", x + gp.tileSize, y + gp.tileSize * 1 + 10, null);
+            if (subNumCommand == 0) {
+                if (gp.keyH.enterPressed) {
+                    gp.dataBase.saveData(1, 1);
+                    save1.setSaveSlot();
+
+                }
+            }
+        }
+        if (subNumCommand == 0) {
+            g2.drawImage(cursor, x, y + gp.tileSize / 2, gp.tileSize, gp.tileSize, null);
+        }
+        y += gp.tileSize * 4 - 5;
+        height = gp.tileSize * 4 - 5;
+        drawSubwindows(x, y, width, height);
+        if (!save2.isEmpty()) {
+
+            if (subNumCommand == 1) {
+                if (gp.keyH.enterPressed) {
+                    subState2 = 1;
+
+                }
+            }
+
+            drawSaveSlot(save2, x, y);
+        } else {
+            drawText("Vacio", x + gp.tileSize, y + gp.tileSize * 1 + 10, null);
+            if (subNumCommand == 1) {
+                if (gp.keyH.enterPressed) {
+                    gp.dataBase.saveData(2, 2);
+                    save2.setSaveSlot();
+                }
+            }
+        }
+
+        if (subNumCommand == 1) {
+            g2.drawImage(cursor, x, y + gp.tileSize / 2, gp.tileSize, gp.tileSize, null);
+        }
+
+        y += gp.tileSize * 4 - 5;
+        height = gp.tileSize * 4;
+        drawSubwindows(x, y, width, height);
+
+        if (!save3.isEmpty()) {
+
+            if (subNumCommand == 2) {
+                if (gp.keyH.enterPressed) {
+                    subState2 = 1;
+
+                }
+            }
+            drawSaveSlot(save3, x, y);
+        } else {
+            drawText("Vacio", x + gp.tileSize, y + gp.tileSize * 1 + 10, null);
+            if (subNumCommand == 2) {
+                if (gp.keyH.enterPressed) {
+                    gp.dataBase.saveData(3, 3);
+                    save3.setSaveSlot();
+                }
+            }
+        }
+
+        if (subNumCommand == 2) {
+            g2.drawImage(cursor, x, y + gp.tileSize / 2, gp.tileSize, gp.tileSize, null);
+        }
+
+        gp.keyH.enterPressed = false;
     }
 
     private void TradeSelector() {
@@ -721,7 +838,7 @@ public class UI {
         gp.keyH.enterPressed = false;
     }
 
-    public void drawMenuPortrait(ArrayList<Character> party){
+    public void drawMenuPortrait(ArrayList<Character> party) {
         int windowsX = 5;
         int windowsY = 5;
         int width = gp.screenWidth - 10;
@@ -746,7 +863,7 @@ public class UI {
         drawStatsPj(windowsX + order, windowsY, 2);
     }
 
-    private void saveSelector() {
+    public void saveMenu() {
         int x = 5;
         int y = 5;
         int width = gp.screenWidth - 10;
@@ -756,20 +873,23 @@ public class UI {
         y += gp.tileSize * 2;
         height = gp.tileSize * 4 - 5;
         drawSubwindows(x, y, width, height);
-        if (gp.dataBase.checkSave(1)) {
-            if (subNumCommand==0) {
-                   if (gp.keyH.enterPressed) {
-                    gp.dataBase.updateSaveData(1,1);
-                    }
+
+        if (!save1.isEmpty()) {
+            if (subNumCommand == 0) {
+                if (gp.keyH.enterPressed) {
+                    subState2 = 1;
+
+                }
             }
-         
-            drawSaveSlot(1, x, y);
+
+            drawSaveSlot(save1, x, y);
         } else {
             drawText("Vacio", x + gp.tileSize, y + gp.tileSize * 1 + 10, null);
             if (subNumCommand == 0) {
                 if (gp.keyH.enterPressed) {
-                    gp.dataBase.saveData(1,1);
-              
+                    gp.dataBase.saveData(1, 1);
+                    save1.setSaveSlot();
+
                 }
             }
         }
@@ -779,15 +899,22 @@ public class UI {
         y += gp.tileSize * 4 - 5;
         height = gp.tileSize * 4 - 5;
         drawSubwindows(x, y, width, height);
-        if (gp.dataBase.checkSave(2)) {
-            drawSaveSlot(2, x, y);
+        if (!save2.isEmpty()) {
 
+            if (subNumCommand == 1) {
+                if (gp.keyH.enterPressed) {
+                    subState2 = 1;
+
+                }
+            }
+
+            drawSaveSlot(save2, x, y);
         } else {
             drawText("Vacio", x + gp.tileSize, y + gp.tileSize * 1 + 10, null);
             if (subNumCommand == 1) {
                 if (gp.keyH.enterPressed) {
-                    gp.dataBase.saveData(2,2);
-                  
+                    gp.dataBase.saveData(2, 2);
+                    save2.setSaveSlot();
                 }
             }
         }
@@ -800,15 +927,21 @@ public class UI {
         height = gp.tileSize * 4;
         drawSubwindows(x, y, width, height);
 
-        if (gp.dataBase.checkSave(3)) {
-           drawSaveSlot(3, x, y);
+        if (!save3.isEmpty()) {
 
+            if (subNumCommand == 2) {
+                if (gp.keyH.enterPressed) {
+                    subState2 = 1;
+
+                }
+            }
+            drawSaveSlot(save3, x, y);
         } else {
             drawText("Vacio", x + gp.tileSize, y + gp.tileSize * 1 + 10, null);
             if (subNumCommand == 2) {
                 if (gp.keyH.enterPressed) {
-                    gp.dataBase.saveData(3,3);
-                   
+                    gp.dataBase.saveData(3, 3);
+                    save3.setSaveSlot();
                 }
             }
         }
@@ -817,17 +950,121 @@ public class UI {
             g2.drawImage(cursor, x, y + gp.tileSize / 2, gp.tileSize, gp.tileSize, null);
         }
 
-        gp.keyH.enterPressed=false;
+        gp.keyH.enterPressed = false;
     }
 
-    private void drawSaveSlot(int partyID, int x, int y){
-        ArrayList<Character> party = gp.dataBase.getCharactersByGame(partyID);
+    private void saveSelector() {
+        switch (subState2) {
+            case 0:
+                saveMenu();
+                break;
+            case 1:
+                updateMenu();
+                break;
+
+        }
+    }
+
+    private void updateMenu() {
+        switch (subNumCommand) {
+            case 0:
+                drawMenuPortrait(save1.getParty().getParty());
+                updateInterface(save1);
+                break;
+            case 1:
+                drawMenuPortrait(save2.getParty().getParty());
+                updateInterface(save2);
+                break;
+            case 2:
+                drawMenuPortrait(save3.getParty().getParty());
+                updateInterface(save3);
+                break;
+
+        }
+
+    }
+
+    private void updateInterface(SaveSlot save) {
+        int x = gp.screenWidth - (gp.tileSize * 4 + 5) + order;
+        int y = 5;
+        int width = gp.tileSize * 4;
+        int height = gp.tileSize * 7 + 16;
+        drawSubwindows(x, y, width, height);
+        g2.setColor(Color.white);
+
+        x += gp.tileSize - 24;
+        y += gp.tileSize * 2;
+        g2.setColor(Color.white);
+        g2.setFont(normalFont);
+
+        drawText("¿Sobre-", x, y, null);
+        y += gp.tileSize / 2;
+        drawText("escribir", x, y, null);
+        y += gp.tileSize / 2;
+        drawText("Juego?", x, y, null);
+        y += gp.tileSize * 2;
+
+        drawText("Si", x + gp.tileSize, y, null);
+        if (subNumCommand2 == 0) {
+            if (gp.keyH.enterPressed) {
+
+                gp.dataBase.updateSaveData(subNumCommand + 1, subNumCommand + 1);
+                switch (subNumCommand) {
+                    case 0:
+                        save1.setSaveSlot();
+                        break;
+                    case 1:
+                        save2.setSaveSlot();
+                        break;
+                    case 2:
+                        save3.setSaveSlot();
+                        break;
+
+                }
+
+                subState2 = 0;
+                subNumCommand2 = 0;
+            }
+            g2.drawImage(cursor, x, y - gp.tileSize + 20, gp.tileSize, gp.tileSize, null);
+
+        }
+        y += gp.tileSize;
+        drawText("No", x + gp.tileSize, y, null);
+        if (subNumCommand2 == 1) {
+            if (gp.keyH.enterPressed) {
+                subState2 = 0;
+                subNumCommand2 = 0;
+            }
+            g2.drawImage(cursor, x, y - gp.tileSize + 20, gp.tileSize, gp.tileSize, null);
+        }
+        g2.setFont(normalFont);
+        x = gp.screenWidth - (gp.tileSize * 4 + 5) + order;
+        y += gp.tileSize * 2;
+        width = gp.tileSize * 4;
+        height = gp.tileSize * 2;
+
+        drawSubwindows(x, y, width, height);
+        drawText("Tmp.", x + gp.tileSize, y + gp.tileSize / 2 + 10, blueMenu);
+        drawText(formatSecondsToHoursMinutes(save.getPlayTime()), x + gp.tileSize, y + gp.tileSize + 20, null);
+
+        x -= gp.tileSize - order;
+        y += gp.tileSize * 2 + 10;
+        width = gp.tileSize * 5;
+        height = gp.tileSize * 2;
+        drawSubwindows(x, y, width, height);
+        x += gp.tileSize * 3;
+        y += gp.tileSize + 10;
+        drawNumberText(save.getParty().getGil(), x, y, null);
+        drawText("G", x, y, blueMenu);
+    }
+
+    private void drawSaveSlot(SaveSlot save, int x, int y) {
+        ArrayList<Character> party = save.getParty().getParty();
         UtilityTool.sortByIndexGroup(party);
 
         drawText(party.get(0).getName(), x + gp.tileSize, y + gp.tileSize * 1 + 10, null);
         drawText("Time", x + gp.tileSize, y + gp.tileSize * 2 + 24, blueMenu);
-        drawText(formatSecondsToHoursMinutes(gp.dataBase.getPlayTime(3)), x + gp.tileSize, y + gp.tileSize * 3 + 10,
-                null);
+        drawText(formatSecondsToHoursMinutes(save.getPlayTime()), x + gp.tileSize, y + gp.tileSize * 3 + 10, null);
 
         int textX = x + gp.tileSize * 5;
 
@@ -838,11 +1075,13 @@ public class UI {
         }
         textX += gp.tileSize * 2;
         drawText("LV", textX, y + gp.tileSize * 1, blueMenu);
-        drawNumberText(party.get(0).getLevel(), textX + gp.tileSize * 3, y + gp.tileSize * 1, null);
+        drawNumberText(party.get(0).getLevel(), textX + gp.tileSize * 3, y + gp.tileSize * 1,
+                null);
         textX += 30;
         drawNumberText(party.get(0).getHp(), textX, y + gp.tileSize * 2, null);
         drawText("/", textX, y + gp.tileSize * 2, null);
-        drawNumberText(party.get(0).getMaxHp(), textX + gp.tileSize * 2, y + gp.tileSize * 2, null);
+        drawNumberText(party.get(0).getMaxHp(), textX + gp.tileSize * 2, y + gp.tileSize * 2,
+                null);
     }
 
     private void itemSelector() {
