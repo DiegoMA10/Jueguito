@@ -26,7 +26,7 @@ public class KeyHandler implements KeyListener {
 
     switch (gp.gameState) {
       case GamePanel.titleState:
-        titleState(code);
+        titleSelector(code);
         break;
       case GamePanel.playState:
         playState(code);
@@ -262,10 +262,39 @@ public class KeyHandler implements KeyListener {
       case 0:
         titleState(code);
         break;
-      case 1: break;
+      case 1:  loadSelector(code);break;
 
     }
   }
+
+  private void loadSelector(int code) {
+    switch (code) {
+      case KeyEvent.VK_ESCAPE:
+      gp.ui.subState=0;
+      gp.ui.subNumCommand=0;
+
+      break;
+      case KeyEvent.VK_W:
+
+        if (gp.ui.subNumCommand > 0) {
+          gp.ui.subNumCommand--;
+
+        }
+        break;
+      case KeyEvent.VK_S:
+        if (gp.ui.subNumCommand < 2) {
+          gp.ui.subNumCommand++;
+
+        }
+        break;
+
+      case KeyEvent.VK_ENTER:
+        gp.keyH.enterPressed = true;
+        break;
+
+    }
+  }
+  
 
   public void titleState(int code) {
     switch (code) {

@@ -45,6 +45,7 @@ public class UI {
     SaveSlot save3 = null;
 
     public UI(GamePanel gp) {
+      
         this.gp = gp;
         getImagen();
         save1 = new SaveSlot(gp, 1);
@@ -68,15 +69,22 @@ public class UI {
         return image;
     }
 
-    public void getImagen() {
-        cursor = setUp("cursor");
-
+    public BufferedImage setUpBackground(String path) {
+        UtilityTool tool = new UtilityTool();
+        BufferedImage image = null;
         try {
-            titleScreen = ImageIO.read(getClass().getResourceAsStream("image/UI/titleScreen.png"));
-        } catch (IOException e) {
+            image = ImageIO.read(getClass().getResourceAsStream("image/UI/" + path + ".png"));
+            image = tool.imageScale(image, gp.screenWidth, gp.screenHeight);
 
+        } catch (Exception e) {
             e.printStackTrace();
         }
+        return image;
+    }
+
+    public void getImagen() {
+        cursor = setUp("cursor");
+        titleScreen = setUpBackground("titleScreen");
     }
 
     public Double getPlayTimer() {
@@ -145,14 +153,16 @@ public class UI {
         switch (subState) {
             case 0:drawTitleScreen();break;
             case 1:loadMenu();break;
+            
            
         }
     }
 
     private void drawTitleScreen() {
+        
+        g2.drawImage(titleScreen, 0, 0, gp.screenWidth, gp.screenWidth, null);
         g2.setFont(g2.getFont().deriveFont(Font.BOLD, 40F));
         g2.setColor(Color.BLACK);
-        g2.drawImage(titleScreen, 0, 0, gp.screenWidth, gp.screenWidth, null);
         String text = "Start Game";
         int x = getXforCenteredText(text);
         int y = gp.screenHeight / 2 + gp.tileSize * 2;
@@ -223,13 +233,7 @@ public class UI {
             drawSaveSlot(save1, x, y);
         } else {
             drawText("Vacio", x + gp.tileSize, y + gp.tileSize * 1 + 10, null);
-            if (subNumCommand == 0) {
-                if (gp.keyH.enterPressed) {
-                    gp.dataBase.saveData(1, 1);
-                    save1.setSaveSlot();
-
-                }
-            }
+            
         }
         if (subNumCommand == 0) {
             g2.drawImage(cursor, x, y + gp.tileSize / 2, gp.tileSize, gp.tileSize, null);
@@ -249,12 +253,7 @@ public class UI {
             drawSaveSlot(save2, x, y);
         } else {
             drawText("Vacio", x + gp.tileSize, y + gp.tileSize * 1 + 10, null);
-            if (subNumCommand == 1) {
-                if (gp.keyH.enterPressed) {
-                    gp.dataBase.saveData(2, 2);
-                    save2.setSaveSlot();
-                }
-            }
+            
         }
 
         if (subNumCommand == 1) {
@@ -276,12 +275,6 @@ public class UI {
             drawSaveSlot(save3, x, y);
         } else {
             drawText("Vacio", x + gp.tileSize, y + gp.tileSize * 1 + 10, null);
-            if (subNumCommand == 2) {
-                if (gp.keyH.enterPressed) {
-                    gp.dataBase.saveData(3, 3);
-                    save3.setSaveSlot();
-                }
-            }
         }
 
         if (subNumCommand == 2) {
