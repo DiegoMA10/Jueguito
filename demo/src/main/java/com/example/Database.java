@@ -5,13 +5,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Time;
 import java.util.ArrayList;
-import java.util.List;
-
-import com.example.Items.Ether;
 import com.example.Items.Item;
-import com.example.Items.Potion;
 import com.example.entity.Aerith;
 import com.example.entity.Character;
 import com.example.entity.Cloud;
@@ -25,10 +20,10 @@ public class Database {
     public Database(GamePanel gp) {
         this.gp = gp;
         try {
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/juego", "root", "123");
-            // con =
-            // DriverManager.getConnection("jdbc:mysql://localhost:33006/juego","root",
-            // "dbrootpass");
+           // con = DriverManager.getConnection("jdbc:mysql://localhost:3306/juego", "root", "123");
+             con =
+             DriverManager.getConnection("jdbc:mysql://localhost:33006/juego","root",
+             "dbrootpass");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -92,7 +87,11 @@ public class Database {
         String sql = "INSERT INTO inventory (partyID, itemID, amount) VALUES (?, ?, ?)";
         try (PreparedStatement preparedStatement = con.prepareStatement(sql)) {
 
-            for (Item item : gp.party.getInventory()) {
+            NPC_Item npc = (NPC_Item)gp.npc[1][3];
+          
+           
+            for (Item item : npc.getInventory()) {
+               
                 preparedStatement.setInt(1, partyID);
                 preparedStatement.setInt(2, item.idItem);
                 preparedStatement.setInt(3, item.getAmount());

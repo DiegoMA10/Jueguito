@@ -8,6 +8,9 @@ import com.example.Items.Item;
 public class Character extends Entity {
 
     public BufferedImage portrait;
+    public BufferedImage[] attackAnimation;
+    public BufferedImage[] castSpellAnimation;
+
     protected int indexGroup;
     protected String name;
     protected int characterID;
@@ -25,7 +28,7 @@ public class Character extends Entity {
     protected int attack;
     protected int exp;
     protected int nextLevelExp;
-    protected boolean state;
+    protected boolean deadState;
     protected Entity currentWeapon;
 
     public Character(GamePanel gp) {

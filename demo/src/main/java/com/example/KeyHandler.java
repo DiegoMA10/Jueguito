@@ -43,9 +43,76 @@ public class KeyHandler implements KeyListener {
       case GamePanel.tradeState:
         tradeState(code);
         break;
-
+      case GamePanel.dialogueToBattleState:
+        dialogueToBattleSelector(code);
+      case GamePanel.battleState:
+        battleState(code);
+        break;
     }
 
+  }
+
+  private void battleState(int code) {
+    switch (code) {
+      case KeyEvent.VK_ESCAPE:
+        gp.gameState = GamePanel.playState;
+        break;
+      case KeyEvent.VK_W:
+
+        if (gp.ui.subNumCommand > 0) {
+          gp.ui.subNumCommand--;
+
+        }
+        break;
+      case KeyEvent.VK_S:
+        if (gp.ui.subNumCommand < 1) {
+          gp.ui.subNumCommand++;
+
+        }
+        break;
+      case KeyEvent.VK_ENTER:
+        enterPressed = true;
+        break;
+
+    }
+  }
+
+  private void dialogueToBattleSelector(int code) {
+    switch (gp.ui.subState) {
+      case 0:
+        breakState(code);
+        break;
+      case 1:
+        levelSelector(code);
+        break;
+
+    }
+  }
+
+  private void levelSelector(int code) {
+    switch (code) {
+      case KeyEvent.VK_ESCAPE:
+        gp.ui.subState = 0;
+        gp.ui.subNumCommand = 0;
+        break;
+      case KeyEvent.VK_W:
+
+        if (gp.ui.subNumCommand > 0) {
+          gp.ui.subNumCommand--;
+
+        }
+        break;
+      case KeyEvent.VK_S:
+        if (gp.ui.subNumCommand < 1) {
+          gp.ui.subNumCommand++;
+
+        }
+        break;
+      case KeyEvent.VK_ENTER:
+        enterPressed = true;
+        break;
+
+    }
   }
 
   private void tradeState(int code) {
@@ -256,49 +323,21 @@ public class KeyHandler implements KeyListener {
     }
   }
 
-
-  private void titleSelector(int code){
+  private void titleSelector(int code) {
     switch (gp.ui.subState) {
       case 0:
         titleState(code);
         break;
-      case 1:  saveSelector(code);break;
+      case 1:
+        saveSelector(code);
+        break;
 
     }
   }
-/* 
-  private void loadSelector(int code) {
-    switch (code) {
-      case KeyEvent.VK_ESCAPE:
-      gp.ui.subState=0;
-      gp.ui.subNumCommand=0;
-
-      break;
-      case KeyEvent.VK_W:
-
-        if (gp.ui.subNumCommand > 0) {
-          gp.ui.subNumCommand--;
-
-        }
-        break;
-      case KeyEvent.VK_S:
-        if (gp.ui.subNumCommand < 2) {
-          gp.ui.subNumCommand++;
-
-        }
-        break;
-
-      case KeyEvent.VK_ENTER:
-        gp.keyH.enterPressed = true;
-        break;
-
-    }
-  } */
-  
 
   public void titleState(int code) {
     switch (code) {
-      
+
       case KeyEvent.VK_W:
 
         if (gp.ui.numCommand > 0) {

@@ -63,6 +63,7 @@ public class GamePanel extends JPanel implements Runnable {
     public static final int dialogueState = 5;
     public static final int breakState = 6;
     public static final int tradeState = 7;
+    public static final int dialogueToBattleState = 8;
 
     public GamePanel() {
 
@@ -87,40 +88,6 @@ public class GamePanel extends JPanel implements Runnable {
         playMusic(6);
 
     }
-
-    /*
-     * @Override
-     * public void run() {
-     * 
-     * double drawInterval = 1000000000/FPS;
-     * double nextDrawTime = System.nanoTime() + drawInterval;
-     * 
-     * while (gameThread != null) {
-     * 
-     * update();
-     * 
-     * repaint();
-     * 
-     * 
-     * try {
-     * double remainingTime = nextDrawTime - System.nanoTime();
-     * remainingTime = remainingTime/1000000;
-     * 
-     * if (remainingTime<0) {
-     * remainingTime = 0;
-     * }
-     * Thread.sleep((long)remainingTime);
-     * nextDrawTime +=drawInterval;
-     * } catch (InterruptedException e) {
-     * 
-     * // TODO Auto-generated catch block
-     * e.printStackTrace();
-     * 
-     * }
-     * }
-     * 
-     * }
-     */
 
     @Override
     public void run() {
@@ -214,7 +181,7 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void resetGame() {
-        // Detener el hilo del juego si está corriendo
+       
         if (gameThread != null) {
             gameThread.interrupt();
             gameThread = null;
@@ -234,7 +201,7 @@ public class GamePanel extends JPanel implements Runnable {
         ck = new CollisionCheck(this);
         ui = new UI(this);
 
-        // Reiniciar las configuraciones del juego
+      
         currentMap = 0;
         setUpGame();
 
