@@ -262,11 +262,11 @@ public class KeyHandler implements KeyListener {
       case 0:
         titleState(code);
         break;
-      case 1:  loadSelector(code);break;
+      case 1:  saveSelector(code);break;
 
     }
   }
-
+/* 
   private void loadSelector(int code) {
     switch (code) {
       case KeyEvent.VK_ESCAPE:
@@ -293,7 +293,7 @@ public class KeyHandler implements KeyListener {
         break;
 
     }
-  }
+  } */
   
 
   public void titleState(int code) {

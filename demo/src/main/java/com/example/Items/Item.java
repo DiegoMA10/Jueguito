@@ -12,7 +12,7 @@ public abstract class Item {
     public int idItem;
     protected String name;
     protected String description;
-    protected int amount = 1;
+    protected int amount = 0;
     protected int price;
     protected int value;
     public static int maxAmount = 99;

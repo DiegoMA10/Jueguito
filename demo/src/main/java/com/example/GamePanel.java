@@ -81,11 +81,9 @@ public class GamePanel extends JPanel implements Runnable {
     public void setUpGame() {
         aSetter.setGroup();
         player = new PlayerLeader(this, keyH, party);
-
         gameState = titleState;
         aSetter.setNPC();
         aSetter.setNPCObjectStart();
-        aSetter.setObjectStart();
         playMusic(6);
 
     }
@@ -214,4 +212,34 @@ public class GamePanel extends JPanel implements Runnable {
         soundEfect.setVolume(0.2f);
         soundEfect.play();
     }
+
+    public void resetGame() {
+        // Detener el hilo del juego si está corriendo
+        if (gameThread != null) {
+            gameThread.interrupt();
+            gameThread = null;
+        }
+
+        eHandler = new EventHandler(this);
+        aSetter = new AssetSetter(this);
+        dataBase = new Database(this);
+        music = new Sound();
+        soundEfect = new Sound();
+        tl = new TileManager(this);
+        battle = new BattlePanel(this);
+        party = new Party();
+
+        npc = new Entity[2][4];
+        entityList = new ArrayList<>();
+        ck = new CollisionCheck(this);
+        ui = new UI(this);
+
+        // Reiniciar las configuraciones del juego
+        currentMap = 0;
+        setUpGame();
+
+      
+        startGameThread();
+    }
+
 }

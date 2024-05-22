@@ -21,7 +21,7 @@ public class SaveSlot {
 
     public void setSaveSlot() {
         Database db = new Database(gp);
-        this.party = new Party(db.getCharactersByGame(id), db.getInventoryByParty(id), db.getGilByParty(id));
+        this.party = new Party(db.getCharactersByGame(id), db.getGilByParty(id));
         this.playTime = db.getPlayTime(id);
         this.isEmpty = !db.checkSave(id);
         
@@ -37,6 +37,13 @@ public class SaveSlot {
 
     public double getPlayTime() {
         return playTime;
+    }
+
+    public void loadGame(){
+        gp.party = this.party;
+        gp.ui.setPlayTimer(this.playTime);
+        gp.dataBase.getInventoryByParty(id);
+        gp.player.setGroup(gp.party);
     }
 
 }

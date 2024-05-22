@@ -25,8 +25,10 @@ public class Database {
     public Database(GamePanel gp) {
         this.gp = gp;
         try {
-           // con = DriverManager.getConnection("jdbc:mysql://localhost:3306/juego", "root", "123");
-             con = DriverManager.getConnection("jdbc:mysql://localhost:33006/juego","root", "dbrootpass");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/juego", "root", "123");
+            // con =
+            // DriverManager.getConnection("jdbc:mysql://localhost:33006/juego","root",
+            // "dbrootpass");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -145,23 +147,18 @@ public class Database {
     private void updateInventory(int partyID) {
         String sql = "UPDATE inventory SET amount = ? WHERE partyID = ? AND itemID = ?";
         try (PreparedStatement preparedStatement = con.prepareStatement(sql)) {
-            if (gp.party.getInventory().isEmpty()) {
-
-                for (Item item : ((NPC_Item) gp.npc[1][3]).getInventory()) {
+            NPC_Item npc = (NPC_Item)gp.npc[1][3];
+          
+           
+                for (Item item : npc.getInventory()) {
+                   
                     preparedStatement.setInt(1, item.getAmount());
                     preparedStatement.setInt(2, partyID);
                     preparedStatement.setInt(3, item.idItem);
                     preparedStatement.executeUpdate();
                 }
-
-            } else {
-                for (Item item : gp.party.getInventory()) {
-                    preparedStatement.setInt(1, item.getAmount());
-                    preparedStatement.setInt(2, partyID);
-                    preparedStatement.setInt(3, item.idItem);
-                    preparedStatement.executeUpdate();
-                }
-            }
+             
+            
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -266,8 +263,8 @@ public class Database {
         return 0;
     }
 
-    public ArrayList<Item> getInventoryByParty(int partyID) {
-        ArrayList<Item> inventoryList = new ArrayList<>();
+    public void getInventoryByParty(int partyID) {
+
         String sql = "SELECT itemID, amount FROM inventory WHERE partyID = ?";
         try (PreparedStatement preparedStatement = con.prepareStatement(sql)) {
             preparedStatement.setInt(1, partyID);
@@ -279,15 +276,23 @@ public class Database {
                     if (amount != 0) {
                         switch (itemID) {
                             case 1:
-                                Potion potion = new Potion(gp);
-                                potion.setAmount(amount);
-                                inventoryList.add(potion);
+                                if (gp.party.getInventory().contains(gp.aSetter.potion)) {
+                                    gp.party.getInventory().get(gp.party.getInventory().indexOf(gp.aSetter.potion))
+                                            .setAmount(amount);
+                                } else {
+                                    gp.aSetter.potion.setAmount(amount);
+                                    gp.party.getInventory().add(gp.aSetter.potion);
+                                }
                                 break;
 
                             case 2:
-                                Ether ether = new Ether(gp);
-                                ether.setAmount(amount);
-                                inventoryList.add(ether);
+                                if (gp.party.getInventory().contains(gp.aSetter.eter)) {
+                                    gp.party.getInventory().get(gp.party.getInventory().indexOf(gp.aSetter.eter))
+                                            .setAmount(amount);
+                                } else {
+                                    gp.aSetter.eter.setAmount(amount);
+                                    gp.party.getInventory().add(gp.aSetter.eter);
+                                }
 
                                 break;
 
@@ -299,7 +304,7 @@ public class Database {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return inventoryList;
+
     }
 
 }

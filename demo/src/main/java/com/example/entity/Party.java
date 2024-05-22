@@ -13,9 +13,9 @@ public class Party {
 
     }
     
-    public Party(ArrayList<Character> party, ArrayList<Item> inventory, int gil) {
+    public Party(ArrayList<Character> party,  int gil) {
         this.party = party;
-        this.inventory = inventory;
+       
         this.gil = gil;
     }
 
