@@ -1,5 +1,6 @@
 package com.example.entity;
 
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
 import javax.imageio.ImageIO;
@@ -69,4 +70,19 @@ public class Tifa extends Character {
         down2 = setUp(carpeta + "tifa_down2");
         portrait = setUp(carpeta + "tifaPortrait");
     }
+
+
+
+    @Override
+    public void draw(Graphics2D g2) {
+       
+        super.draw(g2);
+    }
+
+    @Override
+    public void update() {
+       
+        super.update();
+    }
+
 }

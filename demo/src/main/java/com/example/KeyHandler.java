@@ -55,6 +55,7 @@ public class KeyHandler implements KeyListener {
   private void battleState(int code) {
     switch (code) {
       case KeyEvent.VK_ESCAPE:
+        gp.ui.gameStateTransition=GamePanel.playState;
         gp.gameState = GamePanel.playState;
         break;
       case KeyEvent.VK_W:
@@ -71,7 +72,8 @@ public class KeyHandler implements KeyListener {
         }
         break;
       case KeyEvent.VK_ENTER:
-        enterPressed = true;
+      
+        gp.keyH.enterPressed = true;
         break;
 
     }

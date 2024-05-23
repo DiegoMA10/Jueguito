@@ -43,7 +43,7 @@ public class GamePanel extends JPanel implements Runnable {
     TileManager tl = new TileManager(this);
     BattlePanel battle = new BattlePanel(this);
 
-    public Party party = new Party();
+    public Party party = new Party(this);
 
     public PlayerLeader player;
     public Entity[][] npc = new Entity[2][4];
@@ -116,6 +116,10 @@ public class GamePanel extends JPanel implements Runnable {
 
         if (gameState == playState) {
             player.update();
+        }
+
+        if (gameState == battleState) {
+            battle.update();
         }
 
     }
@@ -194,7 +198,7 @@ public class GamePanel extends JPanel implements Runnable {
         soundEfect = new Sound();
         tl = new TileManager(this);
         battle = new BattlePanel(this);
-        party = new Party();
+        party = new Party(this);
 
         npc = new Entity[2][4];
         entityList = new ArrayList<>();

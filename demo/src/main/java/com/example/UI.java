@@ -150,6 +150,9 @@ public class UI {
                 break;
             case GamePanel.dialogueToBattleState:
                 drawDialogueToBattleSelector();
+                if (gameStateTransition != GamePanel.dialogueToBattleState) {
+                    drawGameStateTransition();
+                }
                 break;
         }
 
@@ -803,7 +806,7 @@ public class UI {
         drawText("Tutorial", textX, textY, null);
         if (subNumCommand==0) {
             if (gp.keyH.enterPressed) {
-                gp.gameState = GamePanel.battleState;
+                gameStateTransition = GamePanel.battleState;
             }
             g2.drawImage(cursor, textX - gp.tileSize, textY - gp.tileSize + 20, gp.tileSize, gp.tileSize, null);
         }
@@ -1621,9 +1624,9 @@ public class UI {
 
     public void drawBattleMenu() {
         int windowsX = 5;
-        int windowsY = gp.screenHeight - gp.tileSize * 3 - 5;
+        int windowsY = gp.screenHeight - gp.tileSize * 4 - 5;
         int width = gp.screenWidth - 10;
-        int height = gp.tileSize * 3;
+        int height = gp.tileSize * 4;
 
         BufferedImage image = null;
         image = cursor;

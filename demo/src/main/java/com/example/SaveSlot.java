@@ -21,7 +21,7 @@ public class SaveSlot {
 
     public void setSaveSlot() {
         Database db = new Database(gp);
-        this.party = new Party(db.getCharactersByGame(id), db.getGilByParty(id));
+        this.party = new Party(gp,db.getCharactersByGame(id), db.getGilByParty(id));
         this.playTime = db.getPlayTime(id);
         this.isEmpty = !db.checkSave(id);
         

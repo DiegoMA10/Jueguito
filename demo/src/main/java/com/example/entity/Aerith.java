@@ -1,6 +1,8 @@
 package com.example.entity;
 
 
+import java.awt.Graphics2D;
+
 import com.example.GamePanel;
 
 public class Aerith extends Character {
@@ -65,6 +67,18 @@ public class Aerith extends Character {
         down1 = setUp(carpeta+"aerith_down1");
         down2 = setUp(carpeta+"aerith_down2");
         portrait = setUp(carpeta+"aerithPortrait"); 
+    }
+
+    @Override
+    public void draw(Graphics2D g2) {
+       
+        super.draw(g2);
+    }
+
+    @Override
+    public void update() {
+       
+        super.update();
     }
 
 }

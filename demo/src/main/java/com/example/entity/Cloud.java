@@ -1,6 +1,8 @@
 package com.example.entity;
 
 import javax.imageio.ImageIO;
+
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import com.example.GamePanel;
 import com.example.UtilityTool;
@@ -71,6 +73,19 @@ public class Cloud extends Character {
         down2 = setUp(carpeta+"cloud_down2");
         portrait = setUp(carpeta+"cloudPortrait"); 
     }
+
+    @Override
+    public void draw(Graphics2D g2) {
+       
+        super.draw(g2);
+    }
+
+    @Override
+    public void update() {
+       
+        super.update();
+    }
+
 
 }
 

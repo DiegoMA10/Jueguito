@@ -1,5 +1,6 @@
 package com.example.entity;
 
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
 import com.example.GamePanel;
@@ -14,7 +15,8 @@ public class Character extends Entity {
     protected int indexGroup;
     protected String name;
     protected int characterID;
-   
+    public int defaultX;
+    public int defaultY;
     protected int level;
     protected int MaxHp;
     protected int hp;
@@ -33,7 +35,8 @@ public class Character extends Entity {
 
     public Character(GamePanel gp) {
         super(gp);
-
+        defaultX = gp.screenWidth - gp.tileSize * 6;
+        defaultY = gp.tileSize * 6 - 24;
     }
 
     /*
@@ -61,7 +64,27 @@ public class Character extends Entity {
         }
 
     }
-    
+    boolean action;
+
+    public void update() {
+        if (gp.keyH.enterPressed) {
+            if (action) {
+                defaultX= gp.tileSize * 6 - 24;
+            }else{
+                
+            }
+            
+
+        }
+    }
+
+    public void draw(Graphics2D g2) {
+
+        g2.drawImage(left, defaultX + (24 * indexGroup), defaultY + ((gp.tileSize + 12) * indexGroup), sizeWidth,
+                sizeHeight, null);
+
+    }
+
     public int getIndexGroup() {
         return indexGroup;
 
@@ -71,7 +94,6 @@ public class Character extends Entity {
         this.indexGroup = indexGroup;
 
     }
-
 
     public static void changeInexGroup(Character c1, Character c2) {
         int aux = c1.getIndexGroup();
@@ -228,5 +250,4 @@ public class Character extends Entity {
 
     }
 
-   
 }

@@ -40,6 +40,7 @@ public class NPC_Guardian extends Entity {
 
     public void speak(){
         super.speak();
+        gp.ui.gameStateTransition=GamePanel.dialogueToBattleState;
         gp.gameState = GamePanel.dialogueToBattleState;
        
     }

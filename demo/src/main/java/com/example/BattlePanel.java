@@ -4,8 +4,7 @@ import java.awt.image.BufferedImage;
 
 import javax.imageio.ImageIO;
 
-import com.example.entity.Entity;
-import com.example.tile.Tile;
+
 public class BattlePanel {
    BufferedImage[] background = new BufferedImage[10];
    GamePanel gp;
@@ -38,12 +37,13 @@ public class BattlePanel {
     }
 
     public void update(){
-
+        gp.party.update();
 
     }
 
     public void draw(Graphics2D g2){
-        g2.drawImage(background[1], -10, 0,gp.screenWidth+20, gp.screenHeight+10,null);
+        g2.drawImage(background[1], -10, 0,gp.screenWidth+20, gp.screenHeight-gp.tileSize*3,null);
+        gp.party.draw(g2);
     }
 
 }
