@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import com.example.Items.Item;
+import com.example.entity.ATB;
 import com.example.entity.Aerith;
 import com.example.entity.Character;
 import com.example.entity.Cloud;
@@ -20,24 +21,17 @@ public class Database {
     public Database(GamePanel gp) {
         this.gp = gp;
         try {
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/juego", "root", "123");
-           /*   con =
+            //con = DriverManager.getConnection("jdbc:mysql://localhost:3306/juego", "root", "123");
+              con =
              DriverManager.getConnection("jdbc:mysql://localhost:33006/juego","root",
-             "dbrootpass"); */
+             "dbrootpass"); 
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
     }
 
-    public Database() {
-        try {
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/juego", "root", "123");
-        } catch (SQLException e) {
-
-            e.printStackTrace();
-        }
-    }
+ 
 
     public void saveData(int gameID, int partyID) {
         saveParty(partyID);
@@ -226,14 +220,17 @@ public class Database {
                     switch (characterID) {
                         case 1:
                             Aerith aerith = new Aerith(this.gp, level, exp, partyIndex, hp, mp);
+                            aerith.setATB(new ATB(gp, aerith));
                             characters.add(aerith);
                             break;
                         case 2:
                             Tifa tifa = new Tifa(this.gp, level, exp, partyIndex, hp, mp);
+                            tifa.setATB(new ATB(gp, tifa));
                             characters.add(tifa);
                             break;
                         case 3:
                             Cloud cloud = new Cloud(this.gp, level, exp, partyIndex, hp, mp);
+                            cloud.setATB(new ATB(gp, cloud));
                             characters.add(cloud);
                             break;
 

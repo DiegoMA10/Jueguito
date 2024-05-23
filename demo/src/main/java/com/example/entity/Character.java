@@ -32,11 +32,12 @@ public class Character extends Entity {
     protected int nextLevelExp;
     protected boolean deadState;
     protected Entity currentWeapon;
+    public ATB atb;
 
     public Character(GamePanel gp) {
         super(gp);
         defaultX = gp.screenWidth - gp.tileSize * 6;
-        defaultY = gp.tileSize * 6 - 24;
+        defaultY = gp.tileSize * 5 - 24;
     }
 
     /*
@@ -55,6 +56,10 @@ public class Character extends Entity {
      * 
      */
 
+     public void setATB(ATB atb){
+        this.atb = atb;
+     }
+
     public boolean useObject(Item o) {
 
         if (o.useObject(this)) {
@@ -67,15 +72,10 @@ public class Character extends Entity {
     boolean action;
 
     public void update() {
-        if (gp.keyH.enterPressed) {
-            if (action) {
-                defaultX= gp.tileSize * 6 - 24;
-            }else{
-                
-            }
-            
-
-        }
+       atb.update();
+       if (gp.keyH.enterPressed) {
+            atb.setValue(0);
+       }
     }
 
     public void draw(Graphics2D g2) {

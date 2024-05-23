@@ -2,6 +2,7 @@ package com.example;
 
 import com.example.Items.Ether;
 import com.example.Items.Potion;
+import com.example.entity.ATB;
 import com.example.entity.Aerith;
 import com.example.entity.Cloud;
 import com.example.entity.Tifa;
@@ -79,6 +80,9 @@ public class AssetSetter {
         Tifa tifa = new Tifa(gp);
         Aerith aerith = new Aerith(gp);
         Cloud cloud = new Cloud(gp);
+        tifa.setATB(new ATB(gp, tifa));
+        aerith.setATB(new ATB(gp, aerith));
+        cloud.setATB(new ATB(gp, cloud));
         gp.party.agregarPersonaje(aerith);
         gp.party.agregarPersonaje(tifa);
         gp.party.agregarPersonaje(cloud);

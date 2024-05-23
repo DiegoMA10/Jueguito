@@ -1,6 +1,7 @@
 package com.example.entity;
 
 import java.awt.AlphaComposite;
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -236,11 +237,12 @@ public class PlayerLeader extends Entity {
 
      
         g2.drawImage(image, x, y, sizeWidth, sizeHeight, null);
-       
-        /* g2.setColor(Color.red);
+        
+ /*   
+         g2.setColor(Color.red);
         g2.drawRect(x + hitBox.x, y + hitBox.y, hitBox.width, hitBox.height);
-        cont++; */
-
+        cont++; 
+ */
     }
 
     /*

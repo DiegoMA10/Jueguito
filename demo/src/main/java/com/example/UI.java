@@ -9,10 +9,13 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
 
 import javax.imageio.ImageIO;
 
 import com.example.Items.Item;
+import com.example.entity.ATB;
 import com.example.entity.Character;
 import com.example.entity.Party;
 import com.example.entity.npc.NPC_Item;
@@ -35,6 +38,7 @@ public class UI {
     private Color blueMenu = new Color(0, 223, 223);
     private Font arial40;
     private Font normalFont;
+    private Font UIBattleFont;
     public String currentDialogue;
     private Boolean animationState = true;
     int cont = 0;
@@ -53,6 +57,7 @@ public class UI {
         save3 = new SaveSlot(gp, 3);
         arial40 = new Font("Arial", Font.PLAIN, 40);
         normalFont = new Font("Arial", Font.BOLD, 30);
+        UIBattleFont = new Font("Arial", Font.BOLD, 24);
 
     }
 
@@ -796,23 +801,23 @@ public class UI {
     }
 
     private void levelSelector() {
-        int x=gp.tileSize*5;
-        int y=gp.tileSize*1;
-        int width = gp.tileSize*8;
-        int height = gp.screenHeight-gp.tileSize*2;
+        int x = gp.tileSize * 5;
+        int y = gp.tileSize * 1;
+        int width = gp.tileSize * 8;
+        int height = gp.screenHeight - gp.tileSize * 2;
         drawSubwindows(x, y, width, height);
-        int textX = x+gp.tileSize;
-        int textY = y+gp.tileSize;
+        int textX = x + gp.tileSize;
+        int textY = y + gp.tileSize;
         drawText("Tutorial", textX, textY, null);
-        if (subNumCommand==0) {
+        if (subNumCommand == 0) {
             if (gp.keyH.enterPressed) {
                 gameStateTransition = GamePanel.battleState;
             }
             g2.drawImage(cursor, textX - gp.tileSize, textY - gp.tileSize + 20, gp.tileSize, gp.tileSize, null);
         }
-        textY +=gp.tileSize;
+        textY += gp.tileSize;
         drawText("Level 1", textX, textY, null);
-        if (subNumCommand==1) {
+        if (subNumCommand == 1) {
             g2.drawImage(cursor, textX - gp.tileSize, textY - gp.tileSize + 20, gp.tileSize, gp.tileSize, null);
         }
     }
@@ -1623,15 +1628,57 @@ public class UI {
     }
 
     public void drawBattleMenu() {
+
         int windowsX = 5;
         int windowsY = gp.screenHeight - gp.tileSize * 4 - 5;
-        int width = gp.screenWidth - 10;
+        int width = gp.tileSize * 5;
         int height = gp.tileSize * 4;
 
-        BufferedImage image = null;
-        image = cursor;
         drawSubwindows(windowsX, windowsY, width, height);
 
+        windowsX = 5 + gp.tileSize * 5;
+        width = gp.screenWidth - gp.tileSize * 5 - 10;
+     
+        drawSubwindows(windowsX, windowsY, width, height);
+        drawBattlestats(gp.party);
+
+    }
+    public Queue<ATB> prueba = new LinkedList<>();
+
+    public void drawBattlestats(Party party){
+        
+
+        int windowsX = 5 + gp.tileSize * 6;
+        int windowsY = gp.screenHeight - gp.tileSize * 3 + 10;
+        ATB elemento = prueba.poll();
+       
+
+        g2.setFont(UIBattleFont);
+        drawText("HP", windowsX+gp.tileSize*3, windowsY-gp.tileSize+10, blueMenu);
+        drawText("MP", windowsX+gp.tileSize*6, windowsY-gp.tileSize+10, blueMenu);
+        g2.setFont(normalFont);
+        if (elemento!=null) {
+            System.out.println( elemento.character.getCharacterID());
+           
+        }
+        
+
+        drawText(party.getParty().get(0).getName(), windowsX, windowsY, null);
+        drawNumberText(party.getParty().get(0).getHp(), windowsX+gp.tileSize*4, windowsY, null);
+        drawNumberText(party.getParty().get(0).getMp(), windowsX+gp.tileSize*7, windowsY, null);
+        party.getParty().get(0).atb.draw(g2, windowsX+gp.tileSize*8, windowsY-20);
+        windowsY+=gp.tileSize;
+
+        drawText(party.getParty().get(1).getName(), windowsX, windowsY, null);
+        drawNumberText(party.getParty().get(1).getHp(), windowsX+gp.tileSize*4, windowsY, null);
+        drawNumberText(party.getParty().get(1).getMp(), windowsX+gp.tileSize*7, windowsY, null);
+        party.getParty().get(1).atb.draw(g2, windowsX+gp.tileSize*8, windowsY-20);
+        windowsY+=gp.tileSize;
+
+        drawText(party.getParty().get(2).getName(), windowsX, windowsY, null);
+        drawNumberText(party.getParty().get(2).getHp(), windowsX+gp.tileSize*4, windowsY, null);
+        drawNumberText(party.getParty().get(2).getMp(), windowsX+gp.tileSize*7, windowsY, null);
+        party.getParty().get(2).atb.draw(g2, windowsX+gp.tileSize*8, windowsY-20);
     }
 
     public void menuSelection() {
@@ -1723,6 +1770,7 @@ public class UI {
     }
 
     public void drawStatsPj(Party party, int windowsX, int windowsY, int i) {
+        
         int textX = windowsX + gp.tileSize * 3;
         int textY = windowsY + 20;
         g2.setFont(normalFont);
