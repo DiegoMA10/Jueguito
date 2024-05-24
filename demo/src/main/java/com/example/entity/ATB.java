@@ -43,11 +43,11 @@ public class ATB {
     }
 
     public void setValue(int value) {
-        if (value > maxValue) {
+        if (value >= maxValue) {
             value = maxValue;
-            if (!state) {
-                gp.ui.prueba.add(this);
-            }
+           if (!state) {
+                gp.turnHandler.addCharacterQueue(character);
+           }
             state = true;
         }
         this.value = value;
@@ -55,7 +55,7 @@ public class ATB {
 
     public void draw(Graphics2D g2, int x, int y) {
         g2.setColor(Color.lightGray);
-        g2.setStroke(new BasicStroke());
+        g2.setStroke(new BasicStroke(1));
         g2.drawRoundRect(x, y, 150, 13, 35, 20);
         g2.setStroke(new BasicStroke(2));
         g2.drawRoundRect(x, y, 150, 15, 35, 20);

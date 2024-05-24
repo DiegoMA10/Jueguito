@@ -35,6 +35,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     public KeyHandler keyH = new KeyHandler(this);
     public EventHandler eHandler = new EventHandler(this);
+    public TurnHandler turnHandler = new TurnHandler(this);
     public AssetSetter aSetter = new AssetSetter(this);
     public Database dataBase = new Database(this);
     Thread gameThread;
@@ -120,6 +121,7 @@ public class GamePanel extends JPanel implements Runnable {
 
         if (gameState == battleState) {
             battle.update();
+            turnHandler.turnCharacters();
         }
 
     }
@@ -167,7 +169,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void playMusic(int n) {
         music.setFile(n);
-        music.setVolume(0.07f);
+        music.setVolume(0.0f);
 
         music.play();
         music.loop();

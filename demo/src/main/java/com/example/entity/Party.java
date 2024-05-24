@@ -76,7 +76,7 @@ public class Party {
         party.get(0).update();
         party.get(1).update();
         party.get(2).update();
-        gp.keyH.enterPressed=false;
+       
     }
 
 

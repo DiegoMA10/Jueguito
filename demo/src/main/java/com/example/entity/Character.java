@@ -3,7 +3,10 @@ package com.example.entity;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
+import javax.imageio.ImageIO;
+
 import com.example.GamePanel;
+import com.example.UtilityTool;
 import com.example.Items.Item;
 
 public class Character extends Entity {
@@ -11,7 +14,7 @@ public class Character extends Entity {
     public BufferedImage portrait;
     public BufferedImage[] attackAnimation;
     public BufferedImage[] castSpellAnimation;
-
+    public BufferedImage[] battleCursor;
     protected int indexGroup;
     protected String name;
     protected int characterID;
@@ -38,6 +41,7 @@ public class Character extends Entity {
         super(gp);
         defaultX = gp.screenWidth - gp.tileSize * 6;
         defaultY = gp.tileSize * 5 - 24;
+        getCursorImagen();
     }
 
     /*
@@ -56,9 +60,9 @@ public class Character extends Entity {
      * 
      */
 
-     public void setATB(ATB atb){
+    public void setATB(ATB atb) {
         this.atb = atb;
-     }
+    }
 
     public boolean useObject(Item o) {
 
@@ -69,19 +73,62 @@ public class Character extends Entity {
         }
 
     }
-    boolean action;
 
+    boolean action;
+    private int spritcont = 0;
+    private int cont = 0;
     public void update() {
-       atb.update();
-       if (gp.keyH.enterPressed) {
-            atb.setValue(0);
-       }
+        atb.update();
+       
+
+        cont++;
+        if (cont>10) {
+            spritcont++;
+            if (spritcont>2) {
+                spritcont=0;
+            }
+            cont=0;
+        }
+
     }
+
+  
 
     public void draw(Graphics2D g2) {
 
-        g2.drawImage(left, defaultX + (24 * indexGroup), defaultY + ((gp.tileSize + 12) * indexGroup), sizeWidth,
-                sizeHeight, null);
+        g2.drawImage(left, defaultX + (24 * indexGroup), defaultY + ((gp.tileSize + 12) * indexGroup), sizeWidth,sizeHeight, null);
+
+       if (gp.turnHandler.getCurrentCharacter() !=null && gp.turnHandler.getCurrentCharacter().indexGroup==this.indexGroup ) {
+         g2.drawImage(battleCursor[spritcont], defaultX+ (24 * indexGroup),(defaultY+((gp.tileSize + 12) * indexGroup))-gp.tileSize/2,12*3,7*3, null);
+       }
+       
+               
+            
+                
+
+    }
+
+
+    public BufferedImage setUpCursor(String path) {
+        UtilityTool tool = new UtilityTool();
+        BufferedImage image = null;
+        try {
+            image = ImageIO.read(getClass().getResourceAsStream("/com/example/image/UI/" + path + ".png"));
+            image = tool.imageScale(image, 12 * 3, 7 * 3);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return image;
+    }
+
+
+    public void getCursorImagen() {
+        battleCursor = new BufferedImage[3];
+
+        battleCursor[0] = setUpCursor("battleCursor1");
+        battleCursor[1] = setUpCursor("battleCursor2");
+        battleCursor[2] = setUpCursor("battleCursor3");
 
     }
 
