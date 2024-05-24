@@ -60,14 +60,14 @@ public class KeyHandler implements KeyListener {
         break;
       case KeyEvent.VK_W:
 
-        if (gp.ui.subNumCommand > 0) {
-          gp.ui.subNumCommand--;
+        if (gp.ui.numCommand > 0) {
+          gp.ui.numCommand--;
 
         }
         break;
       case KeyEvent.VK_S:
-        if (gp.ui.subNumCommand < 1) {
-          gp.ui.subNumCommand++;
+        if (gp.ui.numCommand < 2) {
+          gp.ui.numCommand++;
 
         }
         break;

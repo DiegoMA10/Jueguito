@@ -21,10 +21,10 @@ public class Database {
     public Database(GamePanel gp) {
         this.gp = gp;
         try {
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/juego", "root", "123");
-             /*  con =
+            //con = DriverManager.getConnection("jdbc:mysql://localhost:3306/juego", "root", "123");
+               con =
              DriverManager.getConnection("jdbc:mysql://localhost:33006/juego","root",
-             "dbrootpass");  */
+             "dbrootpass");  
         } catch (SQLException e) {
             e.printStackTrace();
         }
