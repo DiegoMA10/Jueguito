@@ -45,6 +45,7 @@ public class KeyHandler implements KeyListener {
         break;
       case GamePanel.dialogueToBattleState:
         dialogueToBattleSelector(code);
+        break;
       case GamePanel.battleState:
         battleState(code);
         break;
@@ -53,9 +54,20 @@ public class KeyHandler implements KeyListener {
   }
 
   private void battleState(int code) {
+    switch (gp.ui.subState) {
+      case 0: battleMenu(code);break;
+      case 1: attackSelector(code);break;
+  
+    }
+   
+  }
+
+  private void battleMenu(int code){
     switch (code) {
       case KeyEvent.VK_ESCAPE:
-        gp.ui.gameStateTransition=GamePanel.playState;
+        gp.ui.gameStateTransition = GamePanel.playState;
+        gp.ui.numCommand = 0;
+        gp.battle.level.clear();
         gp.gameState = GamePanel.playState;
         break;
       case KeyEvent.VK_W:
@@ -72,7 +84,34 @@ public class KeyHandler implements KeyListener {
         }
         break;
       case KeyEvent.VK_ENTER:
-      
+
+        gp.keyH.enterPressed = true;
+        break;
+
+    }
+  }
+
+  private void attackSelector(int code){
+    switch (code) {
+      case KeyEvent.VK_ESCAPE:
+        gp.ui.subState=0;
+        gp.ui.subNumCommand=0;
+        break;
+      case KeyEvent.VK_W:
+
+        if (gp.ui.subNumCommand > 0) {
+          gp.ui.subNumCommand--;
+
+        }
+        break;
+      case KeyEvent.VK_S:
+        if (gp.ui.subNumCommand < gp.battle.level.get(gp.battle.currentRound).size()-1) {
+          gp.ui.subNumCommand++;
+
+        }
+        break;
+      case KeyEvent.VK_ENTER:
+
         gp.keyH.enterPressed = true;
         break;
 
@@ -314,8 +353,9 @@ public class KeyHandler implements KeyListener {
         break;
       case KeyEvent.VK_S:
         if (gp.ui.numCommand < 1) {
-          gp.ui.numCommand++;
 
+          gp.ui.numCommand++;
+        
         }
         break;
       case KeyEvent.VK_ENTER:
@@ -325,6 +365,7 @@ public class KeyHandler implements KeyListener {
     }
   }
 
+  
   private void titleSelector(int code) {
     switch (gp.ui.subState) {
       case 0:

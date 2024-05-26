@@ -13,6 +13,7 @@ import java.awt.image.BufferedImage;
 import javax.swing.JPanel;
 
 import com.example.entity.*;
+
 import com.example.tile.*;
 
 public class GamePanel extends JPanel implements Runnable {
@@ -42,12 +43,13 @@ public class GamePanel extends JPanel implements Runnable {
     Sound music = new Sound();
     Sound soundEfect = new Sound();
     TileManager tl = new TileManager(this);
-    BattlePanel battle = new BattlePanel(this);
+    public BattlePanel battle = new BattlePanel(this);
 
     public Party party = new Party(this);
 
     public PlayerLeader player;
     public Entity[][] npc = new Entity[2][4];
+    
     public ArrayList<Entity> entityList = new ArrayList<>();
     public CollisionCheck ck = new CollisionCheck(this);
     public UI ui = new UI(this);
@@ -100,7 +102,6 @@ public class GamePanel extends JPanel implements Runnable {
         while (gameThread != null) {
             currentTime = System.nanoTime();
             delta += (currentTime - lastTime) / drawInterval;
-
             lastTime = currentTime;
             if (delta >= 1) {
                 update();
@@ -121,7 +122,7 @@ public class GamePanel extends JPanel implements Runnable {
 
         if (gameState == battleState) {
             battle.update();
-            turnHandler.turnCharacters();
+          
         }
 
     }
@@ -169,7 +170,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void playMusic(int n) {
         music.setFile(n);
-        music.setVolume(0.0f);
+        music.setVolume(0.12f);
 
         music.play();
         music.loop();
@@ -201,7 +202,7 @@ public class GamePanel extends JPanel implements Runnable {
         tl = new TileManager(this);
         battle = new BattlePanel(this);
         party = new Party(this);
-
+        
         npc = new Entity[2][4];
         entityList = new ArrayList<>();
         ck = new CollisionCheck(this);

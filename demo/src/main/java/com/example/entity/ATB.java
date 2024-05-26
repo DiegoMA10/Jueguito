@@ -10,10 +10,10 @@ import com.example.entity.enemy.Enemy;
 public class ATB {
     GamePanel gp;
     Enemy enemy;
-    public Character character;
+    Character character;
     int value = 0;
     int maxValue = 65536;
-    public boolean state;
+    public boolean full;
 
     public ATB(GamePanel gp, Character character) {
         this.gp = gp;
@@ -27,15 +27,19 @@ public class ATB {
 
     public void update() {
         incrementarATB();
-        if (maxValue!=value) {
-            System.out.println(value);
-        }
-        
     }
 
     public void incrementarATB() {
-        int incremento = (96 * (character.getDexterity() + 20)) / 16;
-        setValue(getValue() + incremento / 2);
+        if (character != null) {
+            int incremento = (96 * (character.getDexterity() + 20)) / 16;
+            setValue(getValue() + incremento / 3);
+        }
+
+        if (enemy != null) {
+            int incremento = (96 * (enemy.getDexterity() + 20)) / 16;
+            setValue(getValue() + incremento / 3);
+        }
+
     }
 
     public int getValue() {
@@ -45,12 +49,26 @@ public class ATB {
     public void setValue(int value) {
         if (value >= maxValue) {
             value = maxValue;
-           if (!state) {
+            if (character!=null) {
+                 if (!full) {
                 gp.turnHandler.addCharacterQueue(character);
+            }
+            }
+
+            if (enemy!=null) {
+                if (!full) {
+               gp.turnHandler.addGameQueue(enemy);
+               
            }
-            state = true;
+           }
+            full = true;
         }
         this.value = value;
+    }
+
+    public void resetATB(){
+        full = false;
+        value = 0;
     }
 
     public void draw(Graphics2D g2, int x, int y) {
@@ -59,20 +77,17 @@ public class ATB {
         g2.drawRoundRect(x, y, 150, 13, 35, 20);
         g2.setStroke(new BasicStroke(2));
         g2.drawRoundRect(x, y, 150, 15, 35, 20);
-        if (value==maxValue) {
+        if (value == maxValue) {
             g2.setColor(Color.orange);
             g2.fillRect(x + 5, y + 4, progressbarr(), 6);
-        }else{
-            g2.fillRect(x + 5, y + 3, progressbarr(), 8); 
+        } else {
+            g2.fillRect(x + 5, y + 3, progressbarr(), 8);
         }
-     
-        }
-      
+
+    }
 
     public int progressbarr() {
-        
         double percentageFilled = (double) value / maxValue;
-      
         int barWidth = (int) (percentageFilled * 140);
         return barWidth;
     }

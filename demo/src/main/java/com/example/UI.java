@@ -18,6 +18,7 @@ import com.example.Items.Item;
 import com.example.entity.ATB;
 import com.example.entity.Character;
 import com.example.entity.Party;
+import com.example.entity.enemy.Enemy;
 import com.example.entity.npc.NPC_Item;
 
 import javafx.scene.text.Text;
@@ -29,7 +30,7 @@ public class UI {
 
     private BufferedImage cursor;
     private BufferedImage titleScreen;
-
+    private BufferedImage cursorInvert;
     public int subState = 0;
     public int subState2 = 0;
     public int numCommand = 0;
@@ -50,6 +51,7 @@ public class UI {
     SaveSlot save1 = null;
     SaveSlot save2 = null;
     SaveSlot save3 = null;
+  
 
     public UI(GamePanel gp) {
 
@@ -92,6 +94,7 @@ public class UI {
 
     public void getImagen() {
         cursor = setUp("cursor");
+        cursorInvert = setUp("cursorInvert");
         titleScreen = setUpBackground("titleScreen");
 
     }
@@ -162,6 +165,7 @@ public class UI {
                 if (gameStateTransition != GamePanel.dialogueToBattleState) {
                     drawGameStateTransition();
                 }
+
                 break;
         }
 
@@ -491,7 +495,7 @@ public class UI {
         drawText("G", gp.screenWidth - gp.tileSize * 2, textY, blueMenu);
     }
 
-    private void drawNumberText(int n, int x, int y, Color c) {
+    public void drawNumberText(int n, int x, int y, Color c) {
 
         String num = String.valueOf(n);
         FontMetrics fm = g2.getFontMetrics();
@@ -815,9 +819,11 @@ public class UI {
         drawText("Tutorial", textX, textY, null);
         if (subNumCommand == 0) {
             if (gp.keyH.enterPressed) {
+                gp.aSetter.setTutorial();
                 gp.ui.subState = 0;
                 gp.stopMusic();
                 gp.playMusic(0);
+
                 gameStateTransition = GamePanel.battleState;
             }
             g2.drawImage(cursor, textX - gp.tileSize, textY - gp.tileSize + 20, gp.tileSize, gp.tileSize, null);
@@ -843,12 +849,12 @@ public class UI {
         if (numCommand == 0) {
             g2.drawImage(cursor, x - gp.tileSize, y - gp.tileSize + 20, gp.tileSize, gp.tileSize, null);
             if (gp.keyH.enterPressed == true) {
-
                 subState = 1;
             }
         }
         y += gp.tileSize;
         drawText("No", x, y, null);
+
         if (numCommand == 1) {
             g2.drawImage(cursor, x - gp.tileSize, y - gp.tileSize + 20, gp.tileSize, gp.tileSize, null);
             if (gp.keyH.enterPressed == true) {
@@ -1102,6 +1108,7 @@ public class UI {
                 if (gp.keyH.enterPressed) {
                     gp.dataBase.saveData(1, 1);
                     save1.setSaveSlot();
+                    gp.playSE(9);
 
                 }
             }
@@ -1128,6 +1135,7 @@ public class UI {
                 if (gp.keyH.enterPressed) {
                     gp.dataBase.saveData(2, 2);
                     save2.setSaveSlot();
+                    gp.playSE(9);
                 }
             }
         }
@@ -1155,6 +1163,7 @@ public class UI {
                 if (gp.keyH.enterPressed) {
                     gp.dataBase.saveData(3, 3);
                     save3.setSaveSlot();
+                    gp.playSE(9);
                 }
             }
         }
@@ -1222,6 +1231,7 @@ public class UI {
             if (gp.keyH.enterPressed) {
 
                 gp.dataBase.updateSaveData(subNumCommand + 1, subNumCommand + 1);
+                gp.playSE(9);
                 switch (subNumCommand) {
                     case 0:
                         save1.setSaveSlot();
@@ -1674,7 +1684,8 @@ public class UI {
         drawNumberText(party.getParty().get(0).getMp(), windowsX + gp.tileSize * 7, windowsY, null);
         party.getParty().get(0).atb.draw(g2, windowsX + gp.tileSize * 8, windowsY - 20);
         if (index == 0) {
-            actionSelector(party, index);
+            drawAction();
+            menuAction(party, index);
 
         }
 
@@ -1687,7 +1698,8 @@ public class UI {
         windowsY += gp.tileSize;
 
         if (index == 1) {
-            actionSelector(party, index);
+            drawAction();
+            menuAction(party, index);
 
         }
 
@@ -1697,14 +1709,99 @@ public class UI {
         party.getParty().get(2).atb.draw(g2, windowsX + gp.tileSize * 8, windowsY - 20);
 
         if (index == 2) {
-            actionSelector(party, index);
+            drawAction();
+            menuAction(party, index);
 
         }
 
         gp.keyH.enterPressed = false;
     }
 
+    public void menuAction(Party party, int index) {
+        switch (subState) {
+            case 0:
+                actionSelector(party, index);
+                break;
+            case 1: attackSelector(party, index);
+            default:
+                break;
+        }
+    }
+
+    private void attackSelector(Party party,int index){
+        ArrayList <Enemy> enemies = gp.battle.level.get(gp.battle.currentRound);
+       for (int i = 0; i < enemies.size(); i++) {
+
+            if (subNumCommand==i) {
+                int x = enemies.get(i).defaultX+enemies.get(i).sizeWidth;
+                int y = enemies.get(i).defaultY+enemies.get(i).sizeHeight/2;
+                g2.drawImage(cursorInvert, x,y,gp.tileSize,gp.tileSize, null);
+                if (gp.keyH.enterPressed) {
+                    subState=0;
+                    party.getParty().get(index).setTarget(enemies.get(i));
+                    party.getParty().get(index).action=true;
+                    party.getParty().get(index).characterAction=1;
+                    gp.turnHandler.addGameQueue(party.getParty().get(index));
+                    gp.turnHandler.nextTurnCharacter();
+
+
+                }
+            }
+        
+       }
+    }
+
     private void actionSelector(Party party, int index) {
+        int windowsX = 5 + gp.tileSize / 2;
+        int windowsY = gp.screenHeight - gp.tileSize * 4 - 5;
+
+        windowsX += gp.tileSize;
+        windowsY += gp.tileSize;
+
+        if (numCommand == 0) {
+            g2.drawImage(cursor, windowsX - gp.tileSize, windowsY - gp.tileSize + 15, gp.tileSize, gp.tileSize, null);
+            if (gp.keyH.enterPressed) {
+                subState = 1;
+                /*
+                 * gp.turnHandler.addGameQueue(party.getParty().get(index));
+                 * 
+                 * gp.turnHandler.nextTurnCharacter();
+                 * 
+                 * numCommand = 0;
+                 * gp.keyH.enterPressed = false;
+                 */
+
+            }
+        }
+        windowsY += gp.tileSize;
+
+        if (numCommand == 1) {
+            g2.drawImage(cursor, windowsX - gp.tileSize, windowsY - gp.tileSize + 15, gp.tileSize, gp.tileSize, null);
+            if (gp.keyH.enterPressed) {
+                party.getParty().get(index).atb.setValue(0);
+                party.getParty().get(index).atb.full = false;
+                gp.turnHandler.nextTurnCharacter();
+                numCommand = 0;
+                gp.keyH.enterPressed = false;
+            }
+
+        }
+        windowsY += gp.tileSize;
+
+        if (numCommand == 2) {
+            g2.drawImage(cursor, windowsX - gp.tileSize, windowsY - gp.tileSize + 15, gp.tileSize, gp.tileSize, null);
+            if (gp.keyH.enterPressed) {
+                party.getParty().get(index).atb.setValue(0);
+                party.getParty().get(index).atb.full = false;
+                gp.turnHandler.nextTurnCharacter();
+
+                numCommand = 0;
+                gp.keyH.enterPressed = false;
+            }
+        }
+    }
+
+    private void drawAction() {
         int windowsX = 5 + gp.tileSize / 2;
         int windowsY = gp.screenHeight - gp.tileSize * 4 - 5;
         int width = gp.tileSize * 4;
@@ -1713,44 +1810,12 @@ public class UI {
         windowsX += gp.tileSize;
         windowsY += gp.tileSize;
         drawText("Attack", windowsX, windowsY, null);
-        if (numCommand == 0) {
-            g2.drawImage(cursor, windowsX - gp.tileSize, windowsY - gp.tileSize + 15, gp.tileSize, gp.tileSize, null);
-            if (gp.keyH.enterPressed) {
-                party.getParty().get(index).atb.setValue(0);
-                party.getParty().get(index).atb.state = false;
-                gp.turnHandler.setAction = false;
-
-                numCommand = 0;
-                gp.keyH.enterPressed = false;
-            }
-        }
         windowsY += gp.tileSize;
         drawText("Magic", windowsX, windowsY, null);
-        if (numCommand == 1) {
-            g2.drawImage(cursor, windowsX - gp.tileSize, windowsY - gp.tileSize + 15, gp.tileSize, gp.tileSize, null);
-            if (gp.keyH.enterPressed) {
-                party.getParty().get(index).atb.setValue(0);
-                party.getParty().get(index).atb.state = false;
-                gp.turnHandler.setAction = false;
 
-                numCommand = 0;
-                gp.keyH.enterPressed = false;
-            }
-
-        }
         windowsY += gp.tileSize;
         drawText("Items", windowsX, windowsY, null);
-        if (numCommand == 2) {
-            g2.drawImage(cursor, windowsX - gp.tileSize, windowsY - gp.tileSize + 15, gp.tileSize, gp.tileSize, null);
-            if (gp.keyH.enterPressed) {
-                party.getParty().get(index).atb.setValue(0);
-                party.getParty().get(index).atb.state = false;
-                gp.turnHandler.setAction = false;
 
-                numCommand = 0;
-                gp.keyH.enterPressed = false;
-            }
-        }
     }
 
     public void menuSelection() {

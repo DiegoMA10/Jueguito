@@ -12,12 +12,16 @@ public class Tifa extends Character {
 
     public Tifa(GamePanel gp) {
         super(gp);
+        RawStats(50);
+        defaultX = (gp.screenWidth - gp.tileSize * 6) + (24 * indexGroup);
+        defaultY = (gp.tileSize * 5 - 24) + ((gp.tileSize + 12) * indexGroup);
+        x = defaultX;
+        y = defaultY;
         sizeWidth = 15 * gp.scale;
         sizeHeight = 23 * gp.scale;
         characterID=2;
         getPlayerImagen();
-        RawStats(1);
-
+       
     }
 
     public Tifa(GamePanel gp, int level, int exp, int partyIndex, int hp, int mp) {
@@ -36,7 +40,7 @@ public class Tifa extends Character {
 
     public void RawStats(int level) {
         setName("Tifa");
-        setLevel(1);
+        setLevel(level);
         setIndexGroup(1);
         setExp(0);
         setNextLevelExp(32);
@@ -45,7 +49,7 @@ public class Tifa extends Character {
         setMaxMp(9);
         setMp(2);
         setStrength(40+level-1);
-        setDexterity(40+level-1);
+        setDexterity(100+level-1);
         setMagic(25+level-1);
         setAttack(25+level-1);
         setDefense(80);
@@ -69,6 +73,10 @@ public class Tifa extends Character {
         down1 = setUp(carpeta + "tifa_down1");
         down2 = setUp(carpeta + "tifa_down2");
         portrait = setUp(carpeta + "tifaPortrait");
+        cast = setUp(carpeta+"tifa_cast");
+        takeDamage = setUp(carpeta+"tifa_damage");
+        imageAttack = setUp(carpeta+"tifa_attack");
+        dead = setUp(carpeta+"tifa_dead");
     }
 
 
