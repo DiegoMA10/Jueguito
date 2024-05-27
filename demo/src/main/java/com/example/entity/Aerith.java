@@ -11,7 +11,7 @@ public class Aerith extends Character {
     
     public Aerith(GamePanel gp){ 
         super(gp);
-        RawStats(1);
+        RawStats(10);
         defaultX = (gp.screenWidth - gp.tileSize * 6) + (24 * indexGroup);
         defaultY = (gp.tileSize * 5 - 24) + ((gp.tileSize + 12) * indexGroup);
         x = defaultX;
@@ -44,9 +44,9 @@ public class Aerith extends Character {
         setExp(0);
         setNextLevelExp(32);
         setMaxHp(40);
-        setHp(20);
+        setHp(40);
         setMaxMp(20);
-        setMp(2);
+        setMp(20);
         setStrength(25+level-1);
         setDexterity(30+level-1);
         setMagic(40+level-1);

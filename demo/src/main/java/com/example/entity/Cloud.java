@@ -11,7 +11,7 @@ public class Cloud extends Character {
 
     public Cloud(GamePanel gp) {
         super(gp);
-        RawStats(1);
+        RawStats(10);
         defaultX = (gp.screenWidth - gp.tileSize * 6) + (24 * indexGroup);
         defaultY = (gp.tileSize * 5 - 24) + ((gp.tileSize + 12) * indexGroup);
         x = defaultX;
@@ -45,9 +45,9 @@ public class Cloud extends Character {
         setExp(0);
         setNextLevelExp(32);
         setMaxHp(50);
-        setHp(20);
+        setHp(50);
         setMaxMp(14);
-        setMp(2);
+        setMp(14);
         setStrength(35 + level - 1);
         setDexterity(35 + level - 1);
         setMagic(30 + level - 1);

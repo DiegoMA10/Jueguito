@@ -56,7 +56,7 @@ public class Enemy extends Entity {
 
     public void update() {
 
-        if (deadState) {
+        if (isAlive) {
             atb.update();
             defaultMove();
             if (gp.turnHandler.getCurrentTurn() == this) {
@@ -69,7 +69,9 @@ public class Enemy extends Entity {
                         atb.setValue(0);
                         gp.battle.animationAttack.setAnimation(animationAttack, gp.party.getParty().get(0));
                         attackEntity(gp.party.getParty().get(0));
+                        
                         gp.turnHandler.nextTurn();
+                      
                     }
                     cont = 0;
                 }
@@ -83,7 +85,10 @@ public class Enemy extends Entity {
                 }
             }
         } else {
-      
+            if (gp.turnHandler.getCurrentTurn() == this) {
+                gp.turnHandler.getCurrentTurn().setIsAlive(false);
+            }
+
             transparency -= TRANSPARENCY_CHANGE_PER_UPDATE;
             transparency = Math.max(0.0f, transparency);
     
@@ -147,14 +152,15 @@ public class Enemy extends Entity {
                 defaultY + sizeHeight / 2, Color.WHITE, new Font("Arial", Font.BOLD, 24), 1, 30);
         animatedTexts.add(animatedText);
         if (hp <= 0) {
-            deadState = false;
+            gp.battle.addExp(this.exp);
+            isAlive = false;
         }
     }
 
     private BufferedImage image;
 
     public void draw(Graphics2D g2) {
-        if (deadState || transparency > 0.0f) {
+        if (isAlive || transparency > 0.0f) {
             AlphaComposite alphaComposite = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, transparency);
             g2.setComposite(alphaComposite);
             this.g2 = g2;

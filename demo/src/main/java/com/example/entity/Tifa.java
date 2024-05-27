@@ -12,7 +12,7 @@ public class Tifa extends Character {
 
     public Tifa(GamePanel gp) {
         super(gp);
-        RawStats(50);
+        RawStats(10);
         defaultX = (gp.screenWidth - gp.tileSize * 6) + (24 * indexGroup);
         defaultY = (gp.tileSize * 5 - 24) + ((gp.tileSize + 12) * indexGroup);
         x = defaultX;
@@ -45,13 +45,13 @@ public class Tifa extends Character {
         setExp(0);
         setNextLevelExp(32);
         setMaxHp(60);
-        setHp(20);
+        setHp(60);
         setMaxMp(9);
-        setMp(2);
+        setMp(9);
         setStrength(40+level-1);
-        setDexterity(100+level-1);
+        setDexterity(40+level-1);
         setMagic(25+level-1);
-        setAttack(25+level-1);
+        setAttack(21+level-1);
         setDefense(80);
         setMagicDefense(80);
 

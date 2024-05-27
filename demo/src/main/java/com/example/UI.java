@@ -51,7 +51,6 @@ public class UI {
     SaveSlot save1 = null;
     SaveSlot save2 = null;
     SaveSlot save3 = null;
-  
 
     public UI(GamePanel gp) {
 
@@ -858,10 +857,11 @@ public class UI {
         if (numCommand == 1) {
             g2.drawImage(cursor, x - gp.tileSize, y - gp.tileSize + 20, gp.tileSize, gp.tileSize, null);
             if (gp.keyH.enterPressed == true) {
+
+                gp.gameState = GamePanel.playState;
                 numCommand = 0;
                 subState = 0;
-                gp.gameState = GamePanel.playState;
-
+                gp.keyH.enterPressed = false;
             }
         }
     }
@@ -1722,33 +1722,34 @@ public class UI {
             case 0:
                 actionSelector(party, index);
                 break;
-            case 1: attackSelector(party, index);
+            case 1:
+                attackSelector(party, index);
             default:
                 break;
         }
     }
 
-    private void attackSelector(Party party,int index){
-        ArrayList <Enemy> enemies = gp.battle.level.get(gp.battle.currentRound);
-       for (int i = 0; i < enemies.size(); i++) {
+    private void attackSelector(Party party, int index) {
+        ArrayList<Enemy> enemies = gp.battle.level.get(gp.battle.currentRound);
+        for (int i = 0; i < enemies.size(); i++) {
 
-            if (subNumCommand==i) {
-                int x = enemies.get(i).defaultX+enemies.get(i).sizeWidth;
-                int y = enemies.get(i).defaultY+enemies.get(i).sizeHeight/2;
-                g2.drawImage(cursorInvert, x,y,gp.tileSize,gp.tileSize, null);
+            if (subNumCommand == i) {
+                int x = enemies.get(i).defaultX + enemies.get(i).sizeWidth;
+                int y = enemies.get(i).defaultY + enemies.get(i).sizeHeight / 2;
+                g2.drawImage(cursorInvert, x, y, gp.tileSize, gp.tileSize, null);
                 if (gp.keyH.enterPressed) {
-                    subState=0;
+                    subState = 0;
+                    subNumCommand = 0;
                     party.getParty().get(index).setTarget(enemies.get(i));
-                    party.getParty().get(index).action=true;
-                    party.getParty().get(index).characterAction=1;
+                    party.getParty().get(index).action = true;
+                    party.getParty().get(index).characterAction = 1;
                     gp.turnHandler.addGameQueue(party.getParty().get(index));
                     gp.turnHandler.nextTurnCharacter();
 
-
                 }
             }
-        
-       }
+
+        }
     }
 
     private void actionSelector(Party party, int index) {
@@ -1762,14 +1763,6 @@ public class UI {
             g2.drawImage(cursor, windowsX - gp.tileSize, windowsY - gp.tileSize + 15, gp.tileSize, gp.tileSize, null);
             if (gp.keyH.enterPressed) {
                 subState = 1;
-                /*
-                 * gp.turnHandler.addGameQueue(party.getParty().get(index));
-                 * 
-                 * gp.turnHandler.nextTurnCharacter();
-                 * 
-                 * numCommand = 0;
-                 * gp.keyH.enterPressed = false;
-                 */
 
             }
         }

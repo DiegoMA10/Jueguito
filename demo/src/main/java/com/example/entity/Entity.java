@@ -45,8 +45,10 @@ public class Entity implements Comparable<Entity> {
     public boolean collisionOn = false;
     protected String dialogues[] = new String[10];
     int dialogueI = 0;
-    protected Boolean deadState = true;
+    protected Boolean isAlive = true;
 
+
+   
 
     public Entity(GamePanel gp) {
         this.gp = gp;
@@ -153,8 +155,12 @@ public class Entity implements Comparable<Entity> {
 
     }
 
-    public Boolean getDeadState() {
-        return deadState;
+    public Boolean getIsAlive() {
+        return isAlive;
+    }
+
+    public void setIsAlive(Boolean deadState) {
+        this.isAlive = deadState;
     }
 
 

@@ -44,7 +44,7 @@ public class Character extends Entity {
     protected int attack;
     protected int exp;
     protected int nextLevelExp;
-    protected boolean deadState=true;
+    protected boolean deadState = true;
     public ATB atb;
     private Graphics2D g2;
     private Entity target;
@@ -73,6 +73,8 @@ public class Character extends Entity {
     public boolean action = false;
     private int spriteCursor = 0;
     private int contCursor = 0;
+    private int contTransition = 0;
+    private int spriteTransition = 0;
 
     public void update() {
         atb.update();
@@ -81,6 +83,7 @@ public class Character extends Entity {
         if (gp.turnHandler.getCurrentTurn() == this) {
             cont++;
         }
+
         contCursor++;
         if (contCursor > 12) {
             spriteCursor++;
@@ -103,32 +106,70 @@ public class Character extends Entity {
 
     public void updateAction() {
         if (deadState) {
-            defaultMove();
-            if (gp.turnHandler.getCurrentTurn() == this) {
-                switch (characterAction) {
-                    case 1:
-                        if (action) {
-                            jump();
+            if (!gp.battle.transitioning) {
+                defaultMove();
+                if (gp.turnHandler.getCurrentTurn() == this) {
+                    if (gp.turnHandler.areEnemiesAlive()) {
+                        switch (characterAction) {
+                            case 1:
+                                if (action) {
+                                    jump();
+                                }
+                                break;
+                        }
+                        if (cont > 160) {
+                            action = false;
+                            cont = 0;
+                            x = defaultX;
+                            y = defaultY;
+                            gp.turnHandler.nextTurn();
+                            atb.resetATB();
+                        }
+                    } else {
+                        returnToPosition();
+                        if (cont > 140) {
+                            action = false;
+                            cont = 0;
+                            x = defaultX;
+                            y = defaultY;
+                            gp.turnHandler.nextTurn();
+                            atb.resetATB();
+                            resetJump();
                         }
 
-                        break;
+                    }
                 }
-
-                if (cont > 160) {
-                    action = false;
-                    cont = 0;
-
-                    x = defaultX;
-                    y = defaultY;
-                    gp.turnHandler.nextTurn();
-                    atb.resetATB();
-                }
+            } else {
+                transitiongMove();
             }
         } else {
+            if (gp.turnHandler.getCurrentTurn() == this) {
+                gp.turnHandler.getCurrentTurn().setIsAlive(false);
+            }
+
+            if (gp.turnHandler.getCurrentCharacter() == this) {
+                gp.turnHandler.getCurrentCharacter().setIsAlive(false);
+            }
+
             image = dead;
             atb.resetATB();
         }
+    }
 
+    public void transitiongMove() {
+        contTransition++;
+        x -= 6;
+
+        if (contTransition > 12) {
+            spriteTransition++;
+            contTransition = 0;
+            if (spriteTransition > 1) {
+                spriteTransition = 0;
+                image = left;
+            } else {
+                image = left1;
+            }
+        }
     }
 
     public void jump() {
@@ -168,7 +209,6 @@ public class Character extends Entity {
 
             attackEntity(target);
             gp.battle.animationAttack.setAnimation(attackAnimation, target);
-
             gp.playSE(8);
             jumping = false;
             returning = true;
@@ -191,9 +231,17 @@ public class Character extends Entity {
                 image = left;
                 x = defaultX;
                 y = defaultY;
-
             }
         }
+    }
+
+    public void resetJump() {
+        jumping = false;
+        returning = false;
+        jumpProgress = 0;
+        jumpcont = 0;
+        x = defaultX;
+        y = defaultY;
     }
 
     public void defaultMove() {
@@ -207,7 +255,7 @@ public class Character extends Entity {
     }
 
     public void attackEntity(Entity e) {
-        if (!e.getDeadState()) {
+        if (!e.getIsAlive()) {
             target = findNewTarget();
         }
 
@@ -220,13 +268,11 @@ public class Character extends Entity {
         if (e instanceof Enemy) {
             ((Enemy) target).takeDamage(damage);
         }
-
     }
 
     public Entity findNewTarget() {
-
         for (Entity enemy : gp.battle.level.get(gp.battle.currentRound)) {
-            if (enemy.getDeadState()) {
+            if (enemy.getIsAlive()) {
                 return enemy;
             }
         }
@@ -246,17 +292,6 @@ public class Character extends Entity {
 
     private BufferedImage image;
 
-    public void drawText(String text, int x, int y, Color c) {
-        if (c == null) {
-            c = Color.WHITE;
-        }
-        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 24));
-        g2.setColor(Color.BLACK);
-        g2.drawString(text, x + 3, y + 3);
-        g2.setColor(c);
-        g2.drawString(text, x, y);
-    }
-
     int cont = 0;
 
     public void draw(Graphics2D g2) {
@@ -266,14 +301,15 @@ public class Character extends Entity {
             for (AnimatedText text : animatedTexts) {
                 text.draw(g2);
             }
-            if (gp.turnHandler.getCurrentCharacter() != null &&
-                    gp.turnHandler.getCurrentCharacter().indexGroup == this.indexGroup) {
-                g2.drawImage(battleCursor[spriteCursor], x, y - gp.tileSize / 2, 12 * 3, 7 * 3, null);
+            if (!gp.battle.transitioning) {
+                if (gp.turnHandler.getCurrentCharacter() != null &&
+                        gp.turnHandler.getCurrentCharacter().indexGroup == this.indexGroup) {
+                    g2.drawImage(battleCursor[spriteCursor], x, y - gp.tileSize / 2, 12 * 3, 7 * 3, null);
+                }
             }
-        }else{
-            g2.drawImage(image, x, y+23, 24*3, 17*3, null);
+        } else {
+            g2.drawImage(image, x, y + 23, 24 * 3, 17 * 3, null);
         }
-
     }
 
     public BufferedImage setUpCursor(String path) {

@@ -39,8 +39,15 @@ public class Party {
         for (Character character : party) {
             character.setHp(character.getMaxHp());
             character.setMp(character.getMaxMp());
+            character.deadState=true;
         }
 
+    }
+
+    public void defaultPosition(){
+        for (Character character : party) {
+            character.x=character.defaultX;
+        }
     }
 
     public void buyItem(Item item, int num) {
