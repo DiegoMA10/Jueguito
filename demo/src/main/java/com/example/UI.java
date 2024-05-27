@@ -7,21 +7,15 @@ import java.awt.FontMetrics;
 import java.awt.GradientPaint;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
-
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.Queue;
-
 import javax.imageio.ImageIO;
-
 import com.example.Items.Item;
-import com.example.entity.ATB;
 import com.example.entity.Character;
 import com.example.entity.Party;
 import com.example.entity.enemy.Enemy;
 import com.example.entity.npc.NPC_Item;
 
-import javafx.scene.text.Text;
+
 
 public class UI {
     private GamePanel gp;
@@ -48,6 +42,7 @@ public class UI {
     int cont = 0;
     public NPC_Item itemNpc;
     private String menuMessage;
+    private ArrayList<String>battleMesage = new ArrayList<>();
     SaveSlot save1 = null;
     SaveSlot save2 = null;
     SaveSlot save3 = null;
@@ -63,6 +58,10 @@ public class UI {
         normalFont = new Font("Arial", Font.BOLD, 30);
         UIBattleFont = new Font("Arial", Font.BOLD, 24);
 
+    }
+    
+    public void addBattleMesage(String message){
+        battleMesage.add(message);
     }
 
     public BufferedImage setUp(String path) {
@@ -857,13 +856,14 @@ public class UI {
         if (numCommand == 1) {
             g2.drawImage(cursor, x - gp.tileSize, y - gp.tileSize + 20, gp.tileSize, gp.tileSize, null);
             if (gp.keyH.enterPressed == true) {
-
                 gp.gameState = GamePanel.playState;
+                gameStateTransition = GamePanel.playState;
                 numCommand = 0;
                 subState = 0;
-                gp.keyH.enterPressed = false;
+              
             }
-        }
+        } 
+       
     }
 
     private void breakSelector() {
@@ -1630,8 +1630,7 @@ public class UI {
                 if (menuStatus) {
                     menuStatus = false;
                     gp.keyH.enterPressed = false;
-                    Character.changeInexGroup(gp.party.getParty().get(numIndexGroup),
-                            gp.party.getParty().get(subNumCommand));
+                    Character.changeInexGroup(gp.party.getParty().get(numIndexGroup),gp.party.getParty().get(subNumCommand));
                     UtilityTool.sortByIndexGroup(gp.party.getParty());
                     gp.player.getPlayerImagen();
                 } else {

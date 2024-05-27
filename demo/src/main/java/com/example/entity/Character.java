@@ -109,6 +109,7 @@ public class Character extends Entity {
             if (!gp.battle.transitioning) {
                 defaultMove();
                 if (gp.turnHandler.getCurrentTurn() == this) {
+
                     if (gp.turnHandler.areEnemiesAlive()) {
                         switch (characterAction) {
                             case 1:
@@ -142,6 +143,7 @@ public class Character extends Entity {
             } else {
                 transitiongMove();
             }
+
         } else {
             if (gp.turnHandler.getCurrentTurn() == this) {
                 gp.turnHandler.getCurrentTurn().setIsAlive(false);
@@ -158,8 +160,8 @@ public class Character extends Entity {
 
     public void transitiongMove() {
         contTransition++;
-        x -= 6;
 
+        x -= 6;
         if (contTransition > 12) {
             spriteTransition++;
             contTransition = 0;
@@ -170,6 +172,7 @@ public class Character extends Entity {
                 image = left1;
             }
         }
+
     }
 
     public void jump() {
@@ -245,12 +248,27 @@ public class Character extends Entity {
     }
 
     public void defaultMove() {
-        if (action) {
-            if (!jumping && !returning) {
-                image = imageAttack;
+       
+        if (gp.battle.endBattle) {
+            contTransition++;
+            if (contTransition > 15) {
+                spriteTransition++;
+                contTransition = 0;
+                if (spriteTransition > 2) {
+                    spriteTransition = 0;
+                    image = left;
+                } else {
+                    image = cast;
+                }
             }
-        } else {
-            image = left;
+        }else{
+            if (action) {
+                if (!jumping && !returning) {
+                    image = imageAttack;
+                }
+            } else {
+                image = left;
+            }
         }
     }
 
@@ -301,7 +319,7 @@ public class Character extends Entity {
             for (AnimatedText text : animatedTexts) {
                 text.draw(g2);
             }
-            if (!gp.battle.transitioning) {
+            if (!gp.battle.transitioning && !gp.battle.endBattle) {
                 if (gp.turnHandler.getCurrentCharacter() != null &&
                         gp.turnHandler.getCurrentCharacter().indexGroup == this.indexGroup) {
                     g2.drawImage(battleCursor[spriteCursor], x, y - gp.tileSize / 2, 12 * 3, 7 * 3, null);
@@ -363,6 +381,15 @@ public class Character extends Entity {
         int aux = c1.getIndexGroup();
         c1.setIndexGroup(c2.getIndexGroup());
         c2.setIndexGroup(aux);
+        c1.refreshPosition();
+        c2.refreshPosition();
+    }
+
+    public void refreshPosition() {
+        defaultX = (gp.screenWidth - gp.tileSize * 6) + (24 * indexGroup);
+        defaultY = (gp.tileSize * 5 - 24) + ((gp.tileSize + 12) * indexGroup);
+        x = defaultX;
+        y = defaultY;
     }
 
     public int getCharacterID() {

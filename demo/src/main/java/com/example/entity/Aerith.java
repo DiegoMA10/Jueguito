@@ -39,7 +39,7 @@ public class Aerith extends Character {
 
     public void RawStats(int level){
         setName("Aerith");
-        setLevel(1);
+        setLevel(level);
         setIndexGroup(0);
         setExp(0);
         setNextLevelExp(32);

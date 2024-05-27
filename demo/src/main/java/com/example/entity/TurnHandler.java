@@ -113,9 +113,7 @@ public class TurnHandler {
     }
 
     public void resetTurnState() {
-        this.currentCharacter = null;
         this.currentTurn = null;
-        this.characterAction = false;
         this.turnAction = false;
         cleanUpQueues();
     }

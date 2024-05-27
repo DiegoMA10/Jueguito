@@ -41,7 +41,7 @@ public class Cloud extends Character {
     public void RawStats(int level) {
         setName("Cloud");
         setIndexGroup(2);
-        setLevel(1);
+        setLevel(level);
         setExp(0);
         setNextLevelExp(32);
         setMaxHp(50);

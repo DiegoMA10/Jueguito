@@ -21,8 +21,11 @@ public class BattlePanel {
     int cont = 0;
     public boolean enemiesAlive;
     public boolean transitioning = false;
+    public boolean endBattle = false;
     private Color backgroundColor = new Color(0, 0, 0, 0);
     private int totalExp=0;
+    private int totalGil=0;
+   
 
     public BattlePanel(GamePanel gp) {
         this.gp = gp;
@@ -73,8 +76,9 @@ public class BattlePanel {
 
         if (!enemiesAlive && level.containsKey(currentRound + 1) && gp.turnHandler.getCurrentTurn() == null) {
             startTransition();
-        } else if (!enemiesAlive && !level.containsKey(currentRound + 1)) {
+        } else if (!enemiesAlive && !level.containsKey(currentRound + 1) && !endBattle) {
             endBattle();
+          
         }
 
         gp.turnHandler.turnCharacters();
@@ -83,6 +87,10 @@ public class BattlePanel {
 
         if (transitioning) {
             transitionToNextRound();
+        }
+
+        if (endBattle) {
+            
         }
     }
 
@@ -100,7 +108,8 @@ public class BattlePanel {
     }
 
     public void endBattle() {
-        System.out.println(totalExp);
+        endBattle = true;
+        System.out.println(totalExp+"."+totalGil);
     }
 
     public void startTransition() {

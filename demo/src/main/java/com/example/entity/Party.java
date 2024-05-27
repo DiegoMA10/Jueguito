@@ -10,7 +10,7 @@ public class Party {
     GamePanel gp;
     private ArrayList<Character> party = new ArrayList<>();
     private ArrayList<Item> inventory = new ArrayList<>();
-    private int gil = 12343;
+    private int gil = 500;
 
     public Party(GamePanel gp) {
         this.gp = gp;
@@ -80,16 +80,17 @@ public class Party {
     }
 
     public void update(){
-        party.get(0).update();
-        party.get(1).update();
-        party.get(2).update();
+       for (Character character : party) {
+         character.update();
+       }
        
     }
 
 
     public void draw(Graphics2D g2){
-        party.get(0).draw(g2);
-        party.get(1).draw(g2);
-        party.get(2).draw(g2);
+        for (Character character : party) {
+            character.draw(g2);
+          }
+          
     }
 }
