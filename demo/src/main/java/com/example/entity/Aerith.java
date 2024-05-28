@@ -1,92 +1,91 @@
 package com.example.entity;
 
-
 import java.awt.Graphics2D;
 
 import com.example.GamePanel;
 
 public class Aerith extends Character {
-   
-  
-    
-    public Aerith(GamePanel gp){ 
+
+    public Aerith(GamePanel gp) {
         super(gp);
-        RawStats(10);
-        defaultX = (gp.screenWidth - gp.tileSize * 6) + (24 * indexGroup);
-        defaultY = (gp.tileSize * 5 - 24) + ((gp.tileSize + 12) * indexGroup);
-        x = defaultX;
-        y = defaultY;
-        sizeWidth = 15*gp.scale;
-        sizeHeight = 23*gp.scale;
-        characterID=1;
+        sizeWidth = 15 * gp.scale;
+        sizeHeight = 23 * gp.scale;
+        baseMaxHp = 40;
+        baseMaxMp = 20;
+        RawStats(1);
+
+        characterID = 1;
+        refreshPosition();
         getPlayerImagen();
-        
+
     }
-    
-    public Aerith(GamePanel gp,int level, int exp, int partyIndex, int hp, int mp) {
+
+    public Aerith(GamePanel gp, int level, int exp, int partyIndex, int hp, int mp) {
         super(gp);
-        sizeWidth = 15*gp.scale;
-        sizeHeight = 23*gp.scale;
-        characterID=1;
+        baseMaxHp = 40;
+        baseMaxMp = 20;
+        sizeWidth = 15 * gp.scale;
+        sizeHeight = 23 * gp.scale;
+        characterID = 1;
+        setExp(exp);
         setLevel(level);
         RawStats(level);
         setHp(hp);
-        setIndexGroup(partyIndex);
-        setExp(exp);
         setMp(mp);
+        setIndexGroup(partyIndex);
+        refreshPosition();
         getPlayerImagen();
     }
 
-    public void RawStats(int level){
+    public void RawStats(int level) {
         setName("Aerith");
-        setLevel(level);
         setIndexGroup(0);
-        setExp(0);
-        setNextLevelExp(32);
-        setMaxHp(40);
-        setHp(40);
-        setMaxMp(20);
-        setMp(20);
-        setStrength(25+level-1);
-        setDexterity(30+level-1);
-        setMagic(40+level-1);
-        setAttack(15+level-1);
-        setDefense(80);
-        setMagicDefense(80);
-       
+        setLevel(level);
+        setNextLevelExp(gp.dataBase.getExpForNextLevel(level));
+        setMaxHp(gp.dataBase.getHpForLevel(level));
+        setHp(getMaxHp());
+        setMaxMp(gp.dataBase.getMpForLevel(level));
+        setMp(getMaxMp());
+        setStrength(25 + level - 1);
+        setDexterity(30 + level - 1);
+        setMagic(40 + level - 1);
+        setAttack(15 + level - 1);
+        setDefense(80 + level - 1);
+        setMagicDefense(80 + level - 1);
+
     }
-    
-    public void getPlayerImagen(){
+
+    public void getPlayerImagen() {
         String carpeta = "/com/example/image/characters/";
-        left = setUp(carpeta+"aerith_left");
-        left1 = setUp(carpeta+"aerith_left1");
+        left = setUp(carpeta + "aerith_left");
+        left1 = setUp(carpeta + "aerith_left1");
 
-        right = setUp(carpeta+"aerith_right");
-        right1 = setUp(carpeta+"aerith_right1");
+        right = setUp(carpeta + "aerith_right");
+        right1 = setUp(carpeta + "aerith_right1");
 
-        up = setUp(carpeta+"aerith_up");
-        up1 = setUp(carpeta+"aerith_up1");
-        up2 = setUp(carpeta+"aerith_up2");
+        up = setUp(carpeta + "aerith_up");
+        up1 = setUp(carpeta + "aerith_up1");
+        up2 = setUp(carpeta + "aerith_up2");
 
-        down = setUp(carpeta+"aerith_down");
-        down1 = setUp(carpeta+"aerith_down1");
-        down2 = setUp(carpeta+"aerith_down2");
-        portrait = setUp(carpeta+"aerithPortrait"); 
-        cast = setUp(carpeta+"aerith_cast");
-        takeDamage = setUp(carpeta+"aerith_damage");
-        imageAttack = setUp(carpeta+"aerith_attack");
-        dead = setUp(carpeta+"aerith_dead");
+        down = setUp(carpeta + "aerith_down");
+        down1 = setUp(carpeta + "aerith_down1");
+        down2 = setUp(carpeta + "aerith_down2");
+        portrait = setUp(carpeta + "aerithPortrait");
+        cast = setUp(carpeta + "aerith_cast");
+        takeDamage = setUp(carpeta + "aerith_damage");
+        imageAttack = setUp(carpeta + "aerith_attack");
+        dead = setUp(carpeta + "aerith_dead");
     }
 
     @Override
     public void draw(Graphics2D g2) {
-       
+
         super.draw(g2);
     }
 
     @Override
     public void update() {
-       
+
         super.update();
     }
 

@@ -11,16 +11,14 @@ public class Cloud extends Character {
 
     public Cloud(GamePanel gp) {
         super(gp);
-        RawStats(10);
-        defaultX = (gp.screenWidth - gp.tileSize * 6) + (24 * indexGroup);
-        defaultY = (gp.tileSize * 5 - 24) + ((gp.tileSize + 12) * indexGroup);
-        x = defaultX;
-        y = defaultY;
+        baseMaxHp = 50;
+        baseMaxMp = 14;
+        RawStats(1);
         characterID = 3;
         sizeWidth = 15 * gp.scale;
         sizeHeight = 23 * gp.scale;
+        refreshPosition();
         getPlayerImagen();
-     
 
     }
 
@@ -29,12 +27,15 @@ public class Cloud extends Character {
         sizeWidth = 15 * gp.scale;
         sizeHeight = 23 * gp.scale;
         characterID = 3;
+        baseMaxHp = 50;
+        baseMaxMp = 14;
+        setExp(exp);
         setLevel(level);
         RawStats(level);
-        setHp(hp);
         setIndexGroup(partyIndex);
-        setExp(exp);
+        setHp(hp);
         setMp(mp);
+        refreshPosition();
         getPlayerImagen();
     }
 
@@ -42,18 +43,17 @@ public class Cloud extends Character {
         setName("Cloud");
         setIndexGroup(2);
         setLevel(level);
-        setExp(0);
-        setNextLevelExp(32);
-        setMaxHp(50);
-        setHp(50);
-        setMaxMp(14);
-        setMp(14);
+        setNextLevelExp(gp.dataBase.getExpForNextLevel(level));
+        setMaxHp(gp.dataBase.getHpForLevel(level));
+        setHp(getMaxHp());
+        setMaxMp(gp.dataBase.getMpForLevel(level));
+        setMp(getMaxMp());
         setStrength(35 + level - 1);
         setDexterity(35 + level - 1);
         setMagic(30 + level - 1);
         setAttack(20 + level - 1);
-        setDefense(80);
-        setMagicDefense(80);
+        setDefense(80 + level - 1);
+        setMagicDefense(80 + level - 1);
 
     }
 
@@ -73,10 +73,10 @@ public class Cloud extends Character {
         down1 = setUp(carpeta + "cloud_down1");
         down2 = setUp(carpeta + "cloud_down2");
         portrait = setUp(carpeta + "cloudPortrait");
-        cast = setUp(carpeta+"cloud_cast");
-        takeDamage = setUp(carpeta+"cloud_damage");
-        imageAttack = setUp(carpeta+"cloud_attack");
-        dead = setUp(carpeta+"cloud_dead");
+        cast = setUp(carpeta + "cloud_cast");
+        takeDamage = setUp(carpeta + "cloud_damage");
+        imageAttack = setUp(carpeta + "cloud_attack");
+        dead = setUp(carpeta + "cloud_dead");
     }
 
     @Override

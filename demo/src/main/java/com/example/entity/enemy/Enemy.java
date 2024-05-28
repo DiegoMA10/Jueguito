@@ -10,15 +10,15 @@ import java.util.Iterator;
 
 import javax.imageio.ImageIO;
 
+import com.example.AnimatedText;
 import com.example.GamePanel;
 import com.example.UtilityTool;
 import com.example.entity.ATB;
 import com.example.entity.Entity;
-import com.example.tile.AnimatedText;
 import com.example.entity.Character;
 
 public class Enemy extends Entity {
-    
+
     protected String name;
     public BufferedImage[] animationAttack;
     protected int level;
@@ -33,17 +33,17 @@ public class Enemy extends Entity {
     protected int magicDefense;
     protected int attack;
     protected int exp;
-    
-   
+    protected int gil;
+
     private ATB atb;
     Graphics2D g2;
     private float transparency = 1.0f;
     private static final float TRANSPARENCY_CHANGE_PER_UPDATE = 0.02f;
 
-
-    public Enemy(GamePanel gp, int level, int exp, int x, int y) {
+    public Enemy(GamePanel gp, int level, int gil, int exp, int x, int y) {
         super(gp);
         this.level = level;
+        this.gil = gil;
         this.exp = exp;
         defaultX = x;
         defaultY = y;
@@ -69,9 +69,9 @@ public class Enemy extends Entity {
                         atb.setValue(0);
                         gp.battle.animationAttack.setAnimation(animationAttack, gp.party.getParty().get(0));
                         attackEntity(gp.party.getParty().get(0));
-                        
+
                         gp.turnHandler.nextTurn();
-                      
+
                     }
                     cont = 0;
                 }
@@ -91,11 +91,11 @@ public class Enemy extends Entity {
 
             transparency -= TRANSPARENCY_CHANGE_PER_UPDATE;
             transparency = Math.max(0.0f, transparency);
-    
+
             if (transparency == 0.0f) {
                 gp.battle.level.get(gp.battle.currentRound).remove(this);
                 gp.battle.iterator = gp.battle.level.get(gp.battle.currentRound).iterator();
-              
+
             }
         }
     }
@@ -133,16 +133,16 @@ public class Enemy extends Entity {
     public void attackEntity(Entity e) {
         int attack2 = attack + strength * 2;
         int damage = attack + ((level * level * attack2) / (256)) * 3 / 2;
-        if (e!=null) {
-             if (e instanceof Character) {
-            ((Character) e).takeDamage(damage);
+        if (e != null) {
+            if (e instanceof Character) {
+                ((Character) e).takeDamage(damage);
+            }
+
+            if (e instanceof Enemy) {
+                ((Enemy) e).takeDamage(damage);
+            }
         }
 
-        if (e instanceof Enemy) {
-            ((Enemy) e).takeDamage(damage);
-        }
-        }
-       
     }
 
     public void takeDamage(int damage) {
@@ -150,9 +150,10 @@ public class Enemy extends Entity {
         setHp(getHp() - damageFinal);
         AnimatedText animatedText = new AnimatedText(Integer.toString(damageFinal), defaultX + sizeWidth / 2,
                 defaultY + sizeHeight / 2, Color.WHITE, new Font("Arial", Font.BOLD, 24), 1, 30);
-        animatedTexts.add(animatedText);
+        gp.battle.addAnimatedText(animatedText);
         if (hp <= 0) {
             gp.battle.addExp(this.exp);
+            gp.battle.addGil(this.gil);
             isAlive = false;
         }
     }
@@ -168,12 +169,10 @@ public class Enemy extends Entity {
 
             for (AnimatedText text : animatedTexts) {
                 text.draw(g2);
-            } 
+            }
             g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
         }
     }
-
-  
 
     public void setAtb(ATB atb) {
         this.atb = atb;

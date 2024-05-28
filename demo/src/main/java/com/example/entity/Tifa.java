@@ -12,48 +12,50 @@ public class Tifa extends Character {
 
     public Tifa(GamePanel gp) {
         super(gp);
-        RawStats(10);
-        defaultX = (gp.screenWidth - gp.tileSize * 6) + (24 * indexGroup);
-        defaultY = (gp.tileSize * 5 - 24) + ((gp.tileSize + 12) * indexGroup);
-        x = defaultX;
-        y = defaultY;
+        baseMaxHp = 60;
+        baseMaxMp = 9;
+        RawStats(1);
         sizeWidth = 15 * gp.scale;
         sizeHeight = 23 * gp.scale;
-        characterID=2;
+        characterID = 2;
+        refreshPosition();
         getPlayerImagen();
-       
+
     }
 
     public Tifa(GamePanel gp, int level, int exp, int partyIndex, int hp, int mp) {
         super(gp);
         sizeWidth = 15 * gp.scale;
         sizeHeight = 23 * gp.scale;
-        characterID=2;
-        setLevel(level);
+        refreshPosition();
+        characterID = 2;
+        baseMaxHp = 60;
+        baseMaxMp = 9;
+        setExp(exp);
         RawStats(level);
         setHp(hp);
-        setIndexGroup(partyIndex);
-        setExp(exp);
         setMp(mp);
+        setIndexGroup(partyIndex);
+        refreshPosition();
         getPlayerImagen();
+
     }
 
     public void RawStats(int level) {
         setName("Tifa");
         setLevel(level);
         setIndexGroup(1);
-        setExp(0);
-        setNextLevelExp(32);
-        setMaxHp(60);
-        setHp(60);
-        setMaxMp(9);
-        setMp(9);
-        setStrength(40+level-1);
-        setDexterity(40+level-1);
-        setMagic(25+level-1);
-        setAttack(21+level-1);
-        setDefense(80);
-        setMagicDefense(80);
+        setNextLevelExp(gp.dataBase.getExpForNextLevel(level));
+        setMaxHp(gp.dataBase.getHpForLevel(level));
+        setHp(getMaxHp());
+        setMaxMp(gp.dataBase.getMpForLevel(level));
+        setMp(getMaxMp());
+        setStrength(40 + level - 1);
+        setDexterity(40 + level - 1);
+        setMagic(25 + level - 1);
+        setAttack(23 + level - 1);
+        setDefense(80 + level - 1);
+        setMagicDefense(80 + level - 1);
 
     }
 
@@ -73,23 +75,21 @@ public class Tifa extends Character {
         down1 = setUp(carpeta + "tifa_down1");
         down2 = setUp(carpeta + "tifa_down2");
         portrait = setUp(carpeta + "tifaPortrait");
-        cast = setUp(carpeta+"tifa_cast");
-        takeDamage = setUp(carpeta+"tifa_damage");
-        imageAttack = setUp(carpeta+"tifa_attack");
-        dead = setUp(carpeta+"tifa_dead");
+        cast = setUp(carpeta + "tifa_cast");
+        takeDamage = setUp(carpeta + "tifa_damage");
+        imageAttack = setUp(carpeta + "tifa_attack");
+        dead = setUp(carpeta + "tifa_dead");
     }
-
-
 
     @Override
     public void draw(Graphics2D g2) {
-       
+
         super.draw(g2);
     }
 
     @Override
     public void update() {
-       
+
         super.update();
     }
 

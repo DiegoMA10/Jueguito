@@ -170,7 +170,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void playMusic(int n) {
         music.setFile(n);
-        music.setVolume(0.0f);
+        music.setVolume(0.07f);
 
         music.play();
         music.loop();

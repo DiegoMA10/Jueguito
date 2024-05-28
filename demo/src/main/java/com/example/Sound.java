@@ -22,6 +22,8 @@ public class Sound {
         soundURL[7] = getClass().getResource("/com/example/sound/BFBuyingSelling.wav");
         soundURL[8] = getClass().getResource("/com/example/sound/swordSlash.wav");
         soundURL[9] = getClass().getResource("/com/example/sound/saveTing.wav");
+        soundURL[10] = getClass().getResource("/com/example/sound/battleThemeFF6.wav");
+        soundURL[11] = getClass().getResource("/com/example/sound/victoryFanfare.wav");
     }
 
 

@@ -8,13 +8,13 @@ import java.util.Iterator;
 
 import javax.imageio.ImageIO;
 
+import com.example.AnimatedText;
 import com.example.GamePanel;
 import com.example.UtilityTool;
 import com.example.Items.Item;
 import com.example.entity.enemy.Enemy;
-import com.example.tile.AnimatedText;
 
-public class Character extends Entity {
+public abstract class Character extends Entity {
 
     public BufferedImage portrait;
     public BufferedImage[] attackAnimation;
@@ -32,6 +32,8 @@ public class Character extends Entity {
     protected int defaultX;
     protected int defaultY;
     protected int level;
+    protected int baseMaxHp;
+    protected int baseMaxMp;
     protected int MaxHp;
     protected int hp;
     protected int MaxMp;
@@ -44,13 +46,14 @@ public class Character extends Entity {
     protected int attack;
     protected int exp;
     protected int nextLevelExp;
-    protected boolean deadState = true;
+    private boolean takeDamageOn = false;
     public ATB atb;
     private Graphics2D g2;
     private Entity target;
 
     private boolean jumping = false;
     private boolean returning = false;
+
     private int jumpDistance = 120;
     private int jumpHeight = 60;
     private int jumpSpeed = 4;
@@ -105,7 +108,7 @@ public class Character extends Entity {
     public int characterAction;
 
     public void updateAction() {
-        if (deadState) {
+        if (isAlive) {
             if (!gp.battle.transitioning) {
                 defaultMove();
                 if (gp.turnHandler.getCurrentTurn() == this) {
@@ -248,7 +251,7 @@ public class Character extends Entity {
     }
 
     public void defaultMove() {
-       
+
         if (gp.battle.endBattle) {
             contTransition++;
             if (contTransition > 15) {
@@ -261,13 +264,23 @@ public class Character extends Entity {
                     image = cast;
                 }
             }
-        }else{
+        } else {
             if (action) {
                 if (!jumping && !returning) {
                     image = imageAttack;
                 }
             } else {
-                image = left;
+                if (takeDamageOn) {
+                    cont++;
+                    image = takeDamage;
+                    if (cont > 15) {
+                        cont = 0;
+                        takeDamageOn = false;
+                    }
+                } else {
+                    image = left;
+                }
+
             }
         }
     }
@@ -297,28 +310,42 @@ public class Character extends Entity {
         return null;
     }
 
+    private BufferedImage image;
+
     public void takeDamage(int damage) {
         int damageFinal = (damage * (255 - defense) / 256) + 1;
         setHp(getHp() - damageFinal);
         AnimatedText animatedText = new AnimatedText(Integer.toString(damageFinal), defaultX + sizeWidth / 2,
                 defaultY + sizeHeight / 2, Color.WHITE, new Font("Arial", Font.BOLD, 24), 1, 30);
-        animatedTexts.add(animatedText);
+        gp.battle.addAnimatedText(animatedText);
+        takeDamageOn = true;
         if (hp <= 0) {
-            deadState = false;
+            isAlive = false;
         }
     }
 
-    private BufferedImage image;
+    public Boolean checkLevel() {
+        if (level < 99) {
+            if (this.getExp() >= this.getNextLevelExp()) {
+                this.isAlive = true;
+                RawStats(getLevel() + 1);
+                checkLevel();
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public abstract void RawStats(int level);
 
     int cont = 0;
 
     public void draw(Graphics2D g2) {
         this.g2 = g2;
-        if (deadState) {
+        if (isAlive) {
             g2.drawImage(image, x, y, sizeWidth, sizeHeight, null);
-            for (AnimatedText text : animatedTexts) {
-                text.draw(g2);
-            }
+
             if (!gp.battle.transitioning && !gp.battle.endBattle) {
                 if (gp.turnHandler.getCurrentCharacter() != null &&
                         gp.turnHandler.getCurrentCharacter().indexGroup == this.indexGroup) {
@@ -326,7 +353,7 @@ public class Character extends Entity {
                 }
             }
         } else {
-            g2.drawImage(image, x, y + 23, 24 * 3, 17 * 3, null);
+            g2.drawImage(image, x, y + 23, 24 * 3, 13 * 3, null);
         }
     }
 
@@ -401,6 +428,9 @@ public class Character extends Entity {
     }
 
     public void setExp(int exp) {
+        if (exp > 2637112) {
+            exp = 2637112;
+        }
         this.exp = exp;
     }
 
@@ -473,6 +503,9 @@ public class Character extends Entity {
     }
 
     public void setLevel(int level) {
+        if (level > 99) {
+            level = 99;
+        }
         this.level = level;
     }
 
@@ -481,7 +514,10 @@ public class Character extends Entity {
     }
 
     public void setMaxHp(int maxHp) {
-        MaxHp = maxHp;
+        MaxHp = baseMaxHp + maxHp;
+        if (MaxHp > 9999) {
+            maxHp = 9999;
+        }
     }
 
     public int getHp() {
@@ -503,7 +539,10 @@ public class Character extends Entity {
     }
 
     public void setMaxMp(int maxMp) {
-        MaxMp = maxMp;
+        MaxMp = baseMaxMp + maxMp;
+        if (MaxMp > 999) {
+            maxMp = 999;
+        }
     }
 
     public int getMp() {

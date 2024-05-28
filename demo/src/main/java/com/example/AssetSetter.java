@@ -21,9 +21,9 @@ public class AssetSetter {
     private GamePanel gp;
     public Ether eter;
     public Potion potion;
-    
+
     public AssetSetter(GamePanel gp) {
-        this.gp = gp; 
+        this.gp = gp;
         potion = new Potion(this.gp);
         eter = new Ether(this.gp);
     }
@@ -61,10 +61,9 @@ public class AssetSetter {
         gp.npc[1][i] = new NPC_Item(gp);
         gp.npc[1][i].worldX = gp.tileSize * 32;
         gp.npc[1][i].worldY = gp.tileSize * 8 - (gp.tileSize / 2);
-        
 
     }
-     
+
     public void setObjectStart() {
         potion.setAmount(5);
         eter.setAmount(5);
@@ -73,12 +72,11 @@ public class AssetSetter {
     }
 
     public void setNPCObjectStart() {
-    NPC_Item npc = (NPC_Item)gp.npc[1][3];
-     npc.getInventory().add(eter);
-     npc.getInventory().add(potion);
-     gp.npc[1][3] = npc; 
+        NPC_Item npc = (NPC_Item) gp.npc[1][3];
+        npc.getInventory().add(eter);
+        npc.getInventory().add(potion);
+        gp.npc[1][3] = npc;
     }
-
 
     public void setGroup() {
         Tifa tifa = new Tifa(gp);
@@ -92,23 +90,22 @@ public class AssetSetter {
         gp.party.agregarPersonaje(cloud);
     }
 
-    public void setTutorial(){
-         
-        ArrayList<Enemy>enemies = new ArrayList<>();
-        Guard guard = new Guard(this.gp, 1, 100,gp.tileSize*4,gp.tileSize*3);
+    public void setTutorial() {
+
+        ArrayList<Enemy> enemies = new ArrayList<>();
+        Guard guard = new Guard(this.gp, 1, 100, 111111100, gp.tileSize * 4, gp.tileSize * 3);
         guard.setAtb(new ATB(gp, guard));
         enemies.add(guard);
-        Guard guard2 = new Guard(this.gp, 1, 100,gp.tileSize*3,gp.tileSize*5);
+        Guard guard2 = new Guard(this.gp, 1, 100, 100, gp.tileSize * 3, gp.tileSize * 5);
         guard2.setAtb(new ATB(gp, guard2));
         enemies.add(guard2);
         gp.battle.level.put(0, enemies);
 
-     
         enemies = new ArrayList<>();
-        Guard guard3 = new Guard(this.gp, 1, 100,gp.tileSize*4,gp.tileSize*3);
+        Guard guard3 = new Guard(this.gp, 1, 100, 100, gp.tileSize * 4, gp.tileSize * 3);
         guard3.setAtb(new ATB(gp, guard3));
         enemies.add(guard3);
-        Guard guard4 = new Guard(this.gp, 1, 100,gp.tileSize*3,gp.tileSize*5);
+        Guard guard4 = new Guard(this.gp, 1, 100, 100, gp.tileSize * 3, gp.tileSize * 5);
         guard4.setAtb(new ATB(gp, guard4));
         enemies.add(guard4);
         gp.battle.level.put(1, enemies);

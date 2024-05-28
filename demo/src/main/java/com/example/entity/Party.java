@@ -15,11 +15,10 @@ public class Party {
     public Party(GamePanel gp) {
         this.gp = gp;
     }
-    
-    public Party(GamePanel gp,ArrayList<Character> party,  int gil) {
+
+    public Party(GamePanel gp, ArrayList<Character> party, int gil) {
         this.gp = gp;
         this.party = party;
-    
         this.gil = gil;
     }
 
@@ -35,18 +34,34 @@ public class Party {
         this.party = party;
     }
 
+    public void addExp(int exp) {
+        for (Character character : party) {
+            character.setExp(character.getExp() + exp);
+        }
+    }
+
+    public void addGil(int gil) {
+        this.gil += gil;
+    }
+
     public void breakGroup() {
         for (Character character : party) {
             character.setHp(character.getMaxHp());
             character.setMp(character.getMaxMp());
-            character.deadState=true;
+            character.isAlive = true;
         }
 
     }
 
-    public void defaultPosition(){
+    public void resetATB() {
         for (Character character : party) {
-            character.x=character.defaultX;
+            character.atb.resetATB();
+        }
+    }
+
+    public void defaultPosition() {
+        for (Character character : party) {
+            character.x = character.defaultX;
         }
     }
 
@@ -79,18 +94,17 @@ public class Party {
         return gil;
     }
 
-    public void update(){
-       for (Character character : party) {
-         character.update();
-       }
-       
+    public void update() {
+        for (Character character : party) {
+            character.update();
+        }
+
     }
 
-
-    public void draw(Graphics2D g2){
+    public void draw(Graphics2D g2) {
         for (Character character : party) {
             character.draw(g2);
-          }
-          
+        }
+
     }
 }

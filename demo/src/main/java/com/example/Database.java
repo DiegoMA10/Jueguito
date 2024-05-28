@@ -21,15 +21,14 @@ public class Database {
     public Database(GamePanel gp) {
         this.gp = gp;
         try {
-           // con = DriverManager.getConnection("jdbc:mysql://localhost:3306/juego", "root", "123");
-               con = DriverManager.getConnection("jdbc:mysql://localhost:33006/juego","root","dbrootpass");   
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/juego", "root", "123");
+            // con =
+            // DriverManager.getConnection("jdbc:mysql://localhost:33006/juego","root","dbrootpass");
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
     }
-
- 
 
     public void saveData(int gameID, int partyID) {
         saveParty(partyID);
@@ -79,11 +78,10 @@ public class Database {
         String sql = "INSERT INTO inventory (partyID, itemID, amount) VALUES (?, ?, ?)";
         try (PreparedStatement preparedStatement = con.prepareStatement(sql)) {
 
-            NPC_Item npc = (NPC_Item)gp.npc[1][3];
-          
-           
+            NPC_Item npc = (NPC_Item) gp.npc[1][3];
+
             for (Item item : npc.getInventory()) {
-               
+
                 preparedStatement.setInt(1, partyID);
                 preparedStatement.setInt(2, item.idItem);
                 preparedStatement.setInt(3, item.getAmount());
@@ -138,18 +136,15 @@ public class Database {
     private void updateInventory(int partyID) {
         String sql = "UPDATE inventory SET amount = ? WHERE partyID = ? AND itemID = ?";
         try (PreparedStatement preparedStatement = con.prepareStatement(sql)) {
-            NPC_Item npc = (NPC_Item)gp.npc[1][3];
-          
-           
-                for (Item item : npc.getInventory()) {
-                   
-                    preparedStatement.setInt(1, item.getAmount());
-                    preparedStatement.setInt(2, partyID);
-                    preparedStatement.setInt(3, item.idItem);
-                    preparedStatement.executeUpdate();
-                }
-             
-            
+            NPC_Item npc = (NPC_Item) gp.npc[1][3];
+
+            for (Item item : npc.getInventory()) {
+
+                preparedStatement.setInt(1, item.getAmount());
+                preparedStatement.setInt(2, partyID);
+                preparedStatement.setInt(3, item.idItem);
+                preparedStatement.executeUpdate();
+            }
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -299,6 +294,53 @@ public class Database {
             e.printStackTrace();
         }
 
+    }
+
+    public int getExpForNextLevel(int currentLevel) {
+        String sql = "SELECT EXP FROM levelstats WHERE level = ?";
+        try (PreparedStatement preparedStatement = con.prepareStatement(sql)) {
+
+            int levelToQuery = (currentLevel >= 99) ? 99 : currentLevel + 1;
+            preparedStatement.setInt(1, levelToQuery);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    return resultSet.getInt("EXP");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public int getHpForLevel(int level) {
+        String sql = "SELECT HP FROM levelstats WHERE level = ?";
+        try (PreparedStatement preparedStatement = con.prepareStatement(sql)) {
+            preparedStatement.setInt(1, level);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    return resultSet.getInt("HP");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public int getMpForLevel(int level) {
+        String sql = "SELECT MP FROM levelstats WHERE level = ?";
+        try (PreparedStatement preparedStatement = con.prepareStatement(sql)) {
+            preparedStatement.setInt(1, level);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    return resultSet.getInt("MP");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 
 }

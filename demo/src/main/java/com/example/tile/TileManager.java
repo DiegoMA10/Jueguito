@@ -95,7 +95,7 @@ public class TileManager {
             }
 
         } catch (IOException e) {
-            // TODO Auto-generated catch block
+
             e.printStackTrace();
         }
     }
@@ -132,11 +132,10 @@ public class TileManager {
                 }
 
                 if ((worldX + gp.tileSize > gp.player.worldX - gp.player.screenX) &&
-                    (worldX - gp.tileSize < gp.player.worldX + gp.player.screenX) &&
-                    (worldY + gp.tileSize > gp.player.worldY - gp.player.screenY) &&
-                    (worldY - gp.tileSize < gp.player.worldY + gp.player.screenY)) {
+                        (worldX - gp.tileSize < gp.player.worldX + gp.player.screenX) &&
+                        (worldY + gp.tileSize > gp.player.worldY - gp.player.screenY) &&
+                        (worldY - gp.tileSize < gp.player.worldY + gp.player.screenY)) {
                     g2.drawImage(tile[n].image, screenX, screenY, gp.tileSize, gp.tileSize, null);
-                    
 
                 } else if (gp.player.screenX > gp.player.worldX ||
                         gp.player.screenY > gp.player.worldY ||

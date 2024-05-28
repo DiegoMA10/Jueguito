@@ -6,9 +6,11 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 
+import com.example.entity.Character;
 import com.example.entity.enemy.Enemy;
 
 public class BattlePanel {
@@ -17,25 +19,23 @@ public class BattlePanel {
     public HashMap<Integer, ArrayList<Enemy>> level;
     public int currentRound = 0;
     public AnimationAttack animationAttack;
+    public List<AnimatedText> animatedTexts;
     public Iterator<Enemy> iterator;
     int cont = 0;
     public boolean enemiesAlive;
     public boolean transitioning = false;
     public boolean endBattle = false;
     private Color backgroundColor = new Color(0, 0, 0, 0);
-    private int totalExp=0;
-    private int totalGil=0;
-   
+    private int totalExp = 0;
+    private int totalGil = 0;
 
     public BattlePanel(GamePanel gp) {
         this.gp = gp;
         animationAttack = new AnimationAttack(gp);
         level = new HashMap<>();
-
+        animatedTexts = new ArrayList<>();
         loadBackground();
     }
-
-    
 
     public void setUp(int i, String path) {
         UtilityTool tool = new UtilityTool();
@@ -50,6 +50,10 @@ public class BattlePanel {
             e.printStackTrace();
         }
 
+    }
+
+    public void addAnimatedText(AnimatedText animatedText) {
+        animatedTexts.add(animatedText);
     }
 
     public void loadBackground() {
@@ -74,24 +78,32 @@ public class BattlePanel {
             }
         }
 
-        if (!enemiesAlive && level.containsKey(currentRound + 1) && gp.turnHandler.getCurrentTurn() == null) {
+        if (!enemiesAlive && level.containsKey(currentRound + 1) && gp.turnHandler.getCurrentTurn() == null
+                && gp.ui.gameStateTransition == GamePanel.battleState) {
             startTransition();
-        } else if (!enemiesAlive && !level.containsKey(currentRound + 1) && !endBattle) {
+        } else if (!enemiesAlive && !level.containsKey(currentRound + 1) && !endBattle
+                && gp.turnHandler.getCurrentTurn() == null
+                && gp.ui.gameStateTransition == GamePanel.battleState) {
+
             endBattle();
-          
+
         }
 
         gp.turnHandler.turnCharacters();
         gp.turnHandler.gameTurn();
         animationAttack.update();
+        Iterator<AnimatedText> iteratorText = animatedTexts.iterator();
+        while (iteratorText.hasNext()) {
+            AnimatedText text = iteratorText.next();
+            if (!text.update()) {
+                iteratorText.remove();
+            }
+        }
 
         if (transitioning) {
             transitionToNextRound();
         }
 
-        if (endBattle) {
-            
-        }
     }
 
     public void transitionToNextRound() {
@@ -108,8 +120,22 @@ public class BattlePanel {
     }
 
     public void endBattle() {
+        gp.stopMusic();
+        gp.playMusic(11);
         endBattle = true;
-        System.out.println(totalExp+"."+totalGil);
+        gp.party.addExp(totalExp);
+        gp.party.addGil(totalGil);
+        gp.ui.addBattleMessage("Has conseguido " + totalExp + " de  experiencia");
+        for (Character character : gp.party.getParty()) {
+            if (character.checkLevel()) {
+                gp.ui.addBattleMessage(character.getName() + " a subido de nivel");
+            }
+        }
+
+        gp.ui.addBattleMessage("Has conseguido " + totalGil + "G");
+        totalExp = 0;
+        totalGil = 0;
+
     }
 
     public void startTransition() {
@@ -126,7 +152,9 @@ public class BattlePanel {
         }
 
         animationAttack.draw(g2);
-
+        for (AnimatedText animatedText : animatedTexts) {
+            animatedText.draw(g2);
+        }
         if (transitioning) {
             g2.setColor(backgroundColor);
             g2.fillRect(0, 0, gp.screenWidth, gp.screenHeight);
@@ -134,8 +162,12 @@ public class BattlePanel {
 
     }
 
-    public void addExp(int exp){
-        this.totalExp+=exp;
+    public void addExp(int exp) {
+        this.totalExp += exp;
+    }
+
+    public void addGil(int gil) {
+        this.totalGil += gil;
     }
 
 }

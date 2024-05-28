@@ -8,14 +8,15 @@ import java.awt.GradientPaint;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
+
 import javax.imageio.ImageIO;
 import com.example.Items.Item;
 import com.example.entity.Character;
 import com.example.entity.Party;
 import com.example.entity.enemy.Enemy;
 import com.example.entity.npc.NPC_Item;
-
-
 
 public class UI {
     private GamePanel gp;
@@ -42,7 +43,8 @@ public class UI {
     int cont = 0;
     public NPC_Item itemNpc;
     private String menuMessage;
-    private ArrayList<String>battleMesage = new ArrayList<>();
+    private Queue<String> battleMessage = new LinkedList<>();
+    private String currentMessage = null;
     SaveSlot save1 = null;
     SaveSlot save2 = null;
     SaveSlot save3 = null;
@@ -59,9 +61,14 @@ public class UI {
         UIBattleFont = new Font("Arial", Font.BOLD, 24);
 
     }
-    
-    public void addBattleMesage(String message){
-        battleMesage.add(message);
+
+    public void addBattleMessage(String message) {
+        if (currentMessage == null) {
+            currentMessage = message;
+        } else {
+            battleMessage.add(message);
+        }
+
     }
 
     public BufferedImage setUp(String path) {
@@ -142,6 +149,9 @@ public class UI {
                 break;
             case GamePanel.battleState:
                 drawBattleMenu();
+                if (gameStateTransition != GamePanel.battleState) {
+                    drawGameStateTransition();
+                }
                 break;
             case GamePanel.transitionState:
                 drawTransition();
@@ -848,6 +858,10 @@ public class UI {
             g2.drawImage(cursor, x - gp.tileSize, y - gp.tileSize + 20, gp.tileSize, gp.tileSize, null);
             if (gp.keyH.enterPressed == true) {
                 subState = 1;
+                gp.battle.currentRound = 0;
+
+                gp.turnHandler.resetTurnState();
+                gp.turnHandler.resetBattle();
             }
         }
         y += gp.tileSize;
@@ -860,10 +874,10 @@ public class UI {
                 gameStateTransition = GamePanel.playState;
                 numCommand = 0;
                 subState = 0;
-              
+
             }
-        } 
-       
+        }
+
     }
 
     private void breakSelector() {
@@ -1514,7 +1528,8 @@ public class UI {
         textY += gp.tileSize + 10;
         drawText("For level up:", textX, textY, blueMenu);
         textY += gp.tileSize - 10;
-        drawText(gp.party.getParty().get(i).getNextLevelExp() + "", textX + gp.tileSize * 3, textY, null);
+        drawText((gp.party.getParty().get(i).getNextLevelExp() - gp.party.getParty().get(i).getExp()) + "",
+                textX + gp.tileSize * 3, textY, null);
 
         textY += gp.tileSize * 2;
         drawText("Strenght", textX, textY, blueMenu);
@@ -1630,7 +1645,8 @@ public class UI {
                 if (menuStatus) {
                     menuStatus = false;
                     gp.keyH.enterPressed = false;
-                    Character.changeInexGroup(gp.party.getParty().get(numIndexGroup),gp.party.getParty().get(subNumCommand));
+                    Character.changeInexGroup(gp.party.getParty().get(numIndexGroup),
+                            gp.party.getParty().get(subNumCommand));
                     UtilityTool.sortByIndexGroup(gp.party.getParty());
                     gp.player.getPlayerImagen();
                 } else {
@@ -1656,6 +1672,7 @@ public class UI {
         width = gp.screenWidth - gp.tileSize * 5 - 10;
 
         drawSubwindows(windowsX, windowsY, width, height);
+
         drawBattlestats(gp.party);
 
     }
@@ -1667,7 +1684,7 @@ public class UI {
         int windowsX = 5 + gp.tileSize * 6;
         int windowsY = gp.screenHeight - gp.tileSize * 3 + 10;
 
-        if (gp.turnHandler.getCurrentCharacter() != null) {
+        if (gp.turnHandler.getCurrentCharacter() != null && !gp.battle.endBattle) {
             index = gp.turnHandler.getCurrentCharacter().getIndexGroup();
         } else {
             index = 9;
@@ -1682,11 +1699,6 @@ public class UI {
         drawNumberText(party.getParty().get(0).getHp(), windowsX + gp.tileSize * 4, windowsY, null);
         drawNumberText(party.getParty().get(0).getMp(), windowsX + gp.tileSize * 7, windowsY, null);
         party.getParty().get(0).atb.draw(g2, windowsX + gp.tileSize * 8, windowsY - 20);
-        if (index == 0) {
-            drawAction();
-            menuAction(party, index);
-
-        }
 
         windowsY += gp.tileSize;
 
@@ -1696,20 +1708,56 @@ public class UI {
         party.getParty().get(1).atb.draw(g2, windowsX + gp.tileSize * 8, windowsY - 20);
         windowsY += gp.tileSize;
 
-        if (index == 1) {
-            drawAction();
-            menuAction(party, index);
-
-        }
-
         drawText(party.getParty().get(2).getName(), windowsX, windowsY, null);
         drawNumberText(party.getParty().get(2).getHp(), windowsX + gp.tileSize * 4, windowsY, null);
         drawNumberText(party.getParty().get(2).getMp(), windowsX + gp.tileSize * 7, windowsY, null);
         party.getParty().get(2).atb.draw(g2, windowsX + gp.tileSize * 8, windowsY - 20);
 
-        if (index == 2) {
-            drawAction();
-            menuAction(party, index);
+        if (!gp.battle.endBattle) {
+
+            if (index == 0) {
+                drawAction();
+                menuAction(party, index);
+
+            }
+
+            if (index == 1) {
+                drawAction();
+                menuAction(party, index);
+
+            }
+
+            if (index == 2) {
+                drawAction();
+                menuAction(party, index);
+
+            }
+
+        } else {
+
+            windowsX = 5;
+            windowsY = 5;
+            int width = gp.screenWidth - 10;
+            int height = gp.tileSize * 2;
+            drawSubwindows(windowsX, windowsY, width, height);
+            windowsX += gp.tileSize;
+            windowsY += gp.tileSize + 10;
+            drawText(currentMessage, windowsX, windowsY, null);
+            if (gp.keyH.enterPressed) {
+                if (battleMessage.isEmpty()) {
+                    gp.battle.endBattle = false;
+                    gameStateTransition = GamePanel.playState;
+                    gp.party.resetATB();
+                    gp.turnHandler.resetTurnState();
+                    gp.turnHandler.resetBattle();
+                    gp.stopMusic();
+                    gp.playMusic(1);
+                    currentMessage = null;
+                } else {
+                    currentMessage = battleMessage.poll();
+                }
+
+            }
 
         }
 

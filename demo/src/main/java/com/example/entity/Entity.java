@@ -8,24 +8,9 @@ import java.util.Arrays;
 
 import javax.imageio.ImageIO;
 
+import com.example.AnimatedText;
 import com.example.GamePanel;
 import com.example.UtilityTool;
- /*
-     * formula
-     * attack2 = attack + strengh2
-     * Damage = Attack +((Level*Level*Attack2)(256))*3/2
-     * 
-     * Defensa Formula
-     * 
-     * DamageFinal = (Damage*(255-Defense)/256)+1
-     * 
-     * (Magia) = SpellPower*4+(Level*Magic*SpellPower/32)
-     * 
-     * (Monsters) = Level*Level*(Attack*4+Strenght)/256
-     * 
-     * 
-     */
-import com.example.tile.AnimatedText;
 
 public class Entity implements Comparable<Entity> {
     protected ArrayList<AnimatedText> animatedTexts = new ArrayList<>();

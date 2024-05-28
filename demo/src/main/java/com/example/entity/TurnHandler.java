@@ -16,7 +16,6 @@ public class TurnHandler {
 
     private GamePanel gp;
 
-
     public TurnHandler(GamePanel gp) {
         this.gp = gp;
         turnCharacters = new LinkedList<>();
@@ -116,6 +115,13 @@ public class TurnHandler {
         this.currentTurn = null;
         this.turnAction = false;
         cleanUpQueues();
+    }
+
+    public void resetBattle() {
+        turnCharacters.clear();
+        turnGame.clear();
+        currentCharacter = null;
+        currentTurn = null;
     }
 
 }
