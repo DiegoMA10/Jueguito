@@ -61,29 +61,28 @@ public class Enemy extends Entity {
             defaultMove();
             if (gp.turnHandler.getCurrentTurn() == this) {
                 cont++;
-                if (cont > 12) {
+
+                if (cont > 20 && !action) {
                     spritcont++;
-                    if (spritcont > 2) {
-                        spritcont = 0;
-                        atb.full = false;
-                        atb.setValue(0);
-                        gp.battle.animationAttack.setAnimation(animationAttack, gp.party.getParty().get(0));
-                        attackEntity(gp.party.getParty().get(0));
+                    action = true;
+                }
 
-                        gp.turnHandler.nextTurn();
+                if (cont > 40) {
+                    spritcont = 0;
+                }
 
-                    }
+                if (cont > 130) {
+                    action = false;
+                    spritcont = 0;
+                    atb.resetATB();
+                    Entity target = gp.party.aliveRandom();
+                    gp.battle.animationAttack.setAnimation(animationAttack,target);
+                    attackEntity(target);
+                    gp.turnHandler.nextTurn();
                     cont = 0;
                 }
             }
 
-            Iterator<AnimatedText> iterator = animatedTexts.iterator();
-            while (iterator.hasNext()) {
-                AnimatedText text = iterator.next();
-                if (!text.update()) {
-                    iterator.remove();
-                }
-            }
         } else {
             if (gp.turnHandler.getCurrentTurn() == this) {
                 gp.turnHandler.getCurrentTurn().setIsAlive(false);

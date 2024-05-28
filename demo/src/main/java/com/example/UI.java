@@ -858,10 +858,8 @@ public class UI {
             g2.drawImage(cursor, x - gp.tileSize, y - gp.tileSize + 20, gp.tileSize, gp.tileSize, null);
             if (gp.keyH.enterPressed == true) {
                 subState = 1;
+                gp.party.resetATB();
                 gp.battle.currentRound = 0;
-
-                gp.turnHandler.resetTurnState();
-                gp.turnHandler.resetBattle();
             }
         }
         y += gp.tileSize;

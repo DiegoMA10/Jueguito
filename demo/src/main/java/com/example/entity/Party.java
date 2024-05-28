@@ -2,6 +2,7 @@ package com.example.entity;
 
 import java.awt.Graphics2D;
 import java.util.ArrayList;
+import java.util.Random;
 
 import com.example.GamePanel;
 import com.example.Items.Item;
@@ -50,6 +51,20 @@ public class Party {
             character.setMp(character.getMaxMp());
             character.isAlive = true;
         }
+
+    }
+
+    public Entity aliveRandom() {
+        Random r = new Random();
+        ArrayList<Character> aliveparty = new ArrayList<>();
+        for (Character character : party) {
+            if (character.getIsAlive()) {
+                aliveparty.add(character);
+            }
+
+        }
+        int index = r.nextInt(aliveparty.size());
+        return aliveparty.get(index);
 
     }
 

@@ -7,7 +7,7 @@ import com.example.GamePanel;
 public class Guard extends Enemy {
 
     public Guard(GamePanel gp, int level, int gil, int exp, int x, int y) {
-        super(gp, level, exp, gil, x, y);
+        super(gp, level, gil, exp, x, y);
         sizeHeight = 48 * gp.scale;
         sizeWidth = 32 * gp.scale;
         dexterity = 50;

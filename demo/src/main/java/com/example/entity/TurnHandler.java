@@ -122,6 +122,9 @@ public class TurnHandler {
         turnGame.clear();
         currentCharacter = null;
         currentTurn = null;
+        turnAction = false;
+        characterAction = false;
+
     }
 
 }
