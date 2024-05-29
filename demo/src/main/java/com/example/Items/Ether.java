@@ -11,20 +11,27 @@ public class Ether extends Item {
         idItem = 2;
         name = "Ether";
         description = "Recupera 20 MP";
-        value = 2;
+        value = 20;
         price = 100;
+        getImagen();
+    }
 
+    public void getImagen() {
+        setUp(14, "ether");
     }
 
     @Override
-    public boolean useObject(Character e) {
+    public boolean useObject(Entity entity) {
+        Character e = (Character) entity;
 
-        if (e.getMp() != e.getMaxMp()) {
+        if (e.getMp() != e.getMaxMp() || gp.gameState == GamePanel.battleState) {
             amount--;
-            e.setMp(e.getMp() + value);
-            if (amount == 0) {
-                gp.party.getInventory().remove(this);
-                return false;
+            if (e.getIsAlive()) {
+                e.setMp(e.getMp() + value);
+                if (amount == 0) {
+                    gp.party.getInventory().remove(this);
+                    return false;
+                }
             }
 
         }

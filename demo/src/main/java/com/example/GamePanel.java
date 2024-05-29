@@ -49,7 +49,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     public PlayerLeader player;
     public Entity[][] npc = new Entity[2][4];
-    
+
     public ArrayList<Entity> entityList = new ArrayList<>();
     public CollisionCheck ck = new CollisionCheck(this);
     public UI ui = new UI(this);
@@ -71,7 +71,7 @@ public class GamePanel extends JPanel implements Runnable {
     public GamePanel() {
 
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
-        this.setBackground(Color.black);
+        this.setBackground(Color.BLACK);
         this.setDoubleBuffered(true);
         this.addKeyListener(keyH);
         this.setFocusable(true);
@@ -122,7 +122,7 @@ public class GamePanel extends JPanel implements Runnable {
 
         if (gameState == battleState) {
             battle.update();
-          
+
         }
 
     }
@@ -188,12 +188,12 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void resetGame() {
-       
+
         if (gameThread != null) {
             gameThread.interrupt();
             gameThread = null;
         }
-
+        ui = new UI(this);
         eHandler = new EventHandler(this);
         aSetter = new AssetSetter(this);
         dataBase = new Database(this);
@@ -202,17 +202,14 @@ public class GamePanel extends JPanel implements Runnable {
         tl = new TileManager(this);
         battle = new BattlePanel(this);
         party = new Party(this);
-        
+        turnHandler = new TurnHandler(this);
         npc = new Entity[2][4];
         entityList = new ArrayList<>();
         ck = new CollisionCheck(this);
-        ui = new UI(this);
 
-      
+        battle.currentRound = 0;
         currentMap = 0;
         setUpGame();
-
-      
         startGameThread();
     }
 

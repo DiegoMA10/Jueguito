@@ -20,13 +20,14 @@ public class Aerith extends Character {
 
     }
 
-    public Aerith(GamePanel gp, int level, int exp, int partyIndex, int hp, int mp) {
+    public Aerith(GamePanel gp, int level, int exp, int partyIndex, int hp, int mp, boolean isAlive) {
         super(gp);
         baseMaxHp = 40;
         baseMaxMp = 20;
         sizeWidth = 15 * gp.scale;
         sizeHeight = 23 * gp.scale;
         characterID = 1;
+        this.isAlive = isAlive;
         setExp(exp);
         setLevel(level);
         RawStats(level);

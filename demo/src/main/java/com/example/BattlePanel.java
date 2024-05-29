@@ -25,6 +25,7 @@ public class BattlePanel {
     public boolean enemiesAlive;
     public boolean transitioning = false;
     public boolean endBattle = false;
+    public boolean gameOver = false;
     private Color backgroundColor = new Color(0, 0, 0, 0);
     private int totalExp = 0;
     private int totalGil = 0;
@@ -71,15 +72,21 @@ public class BattlePanel {
             iterator = currentLevel.iterator();
             while (iterator.hasNext()) {
                 Enemy enemy = iterator.next();
+
                 enemy.update();
+
                 if (enemy.getIsAlive()) {
                     enemiesAlive = true;
                 }
             }
         }
 
-        if (!enemiesAlive && level.containsKey(currentRound + 1) && gp.turnHandler.getCurrentTurn() == null
+        if ((!gameOver && !gp.party.isAlive()) && gp.turnHandler.getCurrentTurn() == null
                 && gp.ui.gameStateTransition == GamePanel.battleState) {
+            gameOver();
+        } else if (!enemiesAlive && level.containsKey(currentRound + 1) && gp.turnHandler.getCurrentTurn() == null
+                && gp.ui.gameStateTransition == GamePanel.battleState) {
+
             startTransition();
         } else if (!enemiesAlive && !level.containsKey(currentRound + 1) && !endBattle
                 && gp.turnHandler.getCurrentTurn() == null
@@ -104,6 +111,13 @@ public class BattlePanel {
             transitionToNextRound();
         }
 
+    }
+
+    public void gameOver() {
+        gameOver = true;
+        gp.stopMusic();
+        gp.playSE(12);
+        gp.ui.addBattleMessage("Muelto");
     }
 
     public void transitionToNextRound() {
@@ -158,6 +172,7 @@ public class BattlePanel {
         if (transitioning) {
             g2.setColor(backgroundColor);
             g2.fillRect(0, 0, gp.screenWidth, gp.screenHeight);
+
         }
 
     }

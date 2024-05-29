@@ -12,8 +12,8 @@ public class Guard extends Enemy {
         sizeWidth = 32 * gp.scale;
         dexterity = 50;
         MaxHp = 40;
-        hp = 40;
-        attack = 20;
+        hp = 5;
+        attack = 60;
         strength = 10;
         defense = 80;
         getEnemyImagen();

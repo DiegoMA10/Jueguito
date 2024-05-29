@@ -24,6 +24,7 @@ public class Sound {
         soundURL[9] = getClass().getResource("/com/example/sound/saveTing.wav");
         soundURL[10] = getClass().getResource("/com/example/sound/battleThemeFF6.wav");
         soundURL[11] = getClass().getResource("/com/example/sound/victoryFanfare.wav");
+        soundURL[12] = getClass().getResource("/com/example/sound/gameOver.wav");
     }
 
 
@@ -33,7 +34,7 @@ public class Sound {
             clip = AudioSystem.getClip();
             clip.open(ais);
         } catch (Exception e) {
-            // TODO: handle exception
+           
         }
     }
 

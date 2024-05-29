@@ -56,7 +56,7 @@ public class Database {
     }
 
     private void saveCharacters(int partyID) {
-        String sql = "INSERT INTO character_party (partyID, characterID, party_index, level, exp, hp, mp) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO character_party (partyID, characterID, party_index, level, exp, hp, mp,isAlive) VALUES (?, ?, ?, ?, ?, ?, ?,?)";
         try (PreparedStatement preparedStatement = con.prepareStatement(sql)) {
 
             for (Character character : gp.party.getParty()) {
@@ -67,6 +67,7 @@ public class Database {
                 preparedStatement.setInt(5, character.getExp());
                 preparedStatement.setInt(6, character.getHp());
                 preparedStatement.setInt(7, character.getMp());
+                preparedStatement.setBoolean(8, character.getIsAlive());
                 preparedStatement.executeUpdate();
             }
         } catch (SQLException e) {
@@ -116,16 +117,17 @@ public class Database {
     }
 
     private void updateCharacters(int partyID) {
-        String sql = "UPDATE character_party SET level = ?, exp = ?, hp = ?, mp = ?, party_index = ? WHERE partyID = ? AND characterID = ?";
+        String sql = "UPDATE character_party SET level = ?, exp = ?, hp = ?, mp = ?, isAlive = ?, party_index = ? WHERE partyID = ? AND characterID = ?";
         try (PreparedStatement preparedStatement = con.prepareStatement(sql)) {
             for (Character character : gp.party.getParty()) {
                 preparedStatement.setInt(1, character.getLevel());
                 preparedStatement.setInt(2, character.getExp());
                 preparedStatement.setInt(3, character.getHp());
                 preparedStatement.setInt(4, character.getMp());
-                preparedStatement.setInt(5, character.getIndexGroup());
-                preparedStatement.setInt(6, partyID);
-                preparedStatement.setInt(7, character.getCharacterID());
+                preparedStatement.setBoolean(5, character.getIsAlive());
+                preparedStatement.setInt(6, character.getIndexGroup());
+                preparedStatement.setInt(7, partyID);
+                preparedStatement.setInt(8, character.getCharacterID());
                 preparedStatement.executeUpdate();
             }
         } catch (SQLException e) {
@@ -197,7 +199,7 @@ public class Database {
 
     public ArrayList<Character> getCharactersByGame(int gameID) {
         ArrayList<Character> characters = new ArrayList<>();
-        String sql = "SELECT c.*,cp.level,cp.exp, cp.party_index, cp.hp, cp.mp FROM character_party cp INNER JOIN characters c ON cp.characterID = c.characterID WHERE cp.partyID = ?";
+        String sql = "SELECT c.*,cp.level,cp.exp, cp.party_index, cp.hp, cp.mp ,cp.isAlive FROM character_party cp INNER JOIN characters c ON cp.characterID = c.characterID WHERE cp.partyID = ?";
         try (PreparedStatement preparedStatement = con.prepareStatement(sql)) {
             preparedStatement.setInt(1, gameID);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
@@ -209,20 +211,21 @@ public class Database {
                     int partyIndex = resultSet.getInt("party_index");
                     int hp = resultSet.getInt("hp");
                     int mp = resultSet.getInt("mp");
+                    boolean isAlive = resultSet.getBoolean("isAlive");
 
                     switch (characterID) {
                         case 1:
-                            Aerith aerith = new Aerith(this.gp, level, exp, partyIndex, hp, mp);
+                            Aerith aerith = new Aerith(this.gp, level, exp, partyIndex, hp, mp,isAlive);
                             aerith.setATB(new ATB(gp, aerith));
                             characters.add(aerith);
                             break;
                         case 2:
-                            Tifa tifa = new Tifa(this.gp, level, exp, partyIndex, hp, mp);
+                            Tifa tifa = new Tifa(this.gp, level, exp, partyIndex, hp, mp,isAlive);
                             tifa.setATB(new ATB(gp, tifa));
                             characters.add(tifa);
                             break;
                         case 3:
-                            Cloud cloud = new Cloud(this.gp, level, exp, partyIndex, hp, mp);
+                            Cloud cloud = new Cloud(this.gp, level, exp, partyIndex, hp, mp,isAlive);
                             cloud.setATB(new ATB(gp, cloud));
                             characters.add(cloud);
                             break;

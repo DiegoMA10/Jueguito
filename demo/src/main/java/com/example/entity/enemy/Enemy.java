@@ -60,27 +60,36 @@ public class Enemy extends Entity {
             atb.update();
             defaultMove();
             if (gp.turnHandler.getCurrentTurn() == this) {
-                cont++;
+                if (gp.party.isAlive()) {
+                    cont++;
 
-                if (cont > 20 && !action) {
-                    spritcont++;
-                    action = true;
-                }
+                    if (cont > 20 && !action) {
+                        spritcont++;
+                        action = true;
+                    }
 
-                if (cont > 40) {
-                    spritcont = 0;
-                }
+                    if (cont > 40) {
+                        spritcont = 0;
+                    }
 
-                if (cont > 130) {
+                    if (cont > 130) {
+                        action = false;
+                        spritcont = 0;
+                        atb.resetATB();
+                        Entity target = gp.party.aliveRandom();
+                        gp.battle.animationAttack.setAnimation(animationAttack, target ,0);
+                        attackEntity(target);
+                        gp.turnHandler.nextTurn();
+                        cont = 0;
+                    }
+                } else {
                     action = false;
                     spritcont = 0;
                     atb.resetATB();
-                    Entity target = gp.party.aliveRandom();
-                    gp.battle.animationAttack.setAnimation(animationAttack,target);
-                    attackEntity(target);
                     gp.turnHandler.nextTurn();
                     cont = 0;
                 }
+
             }
 
         } else {

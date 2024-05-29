@@ -3,6 +3,7 @@ package com.example.entity;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.util.Iterator;
 
@@ -11,7 +12,9 @@ import javax.imageio.ImageIO;
 import com.example.AnimatedText;
 import com.example.GamePanel;
 import com.example.UtilityTool;
+import com.example.Items.Ether;
 import com.example.Items.Item;
+import com.example.Items.Potion;
 import com.example.entity.enemy.Enemy;
 
 public abstract class Character extends Entity {
@@ -29,8 +32,8 @@ public abstract class Character extends Entity {
     protected int characterID;
     public int x;
     public int y;
-    protected int defaultX;
-    protected int defaultY;
+    public int defaultX;
+    public int defaultY;
     protected int level;
     protected int baseMaxHp;
     protected int baseMaxMp;
@@ -50,6 +53,7 @@ public abstract class Character extends Entity {
     public ATB atb;
     private Graphics2D g2;
     private Entity target;
+    private Item item;
 
     private boolean jumping = false;
     private boolean returning = false;
@@ -96,13 +100,6 @@ public abstract class Character extends Entity {
             contCursor = 0;
         }
 
-        Iterator<AnimatedText> iterator = animatedTexts.iterator();
-        while (iterator.hasNext()) {
-            AnimatedText text = iterator.next();
-            if (!text.update()) {
-                iterator.remove();
-            }
-        }
     }
 
     public int characterAction;
@@ -118,6 +115,12 @@ public abstract class Character extends Entity {
                             case 1:
                                 if (action) {
                                     jump();
+                                }
+                                break;
+
+                            case 3:
+                                if (action) {
+                                    move();
                                 }
                                 break;
                         }
@@ -165,7 +168,7 @@ public abstract class Character extends Entity {
         contTransition++;
 
         x -= 6;
-        if (contTransition > 12) {
+        if (contTransition > 14) {
             spriteTransition++;
             contTransition = 0;
             if (spriteTransition > 1) {
@@ -250,9 +253,74 @@ public abstract class Character extends Entity {
         y = defaultY;
     }
 
+    public void move() {
+        if (cont > 10 && !jumping && !returning) {
+            startMove();
+        }
+        if (jumping) {
+            performMove();
+        }
+        if (returning) {
+            returnToPosition();
+        }
+    }
+
+    private void startMove() {
+        jumping = true;
+        jumpProgress = 0;
+        image = imageAttack;
+    }
+
+    private void performMove() {
+
+        x = defaultX - jumpProgress;
+
+        jumpProgress += 6;
+
+        if (jumpProgress >= jumpDistance / 2 && jumpProgress < jumpDistance) {
+            image = left1;
+        }
+
+        if (jumpProgress >= jumpDistance) {
+
+            image = cast;
+            jumpProgress-=6;
+            if (cont > 40) {
+
+                item.useObject(target);
+                gp.battle.animationAttack.setAnimation(item.getAnimation(), target, 1);
+                Character c = (Character) target;
+                Color color = null;
+                if (item instanceof Potion) {
+                    color = Color.green;
+                } else if (item instanceof Ether) {
+                    color =  new Color(0, 223, 223);
+                }
+                AnimatedText animatedText = new AnimatedText(Integer.toString(item.getValue()), c.x,
+                        c.y, color, new Font("Arial", Font.BOLD, 24), 1, 30);
+                gp.battle.addAnimatedText(animatedText);
+                gp.playSE(8);
+                jumping = false;
+                returning = true;
+            }
+
+
+        }
+    }
+
+    public void resetMove() {
+        jumping = false;
+        returning = false;
+        jumpProgress = 0;
+        jumpcont = 0;
+        x = defaultX;
+        y = defaultY;
+    }
+
     public void defaultMove() {
 
         if (gp.battle.endBattle) {
+
             contTransition++;
             if (contTransition > 15) {
                 spriteTransition++;
@@ -264,24 +332,35 @@ public abstract class Character extends Entity {
                     image = cast;
                 }
             }
+
         } else {
+
             if (action) {
-                if (!jumping && !returning) {
+
+                if (takeDamageOn) {
+                    animationTakeDamage();
+                } else if (!jumping && !returning) {
                     image = imageAttack;
                 }
+
             } else {
+
                 if (takeDamageOn) {
-                    cont++;
-                    image = takeDamage;
-                    if (cont > 15) {
-                        cont = 0;
-                        takeDamageOn = false;
-                    }
+                    animationTakeDamage();
                 } else {
                     image = left;
                 }
 
             }
+        }
+    }
+
+    public void animationTakeDamage() {
+        spritCount++;
+        image = takeDamage;
+        if (spritCount > 15) {
+            spritCount = 0;
+            takeDamageOn = false;
         }
     }
 
@@ -394,6 +473,10 @@ public abstract class Character extends Entity {
 
     public void setTarget(Entity target) {
         this.target = target;
+    }
+
+    public void setItem(Item item) {
+        this.item = item;
     }
 
     public int getIndexGroup() {

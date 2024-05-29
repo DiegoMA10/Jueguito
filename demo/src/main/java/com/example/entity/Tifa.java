@@ -23,14 +23,14 @@ public class Tifa extends Character {
 
     }
 
-    public Tifa(GamePanel gp, int level, int exp, int partyIndex, int hp, int mp) {
+    public Tifa(GamePanel gp, int level, int exp, int partyIndex, int hp, int mp, boolean isAlive) {
         super(gp);
         sizeWidth = 15 * gp.scale;
         sizeHeight = 23 * gp.scale;
-        refreshPosition();
         characterID = 2;
         baseMaxHp = 60;
         baseMaxMp = 9;
+        this.isAlive = isAlive;
         setExp(exp);
         RawStats(level);
         setHp(hp);

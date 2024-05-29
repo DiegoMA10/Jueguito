@@ -93,7 +93,7 @@ public class AssetSetter {
     public void setTutorial() {
 
         ArrayList<Enemy> enemies = new ArrayList<>();
-        Guard guard = new Guard(this.gp, 1, 100, 111111100, gp.tileSize * 4, gp.tileSize * 3);
+        Guard guard = new Guard(this.gp, 1, 100, 0, gp.tileSize * 4, gp.tileSize * 3);
         guard.setAtb(new ATB(gp, guard));
         enemies.add(guard);
         Guard guard2 = new Guard(this.gp, 1, 100, 100, gp.tileSize * 3, gp.tileSize * 5);

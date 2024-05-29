@@ -22,13 +22,14 @@ public class Cloud extends Character {
 
     }
 
-    public Cloud(GamePanel gp, int level, int exp, int partyIndex, int hp, int mp) {
+    public Cloud(GamePanel gp, int level, int exp, int partyIndex, int hp, int mp, boolean isAlive) {
         super(gp);
         sizeWidth = 15 * gp.scale;
         sizeHeight = 23 * gp.scale;
         characterID = 3;
         baseMaxHp = 50;
         baseMaxMp = 14;
+        this.isAlive = isAlive;
         setExp(exp);
         setLevel(level);
         RawStats(level);

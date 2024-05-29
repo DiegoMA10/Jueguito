@@ -57,6 +57,7 @@ public class KeyHandler implements KeyListener {
     switch (gp.ui.subState) {
       case 0: battleMenu(code);break;
       case 1: attackSelector(code);break;
+      case 3: itemSelector(code);
   
     }
    
@@ -64,12 +65,7 @@ public class KeyHandler implements KeyListener {
 
   private void battleMenu(int code){
     switch (code) {
-      case KeyEvent.VK_ESCAPE:
-        gp.ui.gameStateTransition = GamePanel.playState;
-        gp.ui.numCommand = 0;
-        gp.battle.level.clear();
-        gp.gameState = GamePanel.playState;
-        break;
+    
       case KeyEvent.VK_W:
 
         if (gp.ui.numCommand > 0) {

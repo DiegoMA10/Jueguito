@@ -32,6 +32,7 @@ CREATE TABLE `character_party` (
   `exp` int NOT NULL,
   `hp` int NOT NULL,
   `mp` int NOT NULL,
+  `isAlive` tinyint(1) NOT NULL,
   PRIMARY KEY (`PartyId`,`characterID`),
   KEY `characterID` (`characterID`),
   CONSTRAINT `character_party_ibfk_1` FOREIGN KEY (`PartyId`) REFERENCES `party` (`partyID`),
@@ -45,6 +46,7 @@ CREATE TABLE `character_party` (
 
 LOCK TABLES `character_party` WRITE;
 /*!40000 ALTER TABLE `character_party` DISABLE KEYS */;
+INSERT INTO `character_party` VALUES (1,1,0,8,2100,0,57,0),(1,2,1,8,2100,0,46,0),(1,3,2,8,2100,90,51,1);
 /*!40000 ALTER TABLE `character_party` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -95,6 +97,7 @@ CREATE TABLE `games` (
 
 LOCK TABLES `games` WRITE;
 /*!40000 ALTER TABLE `games` DISABLE KEYS */;
+INSERT INTO `games` VALUES (1,378.41666666665117,1);
 /*!40000 ALTER TABLE `games` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -122,6 +125,7 @@ CREATE TABLE `inventory` (
 
 LOCK TABLES `inventory` WRITE;
 /*!40000 ALTER TABLE `inventory` DISABLE KEYS */;
+INSERT INTO `inventory` VALUES (1,1,2),(1,2,4);
 /*!40000 ALTER TABLE `inventory` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -195,6 +199,7 @@ CREATE TABLE `party` (
 
 LOCK TABLES `party` WRITE;
 /*!40000 ALTER TABLE `party` DISABLE KEYS */;
+INSERT INTO `party` VALUES (1,3300);
 /*!40000 ALTER TABLE `party` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -207,4 +212,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-05-20  5:06:57
+-- Dump completed on 2024-05-29  4:45:41

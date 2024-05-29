@@ -68,6 +68,18 @@ public class Party {
 
     }
 
+    public boolean isAlive() {
+        for (Character character : party) {
+            if (character.getIsAlive()) {
+
+                return true;
+            }
+
+        }
+
+        return false;
+    }
+
     public void resetATB() {
         for (Character character : party) {
             character.atb.resetATB();
@@ -122,4 +134,5 @@ public class Party {
         }
 
     }
+
 }
