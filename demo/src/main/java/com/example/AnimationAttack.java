@@ -20,10 +20,7 @@ public class AnimationAttack {
 
     }
 
-    public void setAnimation(BufferedImage[] animation, Entity e) {
-        this.animation = animation;
-        this.target = e;
-    }
+  
 
     public void setAnimation(BufferedImage[] animation, Entity e, int type) {
         this.animation = animation;

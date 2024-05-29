@@ -124,6 +124,7 @@ public abstract class Character extends Entity {
                                 }
                                 break;
                         }
+
                         if (cont > 160) {
                             action = false;
                             cont = 0;
@@ -151,14 +152,8 @@ public abstract class Character extends Entity {
             }
 
         } else {
-            if (gp.turnHandler.getCurrentTurn() == this) {
-                gp.turnHandler.getCurrentTurn().setIsAlive(false);
-            }
-
-            if (gp.turnHandler.getCurrentCharacter() == this) {
-                gp.turnHandler.getCurrentCharacter().setIsAlive(false);
-            }
-
+    
+            
             image = dead;
             atb.resetATB();
         }
@@ -217,7 +212,7 @@ public abstract class Character extends Entity {
             }
 
             attackEntity(target);
-            gp.battle.animationAttack.setAnimation(attackAnimation, target);
+            gp.battle.animationAttack.setAnimation(attackAnimation, target,0);
             gp.playSE(8);
             jumping = false;
             returning = true;
@@ -240,6 +235,8 @@ public abstract class Character extends Entity {
                 image = left;
                 x = defaultX;
                 y = defaultY;
+                resetJump();
+                resetMove();
             }
         }
     }

@@ -84,6 +84,9 @@ public class TurnHandler {
 
     public void checkAndCleanUp() {
         if (currentCharacter != null && !currentCharacter.getIsAlive()) {
+           gp.ui.subState=0;
+           gp.ui.subNumCommand=0;
+           gp.ui.numCommand = 0;
             currentCharacter = null;
             nextTurnCharacter();
         }

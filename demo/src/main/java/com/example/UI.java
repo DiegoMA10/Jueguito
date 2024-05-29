@@ -1722,20 +1722,40 @@ public class UI {
         party.getParty().get(2).atb.draw(g2, windowsX + gp.tileSize * 8, windowsY - 20);
 
         if (!gp.battle.endBattle && !gp.battle.gameOver) {
+          
 
             if (index == 0) {
+                  
+                if (!party.getParty().get(index).getIsAlive()) {
+                    subState=0;
+                    subNumCommand=0;
+                    index = 9;
+                    System.out.println("hola");
+                }
                 drawAction();
                 menuAction(party, index);
 
             }
 
             if (index == 1) {
+                  
+                if (!party.getParty().get(index).getIsAlive()) {
+                   
+                
+                }
                 drawAction();
                 menuAction(party, index);
 
             }
 
             if (index == 2) {
+                  
+            if (!party.getParty().get(index).getIsAlive()) {
+                subState=0;
+                subNumCommand=0;
+                index = 9;
+                System.out.println("hola");
+            }
                 drawAction();
                 menuAction(party, index);
 
@@ -1801,6 +1821,7 @@ public class UI {
     }
 
     public void menuAction(Party party, int index) {
+
         switch (subState) {
             case 0:
                 actionSelector(party, index);
@@ -1921,6 +1942,8 @@ public class UI {
 
     private void attackSelector(Party party, int index) {
         ArrayList<Enemy> enemies = gp.battle.level.get(gp.battle.currentRound);
+     
+       
         for (int i = 0; i < enemies.size(); i++) {
 
             if (subNumCommand == i) {

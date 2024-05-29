@@ -170,6 +170,7 @@ public class KeyHandler implements KeyListener {
   private void tradeSellSelector(int code) {
     switch (code) {
       case KeyEvent.VK_ESCAPE:
+      if (!gp.ui.menuStatus) {
         if (gp.ui.subState2 == 1) {
           gp.ui.subState2 = 0;
           gp.ui.subNumCommand2 = 0;
@@ -177,6 +178,7 @@ public class KeyHandler implements KeyListener {
           gp.ui.subState = 0;
           gp.ui.subNumCommand = 0;
         }
+      }
 
         break;
       case KeyEvent.VK_W:
@@ -240,6 +242,7 @@ public class KeyHandler implements KeyListener {
   private void tradeBuySelector(int code) {
     switch (code) {
       case KeyEvent.VK_ESCAPE:
+      if (!gp.ui.menuStatus) {
         if (gp.ui.subState2 == 1) {
           gp.ui.subState2 = 0;
           gp.ui.subNumCommand2 = 0;
@@ -247,7 +250,8 @@ public class KeyHandler implements KeyListener {
           gp.ui.subState = 0;
           gp.ui.subNumCommand = 0;
         }
-
+      }
+     
         break;
       case KeyEvent.VK_W:
 

@@ -13,7 +13,7 @@ public class Guard extends Enemy {
         dexterity = 50;
         MaxHp = 40;
         hp = 5;
-        attack = 60;
+        attack = 20;
         strength = 10;
         defense = 80;
         getEnemyImagen();
