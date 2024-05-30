@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import java.util.Iterator;
 
 import javax.imageio.ImageIO;
@@ -16,6 +17,10 @@ import com.example.Items.Ether;
 import com.example.Items.Item;
 import com.example.Items.Potion;
 import com.example.entity.enemy.Enemy;
+import com.example.spells.Electro;
+import com.example.spells.Hielo;
+import com.example.spells.Piro;
+import com.example.spells.Spell;
 
 public abstract class Character extends Entity {
 
@@ -49,11 +54,14 @@ public abstract class Character extends Entity {
     protected int attack;
     protected int exp;
     protected int nextLevelExp;
+    private ArrayList<Spell> abilities;
+
     private boolean takeDamageOn = false;
     public ATB atb;
     private Graphics2D g2;
     private Entity target;
     private Item item;
+    private Spell spell;
 
     private boolean jumping = false;
     private boolean returning = false;
@@ -66,6 +74,10 @@ public abstract class Character extends Entity {
 
     public Character(GamePanel gp) {
         super(gp);
+        abilities = new ArrayList<>();
+        abilities.add(new Piro(gp));
+        abilities.add(new Hielo(gp));
+        abilities.add(new Electro(gp));
         getImages();
     }
 
@@ -117,14 +129,17 @@ public abstract class Character extends Entity {
                                     jump();
                                 }
                                 break;
-
+                            case 2:
+                                if (action) {
+                                    move();
+                                }
+                                break;
                             case 3:
                                 if (action) {
                                     move();
                                 }
                                 break;
                         }
-
                         if (cont > 160) {
                             action = false;
                             cont = 0;
@@ -152,8 +167,7 @@ public abstract class Character extends Entity {
             }
 
         } else {
-    
-            
+
             image = dead;
             atb.resetATB();
         }
@@ -212,7 +226,7 @@ public abstract class Character extends Entity {
             }
 
             attackEntity(target);
-            gp.battle.animationAttack.setAnimation(attackAnimation, target,0);
+            gp.battle.animationAttack.setAnimation(attackAnimation, target, 0);
             gp.playSE(8);
             jumping = false;
             returning = true;
@@ -281,28 +295,60 @@ public abstract class Character extends Entity {
         if (jumpProgress >= jumpDistance) {
 
             image = cast;
-            jumpProgress-=6;
-            if (cont > 40) {
+            jumpProgress -= 6;
+            if (cont > 50) {
 
-                item.useObject(target);
-                gp.battle.animationAttack.setAnimation(item.getAnimation(), target, 1);
-                Character c = (Character) target;
-                Color color = null;
-                if (item instanceof Potion) {
-                    color = Color.green;
-                } else if (item instanceof Ether) {
-                    color =  new Color(0, 223, 223);
+                switch (characterAction) {
+                    case 2:useSpell();
+                        break;
+                    case 3:
+                        useItem();
+                        break;
+                    default:
+
                 }
-                AnimatedText animatedText = new AnimatedText(Integer.toString(item.getValue()), c.x,
-                        c.y, color, new Font("Arial", Font.BOLD, 24), 1, 30);
-                gp.battle.addAnimatedText(animatedText);
-                gp.playSE(8);
+
                 jumping = false;
                 returning = true;
             }
 
-
         }
+    }
+
+    public void useItem() {
+        item.useObject(target);
+        gp.battle.animationAttack.setAnimation(item.getAnimation(), target, 1);
+        Character c = (Character) target;
+        Color color = null;
+        if (item instanceof Potion) {
+            color = Color.green;
+        } else if (item instanceof Ether) {
+            color = new Color(0, 223, 223);
+        }
+        AnimatedText animatedText = new AnimatedText(Integer.toString(item.getValue()), c.x,
+                c.y, color, new Font("Arial", Font.BOLD, 24), 1, 30);
+        gp.battle.addAnimatedText(animatedText);
+        gp.playSE(8);
+    }
+
+    public void useSpell() {
+       
+       System.out.println(spell);
+        gp.battle.animationAttack.setAnimation(spell.getAnimation(), target, 2);
+        this.setMp(this.getMp() - spell.getCost());
+       /*  Character c = (Character) target;
+        Color color = null;
+       
+          if (item instanceof Potion) {
+          color = Color.green;
+          } else if (item instanceof Ether) {
+          color = new Color(0, 223, 223);
+          }
+          */
+       /*  AnimatedText animatedText = new AnimatedText(Integer.toString(spell.getSpellPower()), c.x,
+                c.y, color, new Font("Arial", Font.BOLD, 24), 1, 30);
+        gp.battle.addAnimatedText(animatedText); */
+        gp.playSE(13);
     }
 
     public void resetMove() {
@@ -474,6 +520,14 @@ public abstract class Character extends Entity {
 
     public void setItem(Item item) {
         this.item = item;
+    }
+
+    public void setSpell(Spell spell) {
+        this.spell = spell;
+    }
+
+    public ArrayList<Spell> getAbilities() {
+        return abilities;
     }
 
     public int getIndexGroup() {

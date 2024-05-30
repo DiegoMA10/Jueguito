@@ -17,6 +17,7 @@ import com.example.entity.Character;
 import com.example.entity.Party;
 import com.example.entity.enemy.Enemy;
 import com.example.entity.npc.NPC_Item;
+import com.example.spells.Spell;
 
 public class UI {
     private GamePanel gp;
@@ -278,7 +279,7 @@ public class UI {
             if (subNumCommand == 0) {
                 if (gp.keyH.enterPressed) {
                     subState2 = 1;
-
+                    subNumCommand2 = 0;
                 }
             }
 
@@ -298,7 +299,7 @@ public class UI {
             if (subNumCommand == 1) {
                 if (gp.keyH.enterPressed) {
                     subState2 = 1;
-
+                    subNumCommand2 = 0;
                 }
             }
 
@@ -321,6 +322,7 @@ public class UI {
             if (subNumCommand == 2) {
                 if (gp.keyH.enterPressed) {
                     subState2 = 1;
+                    subNumCommand2 = 0;
 
                 }
             }
@@ -1118,6 +1120,7 @@ public class UI {
             if (subNumCommand == 0) {
                 if (gp.keyH.enterPressed) {
                     subState2 = 1;
+                    subNumCommand2 = 0;
 
                 }
             }
@@ -1145,6 +1148,7 @@ public class UI {
             if (subNumCommand == 1) {
                 if (gp.keyH.enterPressed) {
                     subState2 = 1;
+                    subNumCommand2 = 0;
 
                 }
             }
@@ -1174,9 +1178,10 @@ public class UI {
             if (subNumCommand == 2) {
                 if (gp.keyH.enterPressed) {
                     subState2 = 1;
-
+                    subNumCommand2 = 0;
                 }
             }
+
             drawSaveSlot(save3, x, y);
         } else {
             drawText("Vacio", x + gp.tileSize, y + gp.tileSize * 1 + 10, null);
@@ -1692,7 +1697,7 @@ public class UI {
         int windowsX = 5 + gp.tileSize * 6;
         int windowsY = gp.screenHeight - gp.tileSize * 3 + 10;
 
-        if (gp.turnHandler.getCurrentCharacter() != null && !gp.battle.endBattle ) {
+        if (gp.turnHandler.getCurrentCharacter() != null && !gp.battle.endBattle) {
             index = gp.turnHandler.getCurrentCharacter().getIndexGroup();
         } else {
             index = 9;
@@ -1722,13 +1727,12 @@ public class UI {
         party.getParty().get(2).atb.draw(g2, windowsX + gp.tileSize * 8, windowsY - 20);
 
         if (!gp.battle.endBattle && !gp.battle.gameOver) {
-          
 
             if (index == 0) {
-                  
+
                 if (!party.getParty().get(index).getIsAlive()) {
-                    subState=0;
-                    subNumCommand=0;
+                    subState = 0;
+                    subNumCommand = 0;
                     index = 9;
                     System.out.println("hola");
                 }
@@ -1738,10 +1742,9 @@ public class UI {
             }
 
             if (index == 1) {
-                  
+
                 if (!party.getParty().get(index).getIsAlive()) {
-                   
-                
+
                 }
                 drawAction();
                 menuAction(party, index);
@@ -1749,13 +1752,13 @@ public class UI {
             }
 
             if (index == 2) {
-                  
-            if (!party.getParty().get(index).getIsAlive()) {
-                subState=0;
-                subNumCommand=0;
-                index = 9;
-                System.out.println("hola");
-            }
+
+                if (!party.getParty().get(index).getIsAlive()) {
+                    subState = 0;
+                    subNumCommand = 0;
+                    index = 9;
+                    System.out.println("hola");
+                }
                 drawAction();
                 menuAction(party, index);
 
@@ -1828,6 +1831,9 @@ public class UI {
                 break;
             case 1:
                 attackSelector(party, index);
+                break;
+            case 2:
+                spellSelector(party, index);
                 break;
             case 3:
                 useItemSelector(party, index);
@@ -1940,10 +1946,99 @@ public class UI {
         gp.turnHandler.nextTurnCharacter();
     }
 
+    private void spellSelector(Party party, int index) {
+
+        if (subState2 == 0) {
+            int windowsX = 5;
+            int windowsY = gp.screenHeight - gp.tileSize * 4 - 5;
+            int width = gp.screenWidth - 10;
+            int height = gp.tileSize * 4;
+
+            drawSubwindows(windowsX, windowsY, width, height);
+
+            int contadorCursor = 0;
+            contadorCursor = subNumCommand - 3;
+            windowsX += gp.tileSize + 5;
+            windowsY += gp.tileSize;
+            ArrayList<Spell> spells = gp.party.getParty().get(index).getAbilities();
+            for (int i = 0; i < 4 && i < spells.size(); i++) {
+
+                if (subNumCommand > 3) {
+                    drawText(spells.get(i + contadorCursor).getName(), windowsX, windowsY, null);
+
+                } else {
+                    drawText(spells.get(i).getName(), windowsX, windowsY, null);
+
+                }
+
+                if (subNumCommand == i || (subNumCommand > 3 && subNumCommand == i + contadorCursor)) {
+                    if (gp.keyH.enterPressed && party.getParty().get(index).getMp() > spells.get(subNumCommand).getCost()) {
+                        subState2 = 1;
+
+                        gp.keyH.enterPressed = false;
+                    }
+
+                    g2.drawImage(cursor, windowsX - gp.tileSize, windowsY - gp.tileSize + 15, gp.tileSize, gp.tileSize,
+                            null);
+                    int x = gp.screenWidth - gp.tileSize * 4 - 5;
+                    int y = gp.screenHeight - gp.tileSize * 4 - 5;
+
+                    drawSubwindows(x, y, gp.tileSize * 4, gp.tileSize * 4);
+                    int textX = x + gp.tileSize;
+                    int textY = y + gp.tileSize;
+                    String mp = party.getParty().get(index).getMp() + "/" + party.getParty().get(index).getMaxMp();
+                    drawText(mp, textX, textY, null);
+                    textY += gp.tileSize + 10;
+                    String cost = spells.get(i).getCost() + " PM";
+                    drawText(cost, textX, textY, null);
+                    textY += gp.tileSize;
+                    drawText("Cost.", textX, textY, null);
+
+                }
+
+                windowsY += gp.tileSize - 10;
+            }
+
+        } else {
+            int windowsX = 5;
+            int windowsY = gp.screenHeight - gp.tileSize * 4 - 5;
+            int width = gp.tileSize * 5;
+            int height = gp.tileSize * 4;
+
+            drawSubwindows(windowsX, windowsY, width, height);
+
+            ArrayList<Enemy> enemies = gp.battle.level.get(gp.battle.currentRound);
+
+            for (int i = 0; i < enemies.size(); i++) {
+
+                if (subNumCommand2 == i) {
+                    int x = enemies.get(i).defaultX + enemies.get(i).sizeWidth;
+                    int y = enemies.get(i).defaultY + enemies.get(i).sizeHeight / 2;
+                    g2.drawImage(cursorInvert, x, y, gp.tileSize, gp.tileSize, null);
+                    if (gp.keyH.enterPressed) {
+                        party.getParty().get(index).setTarget(enemies.get(i));
+                        party.getParty().get(index).setSpell(party.getParty().get(index).getAbilities().get(subNumCommand));
+                        party.getParty().get(index).action = true;
+                        party.getParty().get(index).characterAction = 2;
+                        gp.turnHandler.addGameQueue(party.getParty().get(index));
+                        gp.turnHandler.nextTurnCharacter();
+                        subState = 0;
+                        subState2 = 0;
+                        subNumCommand = 0;
+                        subNumCommand2 = 0;
+
+                    }
+                }
+
+            }
+
+        }
+
+    }
+
     private void attackSelector(Party party, int index) {
         ArrayList<Enemy> enemies = gp.battle.level.get(gp.battle.currentRound);
-     
-       
+
         for (int i = 0; i < enemies.size(); i++) {
 
             if (subNumCommand == i) {
@@ -1984,11 +2079,7 @@ public class UI {
         if (numCommand == 1) {
             g2.drawImage(cursor, windowsX - gp.tileSize, windowsY - gp.tileSize + 15, gp.tileSize, gp.tileSize, null);
             if (gp.keyH.enterPressed) {
-                party.getParty().get(index).atb.setValue(0);
-                party.getParty().get(index).atb.full = false;
-                gp.turnHandler.nextTurnCharacter();
-                numCommand = 0;
-                gp.keyH.enterPressed = false;
+                subState = 2;
             }
 
         }

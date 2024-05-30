@@ -79,6 +79,7 @@ public class Enemy extends Entity {
                         Entity target = gp.party.aliveRandom();
                         gp.battle.animationAttack.setAnimation(animationAttack, target ,0);
                         attackEntity(target);
+                        gp.playSE(8);
                         gp.turnHandler.nextTurn();
                         cont = 0;
                     }

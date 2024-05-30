@@ -1,5 +1,6 @@
 package com.example.entity;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
@@ -11,6 +12,8 @@ import javax.imageio.ImageIO;
 import com.example.AnimatedText;
 import com.example.GamePanel;
 import com.example.UtilityTool;
+
+
 
 public class Entity implements Comparable<Entity> {
     protected ArrayList<AnimatedText> animatedTexts = new ArrayList<>();
@@ -31,9 +34,6 @@ public class Entity implements Comparable<Entity> {
     protected String dialogues[] = new String[10];
     int dialogueI = 0;
     protected Boolean isAlive = true;
-
-
-   
 
     public Entity(GamePanel gp) {
         this.gp = gp;
@@ -104,18 +104,19 @@ public class Entity implements Comparable<Entity> {
             }
 
             g2.drawImage(image, x, y, sizeWidth, sizeHeight, null);
+          /*   g2.setColor(Color.MAGENTA);
+            g2.drawRect(x + hitBox.x, y + hitBox.y, hitBox.width, hitBox.height); */
 
         }
 
     }
 
     public void speak() {
-       
 
         if (dialogues[0] != null) {
             gp.gameState = GamePanel.dialogueState;
         }
-        
+
         if (dialogues[dialogueI] == null) {
             dialogueI = 0;
         }
@@ -147,7 +148,6 @@ public class Entity implements Comparable<Entity> {
     public void setIsAlive(Boolean deadState) {
         this.isAlive = deadState;
     }
-
 
     public int compareTo(Entity e1) {
 

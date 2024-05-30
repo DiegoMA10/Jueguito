@@ -1,5 +1,6 @@
 package com.example.tile;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.List;
@@ -136,6 +137,10 @@ public class TileManager {
                         (worldY + gp.tileSize > gp.player.worldY - gp.player.screenY) &&
                         (worldY - gp.tileSize < gp.player.worldY + gp.player.screenY)) {
                     g2.drawImage(tile[n].image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+                   /*  g2.setColor(Color.red);
+                    g2.drawRect(screenX, screenY, gp.tileSize, gp.tileSize);
+                    g2.setColor(Color.blue);
+                    g2.fillRect(screenX+23, screenY+23, 2, 2); */
 
                 } else if (gp.player.screenX > gp.player.worldX ||
                         gp.player.screenY > gp.player.worldY ||

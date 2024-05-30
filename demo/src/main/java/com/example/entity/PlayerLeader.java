@@ -23,7 +23,7 @@ public class PlayerLeader extends Entity {
     public int screenX;
     public int screenY;
     Party group;
-  
+
     boolean action, actionX;
     int defaultX;
     public boolean salida = true;;
@@ -62,7 +62,6 @@ public class PlayerLeader extends Entity {
         this.group = group;
         getPlayerImagen();
     }
-
 
     public void getPlayerImagen() {
 
@@ -148,7 +147,9 @@ public class PlayerLeader extends Entity {
             }
         }
     }
+
     float transparency = 1.0f;
+
     public void draw(Graphics2D g2) {
 
         /*
@@ -235,14 +236,11 @@ public class PlayerLeader extends Entity {
             y = gp.screenHeight - (gp.worldHeight - worldY);
         }
 
-     
         g2.drawImage(image, x, y, sizeWidth, sizeHeight, null);
-        
- /*   
-         g2.setColor(Color.red);
-        g2.drawRect(x + hitBox.x, y + hitBox.y, hitBox.width, hitBox.height);
-        cont++; 
- */
+
+/*         g2.setColor(Color.cyan);
+        g2.drawRect(x + hitBox.x, y + hitBox.y, hitBox.width, hitBox.height); */
+
     }
 
     /*

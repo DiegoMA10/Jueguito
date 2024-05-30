@@ -55,17 +55,76 @@ public class KeyHandler implements KeyListener {
 
   private void battleState(int code) {
     switch (gp.ui.subState) {
-      case 0: battleMenu(code);break;
-      case 1: attackSelector(code);break;
-      case 3: itemSelector(code);
-  
+      case 0:
+        battleMenu(code);
+        break;
+      case 1:
+        attackSelector(code);
+        break;
+      case 2:
+        spellSelector(code);
+        break;
+      case 3:
+        itemSelector(code);
+        break;
+
     }
-   
+
   }
 
-  private void battleMenu(int code){
+  private void spellSelector(int code) {
     switch (code) {
-    
+      case KeyEvent.VK_ESCAPE:
+
+        if (gp.ui.subState2 == 1) {
+          gp.ui.subState2 = 0;
+
+        } else {
+          gp.ui.subState = 0;
+
+          gp.ui.subNumCommand = 0;
+        }
+        break;
+      case KeyEvent.VK_W:
+
+        if (gp.ui.subState2 == 1) {
+          if (gp.ui.subNumCommand2 > 0) {
+            gp.ui.subNumCommand2--;
+
+          }
+        } else {
+          if (gp.ui.subNumCommand > 0) {
+            gp.ui.subNumCommand--;
+
+          }
+        }
+
+        break;
+      case KeyEvent.VK_S:
+
+        if (gp.ui.subState2 == 1) {
+          if (gp.ui.subNumCommand2 < gp.battle.level.get(gp.battle.currentRound).size() - 1) {
+            gp.ui.subNumCommand2++;
+
+          }
+        } else {
+          if (gp.ui.subNumCommand < gp.party.getParty().get(0).getAbilities().size() - 1) {
+            gp.ui.subNumCommand++;
+
+          }
+        }
+
+        break;
+
+      case KeyEvent.VK_ENTER:
+        enterPressed = true;
+        break;
+    }
+  }
+
+  private void battleMenu(int code) {
+    switch (code) {
+
       case KeyEvent.VK_W:
 
         if (gp.ui.numCommand > 0) {
@@ -87,11 +146,11 @@ public class KeyHandler implements KeyListener {
     }
   }
 
-  private void attackSelector(int code){
+  private void attackSelector(int code) {
     switch (code) {
       case KeyEvent.VK_ESCAPE:
-        gp.ui.subState=0;
-        gp.ui.subNumCommand=0;
+        gp.ui.subState = 0;
+        gp.ui.subNumCommand = 0;
         break;
       case KeyEvent.VK_W:
 
@@ -101,7 +160,7 @@ public class KeyHandler implements KeyListener {
         }
         break;
       case KeyEvent.VK_S:
-        if (gp.ui.subNumCommand < gp.battle.level.get(gp.battle.currentRound).size()-1) {
+        if (gp.ui.subNumCommand < gp.battle.level.get(gp.battle.currentRound).size() - 1) {
           gp.ui.subNumCommand++;
 
         }
@@ -170,15 +229,15 @@ public class KeyHandler implements KeyListener {
   private void tradeSellSelector(int code) {
     switch (code) {
       case KeyEvent.VK_ESCAPE:
-      if (!gp.ui.menuStatus) {
-        if (gp.ui.subState2 == 1) {
-          gp.ui.subState2 = 0;
-          gp.ui.subNumCommand2 = 0;
-        } else {
-          gp.ui.subState = 0;
-          gp.ui.subNumCommand = 0;
+        if (!gp.ui.menuStatus) {
+          if (gp.ui.subState2 == 1) {
+            gp.ui.subState2 = 0;
+            gp.ui.subNumCommand2 = 0;
+          } else {
+            gp.ui.subState = 0;
+            gp.ui.subNumCommand = 0;
+          }
         }
-      }
 
         break;
       case KeyEvent.VK_W:
@@ -242,16 +301,16 @@ public class KeyHandler implements KeyListener {
   private void tradeBuySelector(int code) {
     switch (code) {
       case KeyEvent.VK_ESCAPE:
-      if (!gp.ui.menuStatus) {
-        if (gp.ui.subState2 == 1) {
-          gp.ui.subState2 = 0;
-          gp.ui.subNumCommand2 = 0;
-        } else {
-          gp.ui.subState = 0;
-          gp.ui.subNumCommand = 0;
+        if (!gp.ui.menuStatus) {
+          if (gp.ui.subState2 == 1) {
+            gp.ui.subState2 = 0;
+            gp.ui.subNumCommand2 = 0;
+          } else {
+            gp.ui.subState = 0;
+            gp.ui.subNumCommand = 0;
+          }
         }
-      }
-     
+
         break;
       case KeyEvent.VK_W:
 
@@ -355,7 +414,7 @@ public class KeyHandler implements KeyListener {
         if (gp.ui.numCommand < 1) {
 
           gp.ui.numCommand++;
-        
+
         }
         break;
       case KeyEvent.VK_ENTER:
@@ -365,7 +424,6 @@ public class KeyHandler implements KeyListener {
     }
   }
 
-  
   private void titleSelector(int code) {
     switch (gp.ui.subState) {
       case 0:

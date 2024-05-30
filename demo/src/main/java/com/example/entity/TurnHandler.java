@@ -36,6 +36,7 @@ public class TurnHandler {
         checkAndCleanUp();
         if (!characterAction && !gp.battle.transitioning) {
             setCurrentCharacter(turnCharacters.poll());
+            gp.ui.numCommand = 0;
         }
     }
 
