@@ -58,7 +58,7 @@ public abstract class Character extends Entity {
 
     private boolean takeDamageOn = false;
     public ATB atb;
-    private Graphics2D g2;
+
     private Entity target;
     private Item item;
     private Spell spell;
@@ -167,7 +167,7 @@ public abstract class Character extends Entity {
             }
 
         } else {
-
+            takeDamageOn = false;
             image = dead;
             atb.resetATB();
         }
@@ -225,8 +225,7 @@ public abstract class Character extends Entity {
                 return;
             }
 
-            attackEntity(target);
-            gp.battle.animationAttack.setAnimation(attackAnimation, target, 0);
+            gp.battle.animationAttack.setAnimation(attackAnimation, target, this, 0);
             gp.playSE(8);
             jumping = false;
             returning = true;
@@ -299,7 +298,8 @@ public abstract class Character extends Entity {
             if (cont > 50) {
 
                 switch (characterAction) {
-                    case 2:useSpell();
+                    case 2:
+                        useSpell();
                         break;
                     case 3:
                         useItem();
@@ -317,7 +317,7 @@ public abstract class Character extends Entity {
 
     public void useItem() {
         item.useObject(target);
-        gp.battle.animationAttack.setAnimation(item.getAnimation(), target, 1);
+        gp.battle.animationAttack.setAnimation(item.getAnimation(), this, target, 1);
         Character c = (Character) target;
         Color color = null;
         if (item instanceof Potion) {
@@ -332,23 +332,24 @@ public abstract class Character extends Entity {
     }
 
     public void useSpell() {
-       
-       System.out.println(spell);
-        gp.battle.animationAttack.setAnimation(spell.getAnimation(), target, 2);
-        this.setMp(this.getMp() - spell.getCost());
-       /*  Character c = (Character) target;
-        Color color = null;
-       
-          if (item instanceof Potion) {
-          color = Color.green;
-          } else if (item instanceof Ether) {
-          color = new Color(0, 223, 223);
-          }
-          */
-       /*  AnimatedText animatedText = new AnimatedText(Integer.toString(spell.getSpellPower()), c.x,
-                c.y, color, new Font("Arial", Font.BOLD, 24), 1, 30);
-        gp.battle.addAnimatedText(animatedText); */
-        gp.playSE(13);
+
+        if (spell instanceof Piro) {
+            gp.battle.animationAttack.setAnimation(spell.getAnimation(), target, this, 2);
+            gp.playSE(13);
+        }
+
+        if (spell instanceof Electro) {
+            gp.battle.animationAttack.setAnimation(spell.getAnimation(), target, this, 4);
+            gp.playSE(14);
+        }
+
+        if (spell instanceof Hielo) {
+            gp.battle.animationAttack.setAnimation(spell.getAnimation(), target, this, 3);
+            gp.playSE(15);
+        }
+
+        setMp(getMp() - spell.getCost());
+
     }
 
     public void resetMove() {
@@ -407,6 +408,22 @@ public abstract class Character extends Entity {
         }
     }
 
+    public void magicAttackEntity(Entity e) {
+        if (!e.getIsAlive()) {
+            target = findNewTarget();
+        }
+
+        int damage = spell.getSpellPower() * 4 + (level * magic * spell.getSpellPower() / 32);
+
+        if (e instanceof Character) {
+            ((Character) target).takeMagicDamage(damage);
+        }
+        if (e instanceof Enemy) {
+            ((Enemy) target).takeMagicDamage(damage);
+        }
+
+    }
+
     public void attackEntity(Entity e) {
         if (!e.getIsAlive()) {
             target = findNewTarget();
@@ -446,6 +463,18 @@ public abstract class Character extends Entity {
         }
     }
 
+    public void takeMagicDamage(int damage) {
+        int damageFinal = (damage * (255 - magicDefense) / 256) + 1;
+        setHp(getHp() - damageFinal);
+        AnimatedText animatedText = new AnimatedText(Integer.toString(damageFinal), defaultX + sizeWidth / 2,
+                defaultY + sizeHeight / 2, Color.WHITE, new Font("Arial", Font.BOLD, 24), 1, 30);
+        gp.battle.addAnimatedText(animatedText);
+        takeDamageOn = true;
+        if (hp <= 0) {
+            isAlive = false;
+        }
+    }
+
     public Boolean checkLevel() {
         if (level < 99) {
             if (this.getExp() >= this.getNextLevelExp()) {
@@ -464,7 +493,7 @@ public abstract class Character extends Entity {
     int cont = 0;
 
     public void draw(Graphics2D g2) {
-        this.g2 = g2;
+
         if (isAlive) {
             g2.drawImage(image, x, y, sizeWidth, sizeHeight, null);
 

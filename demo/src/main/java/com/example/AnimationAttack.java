@@ -5,6 +5,7 @@ import java.awt.image.BufferedImage;
 
 import com.example.entity.Character;
 import com.example.entity.Entity;
+import com.example.entity.enemy.Enemy;
 
 public class AnimationAttack {
     GamePanel gp;
@@ -12,6 +13,7 @@ public class AnimationAttack {
     int spriteCont = 0;
     int cont = 0;
     boolean status;
+    Entity attack;
     Entity target;
     int type = 0;
 
@@ -20,9 +22,10 @@ public class AnimationAttack {
 
     }
 
-    public void setAnimation(BufferedImage[] animation, Entity e, int type) {
+    public void setAnimation(BufferedImage[] animation, Entity target, Entity attack, int type) {
         this.animation = animation;
-        this.target = e;
+        this.attack = attack;
+        this.target = target;
         this.type = type;
     }
 
@@ -32,8 +35,14 @@ public class AnimationAttack {
             if (animation != null) {
                 spriteCont++;
                 if (spriteCont > animation.length - 1) {
-                    spriteCont = 0;
+                    if (attack instanceof Enemy) {
+                        ((Enemy) attack).attackEntity(target);
+                    }
 
+                    if (attack instanceof Character) {
+                        ((Character) attack).attackEntity(target);
+                    }
+                    spriteCont = 0;
                     animation = null;
                 }
             }
@@ -62,6 +71,10 @@ public class AnimationAttack {
                     cont = 0;
                     spriteCont++;
                     if (spriteCont > (animation.length - 1) * 3) {
+
+                        if (attack instanceof Character) {
+                            ((Character) attack).magicAttackEntity(target);
+                        }
                         spriteCont = 0;
                         type = 0;
                         animation = null;
@@ -71,6 +84,53 @@ public class AnimationAttack {
             }
         }
 
+        if (type == 3) {
+            if (animation != null) {
+
+                if (spriteCont < animation.length - 4) {
+
+                    spriteCont++;
+
+                } else {
+                    cont++;
+                    if (cont > 5) {
+                        cont = 0;
+                        spriteCont++;
+                        if (spriteCont > animation.length - 1) {
+
+                            if (attack instanceof Character) {
+                                ((Character) attack).magicAttackEntity(target);
+                            }
+                            spriteCont = 0;
+                            type = 0;
+                            animation = null;
+                        }
+                    }
+                }
+            }
+
+        }
+
+        if (type == 4) {
+            if (animation != null) {
+
+                cont++;
+                if (cont > 2) {
+                    cont = 0;
+                    spriteCont++;
+                    if (spriteCont > animation.length - 1) {
+
+                        if (attack instanceof Character) {
+                            ((Character) attack).magicAttackEntity(target);
+                        }
+                        spriteCont = 0;
+                        type = 0;
+                        animation = null;
+                    }
+                }
+
+            }
+        }
     }
 
     public void draw(Graphics2D g2) {
@@ -96,20 +156,34 @@ public class AnimationAttack {
                             animation[spriteCont].getWidth(),
                             animation[spriteCont].getHeight(), null);
                 }
+
                 if (type == 2) {
                     int frameWidth = target.sizeWidth;
                     int frameHeight = target.sizeHeight;
                     int numFrames = animation.length;
 
-                    // Dibujar las tres iteraciones
                     for (int i = 0; i < 3; i++) {
                         int frameIndex = spriteCont - i;
                         if (frameIndex >= 0 && frameIndex < numFrames) {
-                            int xOffset = frameWidth * (1 - i); // Desplazamiento horizontal
+                            int xOffset = frameWidth * (1 - i);
                             int xPos = target.defaultX + xOffset;
                             g2.drawImage(animation[frameIndex], xPos, target.defaultY, frameWidth, frameHeight, null);
                         }
                     }
+                }
+
+                if (type == 3) {
+                    g2.drawImage(animation[spriteCont], target.defaultX - gp.tileSize / 2,
+                            target.defaultY - (animation[spriteCont].getHeight() / 2),
+                            animation[spriteCont].getWidth() * 2, animation[spriteCont].getHeight() * 2, null);
+
+                }
+
+                if (type == 4) {
+                    g2.drawImage(animation[spriteCont], target.defaultX - gp.tileSize / 2,
+                            target.defaultY - gp.tileSize * 2,
+                            animation[spriteCont].getWidth() * 2, animation[spriteCont].getHeight() * 2, null);
+
                 }
 
             }

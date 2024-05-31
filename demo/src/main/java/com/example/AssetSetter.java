@@ -93,19 +93,19 @@ public class AssetSetter {
     public void setTutorial() {
 
         ArrayList<Enemy> enemies = new ArrayList<>();
-        Guard guard = new Guard(this.gp, 1, 100, 7000, gp.tileSize * 4, gp.tileSize * 3);
+        Guard guard = new Guard(this.gp, 5, 100, 7000, gp.tileSize * 4, gp.tileSize * 3);
         guard.setAtb(new ATB(gp, guard));
         enemies.add(guard);
-        Guard guard2 = new Guard(this.gp, 1, 100, 100, gp.tileSize * 3, gp.tileSize * 5);
+        Guard guard2 = new Guard(this.gp, 5, 100, 100, gp.tileSize * 3, gp.tileSize * 5);
         guard2.setAtb(new ATB(gp, guard2));
         enemies.add(guard2);
         gp.battle.level.put(0, enemies);
 
         enemies = new ArrayList<>();
-        Guard guard3 = new Guard(this.gp, 1, 100, 100, gp.tileSize * 4, gp.tileSize * 3);
+        Guard guard3 = new Guard(this.gp, 10, 100, 100, gp.tileSize * 4, gp.tileSize * 3);
         guard3.setAtb(new ATB(gp, guard3));
         enemies.add(guard3);
-        Guard guard4 = new Guard(this.gp, 1, 100, 100, gp.tileSize * 3, gp.tileSize * 5);
+        Guard guard4 = new Guard(this.gp, 10, 100, 100, gp.tileSize * 3, gp.tileSize * 5);
         guard4.setAtb(new ATB(gp, guard4));
         enemies.add(guard4);
         gp.battle.level.put(1, enemies);

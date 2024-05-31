@@ -13,8 +13,6 @@ import com.example.AnimatedText;
 import com.example.GamePanel;
 import com.example.UtilityTool;
 
-
-
 public class Entity implements Comparable<Entity> {
     protected ArrayList<AnimatedText> animatedTexts = new ArrayList<>();
     protected GamePanel gp;
@@ -104,8 +102,10 @@ public class Entity implements Comparable<Entity> {
             }
 
             g2.drawImage(image, x, y, sizeWidth, sizeHeight, null);
-          /*   g2.setColor(Color.MAGENTA);
-            g2.drawRect(x + hitBox.x, y + hitBox.y, hitBox.width, hitBox.height); */
+            if (gp.debug) {
+                g2.setColor(Color.MAGENTA);
+                g2.drawRect(x + hitBox.x, y + hitBox.y, hitBox.width, hitBox.height);
+            }
 
         }
 

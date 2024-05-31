@@ -49,10 +49,10 @@ public class Aerith extends Character {
         setMp(getMaxMp());
         setStrength(25 + level - 1);
         setDexterity(30 + level - 1);
-        setMagic(40 + level - 1);
+        setMagic(27 + level - 1);
         setAttack(15 + level - 1);
-        setDefense(80 + level - 1);
-        setMagicDefense(80 + level - 1);
+        setDefense(50 + level - 1);
+        setMagicDefense(50 + level - 1);
 
     }
 

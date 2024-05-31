@@ -12,7 +12,7 @@ public class Main {
         JFrame window = new JFrame();
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setResizable(false);
-        window.setTitle("hola");
+        window.setTitle("FINAL DAM");
         
         GamePanel gamePanel = new GamePanel();
        

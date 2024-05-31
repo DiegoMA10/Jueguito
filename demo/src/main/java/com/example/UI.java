@@ -213,7 +213,7 @@ public class UI {
         g2.drawImage(titleScreen, 0, 0, gp.screenWidth, gp.screenWidth, null);
         g2.setFont(g2.getFont().deriveFont(Font.BOLD, 40F));
 
-        String text = "Start Game";
+        String text = "New Game";
         int x = getXforCenteredText(text);
         int y = gp.screenHeight / 2 + gp.tileSize * 2;
 
@@ -1730,12 +1730,6 @@ public class UI {
 
             if (index == 0) {
 
-                if (!party.getParty().get(index).getIsAlive()) {
-                    subState = 0;
-                    subNumCommand = 0;
-                    index = 9;
-                    System.out.println("hola");
-                }
                 drawAction();
                 menuAction(party, index);
 
@@ -1753,12 +1747,6 @@ public class UI {
 
             if (index == 2) {
 
-                if (!party.getParty().get(index).getIsAlive()) {
-                    subState = 0;
-                    subNumCommand = 0;
-                    index = 9;
-                    System.out.println("hola");
-                }
                 drawAction();
                 menuAction(party, index);
 
@@ -1972,7 +1960,8 @@ public class UI {
                 }
 
                 if (subNumCommand == i || (subNumCommand > 3 && subNumCommand == i + contadorCursor)) {
-                    if (gp.keyH.enterPressed && party.getParty().get(index).getMp() > spells.get(subNumCommand).getCost()) {
+                    if (gp.keyH.enterPressed
+                            && party.getParty().get(index).getMp() >= spells.get(subNumCommand).getCost()) {
                         subState2 = 1;
 
                         gp.keyH.enterPressed = false;
@@ -2017,7 +2006,8 @@ public class UI {
                     g2.drawImage(cursorInvert, x, y, gp.tileSize, gp.tileSize, null);
                     if (gp.keyH.enterPressed) {
                         party.getParty().get(index).setTarget(enemies.get(i));
-                        party.getParty().get(index).setSpell(party.getParty().get(index).getAbilities().get(subNumCommand));
+                        party.getParty().get(index)
+                                .setSpell(party.getParty().get(index).getAbilities().get(subNumCommand));
                         party.getParty().get(index).action = true;
                         party.getParty().get(index).characterAction = 2;
                         gp.turnHandler.addGameQueue(party.getParty().get(index));

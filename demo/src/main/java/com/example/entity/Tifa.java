@@ -50,12 +50,12 @@ public class Tifa extends Character {
         setHp(getMaxHp());
         setMaxMp(gp.dataBase.getMpForLevel(level));
         setMp(getMaxMp());
-        setStrength(40 + level - 1);
-        setDexterity(40 + level - 1);
-        setMagic(25 + level - 1);
-        setAttack(23 + level - 1);
-        setDefense(80 + level - 1);
-        setMagicDefense(80 + level - 1);
+        setStrength(45 + level - 1);
+        setDexterity(43 + level - 1);
+        setMagic(15 + level - 1);
+        setAttack(30 + level - 1);
+        setDefense(50 + level - 1);
+        setMagicDefense(50 + level - 1);
 
     }
 

@@ -77,8 +77,8 @@ public class Enemy extends Entity {
                         spritcont = 0;
                         atb.resetATB();
                         Entity target = gp.party.aliveRandom();
-                        gp.battle.animationAttack.setAnimation(animationAttack, target ,0);
-                        attackEntity(target);
+                        gp.battle.animationAttack.setAnimation(animationAttack, target, this, 0);
+
                         gp.playSE(8);
                         gp.turnHandler.nextTurn();
                         cont = 0;
@@ -104,6 +104,7 @@ public class Enemy extends Entity {
             if (transparency == 0.0f) {
                 gp.battle.level.get(gp.battle.currentRound).remove(this);
                 gp.battle.iterator = gp.battle.level.get(gp.battle.currentRound).iterator();
+                gp.ui.subNumCommand2 = 0;
 
             }
         }
@@ -140,8 +141,9 @@ public class Enemy extends Entity {
     }
 
     public void attackEntity(Entity e) {
-        int attack2 = attack + strength * 2;
-        int damage = attack + ((level * level * attack2) / (256)) * 3 / 2;
+
+        int damage = level * level * (attack * 4 + strength) / 256;
+
         if (e != null) {
             if (e instanceof Character) {
                 ((Character) e).takeDamage(damage);
@@ -156,6 +158,19 @@ public class Enemy extends Entity {
 
     public void takeDamage(int damage) {
         int damageFinal = (damage * (255 - defense) / 256) + 1;
+        setHp(getHp() - damageFinal);
+        AnimatedText animatedText = new AnimatedText(Integer.toString(damageFinal), defaultX + sizeWidth / 2,
+                defaultY + sizeHeight / 2, Color.WHITE, new Font("Arial", Font.BOLD, 24), 1, 30);
+        gp.battle.addAnimatedText(animatedText);
+        if (hp <= 0) {
+            gp.battle.addExp(this.exp);
+            gp.battle.addGil(this.gil);
+            isAlive = false;
+        }
+    }
+
+    public void takeMagicDamage(int damage) {
+        int damageFinal = (damage * (255 - magicDefense) / 256) + 1;
         setHp(getHp() - damageFinal);
         AnimatedText animatedText = new AnimatedText(Integer.toString(damageFinal), defaultX + sizeWidth / 2,
                 defaultY + sizeHeight / 2, Color.WHITE, new Font("Arial", Font.BOLD, 24), 1, 30);

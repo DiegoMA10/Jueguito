@@ -14,8 +14,9 @@ public class Guard extends Enemy {
         MaxHp = 40;
         hp = 5;
         attack = 20;
-        strength = 10;
+        strength = 40;
         defense = 80;
+        magicDefense = 120;
         getEnemyImagen();
     }
 

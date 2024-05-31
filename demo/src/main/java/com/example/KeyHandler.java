@@ -475,12 +475,17 @@ public class KeyHandler implements KeyListener {
         rightPressed = true;
         break;
       case KeyEvent.VK_ESCAPE:
-
         gp.ui.gameStateTransition = GamePanel.menuState;
-
         break;
       case KeyEvent.VK_ENTER:
         enterPressed = true;
+        break;
+        case KeyEvent.VK_P:
+        if (gp.debug) {
+          gp.debug=false;
+        }else{
+          gp.debug=true;
+        }
         break;
     }
 

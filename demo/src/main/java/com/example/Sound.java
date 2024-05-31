@@ -26,6 +26,9 @@ public class Sound {
         soundURL[11] = getClass().getResource("/com/example/sound/victoryFanfare.wav");
         soundURL[12] = getClass().getResource("/com/example/sound/gameOver.wav");
         soundURL[13] = getClass().getResource("/com/example/sound/piro.wav");
+        soundURL[14] = getClass().getResource("/com/example/sound/electro.wav");
+        soundURL[15] = getClass().getResource("/com/example/sound/hielo.wav");
+      
     }
 
 

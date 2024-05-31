@@ -237,9 +237,11 @@ public class PlayerLeader extends Entity {
         }
 
         g2.drawImage(image, x, y, sizeWidth, sizeHeight, null);
-
-/*         g2.setColor(Color.cyan);
-        g2.drawRect(x + hitBox.x, y + hitBox.y, hitBox.width, hitBox.height); */
+        if (gp.debug) {
+            g2.setColor(Color.cyan);
+            g2.drawRect(x + hitBox.x, y + hitBox.y, hitBox.width, hitBox.height); 
+        }
+     
 
     }
 

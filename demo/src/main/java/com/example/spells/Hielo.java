@@ -14,6 +14,6 @@ public class Hielo extends Spell {
     
     
     private void getImagen(){
-        
+        setUp(22, "hielo");
     }
 }

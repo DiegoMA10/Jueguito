@@ -13,7 +13,7 @@ public class Electro extends Spell {
     }
 
     private void getImagen(){
-
+        setUp(19, "electro");
     }
     
 }

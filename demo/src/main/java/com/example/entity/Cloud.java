@@ -51,10 +51,10 @@ public class Cloud extends Character {
         setMp(getMaxMp());
         setStrength(35 + level - 1);
         setDexterity(35 + level - 1);
-        setMagic(30 + level - 1);
-        setAttack(20 + level - 1);
-        setDefense(80 + level - 1);
-        setMagicDefense(80 + level - 1);
+        setMagic(25 + level - 1);
+        setAttack(25 + level - 1);
+        setDefense(50 + level - 1);
+        setMagicDefense(50 + level - 1);
 
     }
 

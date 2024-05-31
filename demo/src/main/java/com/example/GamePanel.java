@@ -55,7 +55,7 @@ public class GamePanel extends JPanel implements Runnable {
     public UI ui = new UI(this);
 
     int FPS = 60;
-
+    public boolean debug = false;
     public int gameState;
 
     public static final int titleState = 0;
@@ -170,7 +170,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void playMusic(int n) {
         music.setFile(n);
-        music.setVolume(0.00f);
+        music.setVolume(0.06f);
 
         music.play();
         music.loop();
@@ -183,7 +183,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void playSE(int n) {
         soundEfect.setFile(n);
-        soundEfect.setVolume(0.2f);
+        soundEfect.setVolume(0.27f);
         soundEfect.play();
     }
 
