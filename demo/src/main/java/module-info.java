@@ -6,7 +6,7 @@ module com.example {
     exports com.example.entity;
     exports com.example.entity.npc;
     exports com.example.entity.enemy;
-    exports com.example.Items;
+    exports com.example.items;
     opens com.example to javafx.fxml;
     exports com.example;
 }

@@ -1,10 +1,11 @@
-package com.example.entity;
+package com.example;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import com.example.GamePanel;
+import com.example.entity.Character;
+import com.example.entity.Entity;
 import com.example.entity.enemy.Enemy;
 
 public class TurnHandler {

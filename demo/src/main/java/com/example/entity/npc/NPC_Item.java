@@ -4,8 +4,8 @@ import java.awt.Graphics2D;
 import java.util.ArrayList;
 
 import com.example.GamePanel;
-import com.example.Items.Item;
 import com.example.entity.Entity;
+import com.example.items.Item;
 
 public class NPC_Item extends Entity {
 

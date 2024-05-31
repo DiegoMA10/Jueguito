@@ -1,4 +1,4 @@
-package com.example.Items;
+package com.example.items;
 
 import java.awt.image.BufferedImage;
 

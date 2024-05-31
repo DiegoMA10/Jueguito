@@ -6,13 +6,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import com.example.Items.Item;
+
 import com.example.entity.ATB;
 import com.example.entity.Aerith;
 import com.example.entity.Character;
 import com.example.entity.Cloud;
 import com.example.entity.Tifa;
 import com.example.entity.npc.NPC_Item;
+import com.example.items.Item;
 
 public class Database {
     GamePanel gp;
@@ -21,8 +22,8 @@ public class Database {
     public Database(GamePanel gp) {
         this.gp = gp;
         try {
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/juego", "root", "123");
-             //con = DriverManager.getConnection("jdbc:mysql://localhost:33006/juego","root","dbrootpass");
+            //con = DriverManager.getConnection("jdbc:mysql://localhost:3306/juego", "root", "123");
+             con = DriverManager.getConnection("jdbc:mysql://localhost:33006/juego","root","dbrootpass");
         } catch (SQLException e) {
             e.printStackTrace();
         }

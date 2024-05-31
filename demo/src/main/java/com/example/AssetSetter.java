@@ -2,8 +2,6 @@ package com.example;
 
 import java.util.ArrayList;
 
-import com.example.Items.Ether;
-import com.example.Items.Potion;
 import com.example.entity.ATB;
 import com.example.entity.Aerith;
 import com.example.entity.Cloud;
@@ -15,6 +13,8 @@ import com.example.entity.npc.NPC_Inkeeper;
 import com.example.entity.npc.NPC_Item;
 import com.example.entity.npc.NPC_Spell;
 import com.example.entity.npc.NPC_Weapon;
+import com.example.items.Ether;
+import com.example.items.Potion;
 
 public class AssetSetter {
 

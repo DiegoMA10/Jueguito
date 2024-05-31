@@ -12,11 +12,12 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 import javax.imageio.ImageIO;
-import com.example.Items.Item;
+
 import com.example.entity.Character;
 import com.example.entity.Party;
 import com.example.entity.enemy.Enemy;
 import com.example.entity.npc.NPC_Item;
+import com.example.items.Item;
 import com.example.spells.Spell;
 
 public class UI {

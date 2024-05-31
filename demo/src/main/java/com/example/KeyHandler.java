@@ -3,7 +3,7 @@ package com.example;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-import com.example.Items.Item;
+import com.example.items.Item;
 
 public class KeyHandler implements KeyListener {
 

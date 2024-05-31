@@ -1,4 +1,4 @@
-package com.example.Items;
+package com.example.items;
 
 import com.example.GamePanel;
 import com.example.entity.Character;

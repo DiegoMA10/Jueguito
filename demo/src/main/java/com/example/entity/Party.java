@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import com.example.GamePanel;
-import com.example.Items.Item;
+import com.example.items.Item;
 
 public class Party {
     GamePanel gp;
