@@ -7,6 +7,7 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Random;
 
 import javax.imageio.ImageIO;
 
@@ -38,10 +39,12 @@ public class Enemy extends Entity {
     private ATB atb;
     Graphics2D g2;
     private float transparency = 1.0f;
-    private static final float TRANSPARENCY_CHANGE_PER_UPDATE = 0.02f;
+    private final float TRANSPARENCY_CHANGE_PER_UPDATE = 0.02f;
+    Random r = new Random();
 
     public Enemy(GamePanel gp, int level, int gil, int exp, int x, int y) {
         super(gp);
+        this.strength = r.nextInt(63 - 56) + 56;
         this.level = level;
         this.gil = gil;
         this.exp = exp;
@@ -101,7 +104,11 @@ public class Enemy extends Entity {
             transparency -= TRANSPARENCY_CHANGE_PER_UPDATE;
             transparency = Math.max(0.0f, transparency);
 
+            if (Math.round(transparency * 100) == 50) {
+                gp.playSE(17);
+            }
             if (transparency == 0.0f) {
+
                 gp.battle.level.get(gp.battle.currentRound).remove(this);
                 gp.battle.iterator = gp.battle.level.get(gp.battle.currentRound).iterator();
                 gp.ui.subNumCommand2 = 0;
@@ -160,11 +167,12 @@ public class Enemy extends Entity {
         int damageFinal = (damage * (255 - defense) / 256) + 1;
         setHp(getHp() - damageFinal);
         AnimatedText animatedText = new AnimatedText(Integer.toString(damageFinal), defaultX + sizeWidth / 2,
-                defaultY + sizeHeight / 2, Color.WHITE, new Font("Arial", Font.BOLD, 24), 1, 30);
+                defaultY + sizeHeight / 2, Color.WHITE, 1, 30);
         gp.battle.addAnimatedText(animatedText);
         if (hp <= 0) {
             gp.battle.addExp(this.exp);
             gp.battle.addGil(this.gil);
+
             isAlive = false;
         }
     }
@@ -173,7 +181,7 @@ public class Enemy extends Entity {
         int damageFinal = (damage * (255 - magicDefense) / 256) + 1;
         setHp(getHp() - damageFinal);
         AnimatedText animatedText = new AnimatedText(Integer.toString(damageFinal), defaultX + sizeWidth / 2,
-                defaultY + sizeHeight / 2, Color.WHITE, new Font("Arial", Font.BOLD, 24), 1, 30);
+                defaultY + sizeHeight / 2, Color.WHITE, 1, 30);
         gp.battle.addAnimatedText(animatedText);
         if (hp <= 0) {
             gp.battle.addExp(this.exp);

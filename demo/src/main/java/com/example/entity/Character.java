@@ -61,6 +61,7 @@ public abstract class Character extends Entity {
 
     private Entity target;
     private Item item;
+
     private Spell spell;
 
     private boolean jumping = false;
@@ -97,6 +98,14 @@ public abstract class Character extends Entity {
 
     public void update() {
         atb.update();
+        if (target != null) {
+            if (!target.getIsAlive()) {
+                if (target instanceof Enemy) {
+                    target = findNewTarget();
+                }
+
+            }
+        }
         updateAction();
 
         if (gp.turnHandler.getCurrentTurn() == this) {
@@ -316,19 +325,10 @@ public abstract class Character extends Entity {
     }
 
     public void useItem() {
-        item.useObject(target);
-        gp.battle.animationAttack.setAnimation(item.getAnimation(), this, target, 1);
-        Character c = (Character) target;
-        Color color = null;
-        if (item instanceof Potion) {
-            color = Color.green;
-        } else if (item instanceof Ether) {
-            color = new Color(0, 223, 223);
-        }
-        AnimatedText animatedText = new AnimatedText(Integer.toString(item.getValue()), c.x,
-                c.y, color, new Font("Arial", Font.BOLD, 24), 1, 30);
-        gp.battle.addAnimatedText(animatedText);
-        gp.playSE(8);
+
+        gp.battle.animationAttack.setAnimation(item.getAnimation(), target, this, 1);
+
+        gp.playSE(18);
     }
 
     public void useSpell() {
@@ -425,9 +425,6 @@ public abstract class Character extends Entity {
     }
 
     public void attackEntity(Entity e) {
-        if (!e.getIsAlive()) {
-            target = findNewTarget();
-        }
 
         int attack2 = attack + strength * 2;
         int damage = attack + ((level * level * attack2) / (256)) * 3 / 2;
@@ -455,7 +452,7 @@ public abstract class Character extends Entity {
         int damageFinal = (damage * (255 - defense) / 256) + 1;
         setHp(getHp() - damageFinal);
         AnimatedText animatedText = new AnimatedText(Integer.toString(damageFinal), defaultX + sizeWidth / 2,
-                defaultY + sizeHeight / 2, Color.WHITE, new Font("Arial", Font.BOLD, 24), 1, 30);
+                defaultY + sizeHeight / 2, Color.WHITE, 1, 30);
         gp.battle.addAnimatedText(animatedText);
         takeDamageOn = true;
         if (hp <= 0) {
@@ -467,7 +464,7 @@ public abstract class Character extends Entity {
         int damageFinal = (damage * (255 - magicDefense) / 256) + 1;
         setHp(getHp() - damageFinal);
         AnimatedText animatedText = new AnimatedText(Integer.toString(damageFinal), defaultX + sizeWidth / 2,
-                defaultY + sizeHeight / 2, Color.WHITE, new Font("Arial", Font.BOLD, 24), 1, 30);
+                defaultY + sizeHeight / 2, Color.WHITE, 1, 30);
         gp.battle.addAnimatedText(animatedText);
         takeDamageOn = true;
         if (hp <= 0) {
@@ -549,6 +546,10 @@ public abstract class Character extends Entity {
 
     public void setItem(Item item) {
         this.item = item;
+    }
+
+    public Item getItem() {
+        return item;
     }
 
     public void setSpell(Spell spell) {

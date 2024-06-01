@@ -53,7 +53,7 @@ public class Tifa extends Character {
         setStrength(45 + level - 1);
         setDexterity(43 + level - 1);
         setMagic(15 + level - 1);
-        setAttack(30 + level - 1);
+        setAttack(30 + level*2 - 1);
         setDefense(50 + level - 1);
         setMagicDefense(50 + level - 1);
 

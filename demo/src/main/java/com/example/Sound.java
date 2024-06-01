@@ -9,14 +9,14 @@ import javax.sound.sampled.FloatControl;
 
 public class Sound {
     Clip clip;
-    URL[] soundURL = new URL[20];
+    URL[] soundURL = new URL[25];
 
     public Sound(){
         soundURL[0] = getClass().getResource("/com/example/sound/battleTheme.wav");
         soundURL[1] = getClass().getResource("/com/example/sound/townTheme.wav");
         soundURL[2] = getClass().getResource("/com/example/sound/doorOpen.wav");
-        soundURL[3] = getClass().getResource("/com/example/sound/1BItemMenuItng.wav");
-        soundURL[4] = getClass().getResource("/com/example/sound/7DHealingSound.wav");
+        soundURL[3] = getClass().getResource("/com/example/sound/menuTing.wav");
+        soundURL[4] = getClass().getResource("/com/example/sound/goodNight.wav");
         soundURL[5] = getClass().getResource("/com/example/sound/DCMenuTing.wav");
         soundURL[6] = getClass().getResource("/com/example/sound/preludeTheme.wav");
         soundURL[7] = getClass().getResource("/com/example/sound/BFBuyingSelling.wav");
@@ -28,6 +28,11 @@ public class Sound {
         soundURL[13] = getClass().getResource("/com/example/sound/piro.wav");
         soundURL[14] = getClass().getResource("/com/example/sound/electro.wav");
         soundURL[15] = getClass().getResource("/com/example/sound/hielo.wav");
+        soundURL[16] = getClass().getResource("/com/example/sound/cureInMenu.wav");
+        soundURL[17] = getClass().getResource("/com/example/sound/monsterDeath.wav");
+        soundURL[18] = getClass().getResource("/com/example/sound/7DHealingSound.wav");
+        soundURL[19] = getClass().getResource("/com/example/sound/C1Encounter.wav");
+        soundURL[20] = getClass().getResource("/com/example/sound/error.wav");
       
     }
 
@@ -47,6 +52,7 @@ public class Sound {
     }
     public void loop(){
         clip.loop(Clip.LOOP_CONTINUOUSLY);
+        
     }
     public void stop(){
         clip.stop();

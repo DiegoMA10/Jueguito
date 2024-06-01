@@ -5,6 +5,8 @@ import com.example.GamePanel;
 import com.example.entity.Character;
 import com.example.entity.Entity;
 
+import javafx.scene.paint.Color;
+
 public class Potion extends Item {
 
     public Potion(GamePanel gp) {
@@ -26,17 +28,16 @@ public class Potion extends Item {
     public boolean useObject(Entity entity) {
         Character e = (Character) entity;
         if (e.getHp() < e.getMaxHp() || gp.gameState == GamePanel.battleState) {
-            
-                
-            
+
             amount--;
             if (e.getIsAlive()) {
                 e.setHp(e.getHp() + value);
+
                 if (amount == 0) {
                     gp.party.getInventory().remove(this);
                     return false;
                 }
-            }else{
+            } else {
                 return false;
             }
 

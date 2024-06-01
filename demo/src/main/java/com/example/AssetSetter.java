@@ -8,6 +8,8 @@ import com.example.entity.Cloud;
 import com.example.entity.Tifa;
 import com.example.entity.enemy.Enemy;
 import com.example.entity.enemy.Guard;
+import com.example.entity.enemy.Megalodoth;
+import com.example.entity.enemy.SilverWolf;
 import com.example.entity.npc.NPC_Guardian;
 import com.example.entity.npc.NPC_Inkeeper;
 import com.example.entity.npc.NPC_Item;
@@ -93,10 +95,10 @@ public class AssetSetter {
     public void setTutorial() {
 
         ArrayList<Enemy> enemies = new ArrayList<>();
-        Guard guard = new Guard(this.gp, 5, 100, 7000, gp.tileSize * 4, gp.tileSize * 3);
+        SilverWolf guard = new SilverWolf(this.gp, 1, 100, 70110, gp.tileSize * 4, gp.tileSize * 3);
         guard.setAtb(new ATB(gp, guard));
         enemies.add(guard);
-        Guard guard2 = new Guard(this.gp, 5, 100, 100, gp.tileSize * 3, gp.tileSize * 5);
+        Megalodoth guard2 = new Megalodoth(this.gp, 1, 100, 100, gp.tileSize * 3, gp.tileSize * 5);
         guard2.setAtb(new ATB(gp, guard2));
         enemies.add(guard2);
         gp.battle.level.put(0, enemies);

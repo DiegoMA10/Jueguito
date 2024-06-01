@@ -1,11 +1,16 @@
 package com.example;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
 import com.example.entity.Character;
 import com.example.entity.Entity;
 import com.example.entity.enemy.Enemy;
+import com.example.items.Ether;
+import com.example.items.Potion;
+
+import javafx.scene.text.Font;
 
 public class AnimationAttack {
     GamePanel gp;
@@ -30,6 +35,14 @@ public class AnimationAttack {
     }
 
     public void update() {
+        if (target != null) {
+            if (!target.getIsAlive()) {
+                if (target instanceof Enemy) {
+                    target = ((Character) attack).findNewTarget();
+                }
+
+            }
+        }
 
         if (type == 0) {
             if (animation != null) {
@@ -51,10 +64,21 @@ public class AnimationAttack {
         if (type == 1) {
             if (animation != null) {
                 cont++;
-                if (cont > 5) {
+                if (cont > 4) {
                     cont = 0;
                     spriteCont++;
                     if (spriteCont > animation.length - 1) {
+                        ((Character) attack).getItem().useObject(target);
+                        Character c = (Character) target;
+                        Color color = null;
+                        if (((Character) attack).getItem() instanceof Potion) {
+                            color = Color.green;
+                        } else if (((Character) attack).getItem() instanceof Ether) {
+                            color = new Color(0, 223, 223);
+                        }
+                        AnimatedText animatedText = new AnimatedText(((Character) attack).getItem().getValue() + "",
+                                c.x, c.y, color, 1, 30);
+                        gp.battle.addAnimatedText(animatedText);
                         spriteCont = 0;
                         type = 0;
                         animation = null;
@@ -158,8 +182,8 @@ public class AnimationAttack {
                 }
 
                 if (type == 2) {
-                    int frameWidth = target.sizeWidth;
-                    int frameHeight = target.sizeHeight;
+                    int frameWidth = 36 * 3;
+                    int frameHeight = 48 * 3;
                     int numFrames = animation.length;
 
                     for (int i = 0; i < 3; i++) {
@@ -173,14 +197,14 @@ public class AnimationAttack {
                 }
 
                 if (type == 3) {
-                    g2.drawImage(animation[spriteCont], target.defaultX - gp.tileSize / 2,
+                    g2.drawImage(animation[spriteCont], target.defaultX,
                             target.defaultY - (animation[spriteCont].getHeight() / 2),
                             animation[spriteCont].getWidth() * 2, animation[spriteCont].getHeight() * 2, null);
 
                 }
 
                 if (type == 4) {
-                    g2.drawImage(animation[spriteCont], target.defaultX - gp.tileSize / 2,
+                    g2.drawImage(animation[spriteCont], target.defaultX,
                             target.defaultY - gp.tileSize * 2,
                             animation[spriteCont].getWidth() * 2, animation[spriteCont].getHeight() * 2, null);
 

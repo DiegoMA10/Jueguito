@@ -1,21 +1,20 @@
 package com.example.entity.enemy;
 
 import java.awt.Graphics2D;
-import java.util.Random;
 
 import com.example.GamePanel;
 
-public class Guard extends Enemy {
+public class Megalodoth extends Enemy {
 
-    public Guard(GamePanel gp, int level, int gil, int exp, int x, int y) {
+    public Megalodoth(GamePanel gp, int level, int gil, int exp, int x, int y) {
         super(gp, level, gil, exp, x, y);
         sizeHeight = 48 * gp.scale;
-        sizeWidth = 32 * gp.scale;
+        sizeWidth = 63 * gp.scale;
         dexterity = 50;
         MaxHp = 40;
         hp = 5;
         attack = 16;
-      
+
         defense = 100;
         magicDefense = 140;
         getEnemyImagen();
@@ -23,8 +22,8 @@ public class Guard extends Enemy {
 
     public void getEnemyImagen() {
         String carpeta = "/com/example/image/enemy/";
-        right = setUp(carpeta + "guard");
-        right1 = setUp(carpeta + "guard_1");
+        right = setUp(carpeta + "megalodoth");
+        right1 = setUp(carpeta + "megalodoth_1");
     }
 
     @Override
@@ -38,5 +37,4 @@ public class Guard extends Enemy {
 
         super.update();
     }
-
 }

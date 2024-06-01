@@ -7,7 +7,7 @@ public class Hielo extends Spell {
     public Hielo(GamePanel gp) {
         super(gp);
         name = "Hielo";
-        SpellPower = 22;
+        SpellPower = 62;
         cost = 5;
         getImagen();
     }

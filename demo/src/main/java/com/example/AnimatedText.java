@@ -13,22 +13,22 @@ public class AnimatedText {
     private int velocityY;
     private int lifeTime;
 
-    public AnimatedText(String text, int x, int y, Color color, Font font, int velocityY, int lifeTime) {
+    public AnimatedText(String text, int x, int y, Color color, int velocityY, int lifeTime) {
         this.text = text;
         this.x = x;
         this.y = y;
         this.color = color;
-        this.font = font;
+        this.font = new Font("Arial", Font.BOLD, 24);
         this.velocityY = velocityY;
         this.lifeTime = lifeTime;
     }
 
     public boolean update() {
-        
+
         y += velocityY;
-  
+
         lifeTime--;
-    
+
         return lifeTime > 0;
     }
 

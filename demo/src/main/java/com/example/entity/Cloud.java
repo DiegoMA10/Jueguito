@@ -46,9 +46,9 @@ public class Cloud extends Character {
         setLevel(level);
         setNextLevelExp(gp.dataBase.getExpForNextLevel(level));
         setMaxHp(gp.dataBase.getHpForLevel(level));
-        setHp(getMaxHp());
+        setHp(1);
         setMaxMp(gp.dataBase.getMpForLevel(level));
-        setMp(getMaxMp());
+        setMp(1);
         setStrength(35 + level - 1);
         setDexterity(35 + level - 1);
         setMagic(25 + level - 1);

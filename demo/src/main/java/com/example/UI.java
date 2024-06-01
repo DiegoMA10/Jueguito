@@ -17,7 +17,9 @@ import com.example.entity.Character;
 import com.example.entity.Party;
 import com.example.entity.enemy.Enemy;
 import com.example.entity.npc.NPC_Item;
+import com.example.items.Ether;
 import com.example.items.Item;
+import com.example.items.Potion;
 import com.example.spells.Spell;
 
 public class UI {
@@ -835,9 +837,10 @@ public class UI {
         if (subNumCommand == 0) {
             if (gp.keyH.enterPressed) {
                 gp.aSetter.setTutorial();
-                gp.ui.subState = 0;
                 gp.stopMusic();
-                gp.playMusic(0);
+                gp.playSE(19);
+
+                gp.ui.subState = 0;
 
                 gameStateTransition = GamePanel.battleState;
             }
@@ -946,14 +949,16 @@ public class UI {
         }
         g2.setColor(new Color(0, 0, 0, (alfa)));
         g2.fillRect(0, 0, gp.screenWidth, gp.screenHeight);
-        if (cont == 90) {
+        if (cont == 90 && animationState) {
+            gp.stopMusic();
             animationState = false;
+            cont = 330;
             gp.party.breakGroup();
             gp.playSE(4);
         }
 
         if (cont == 0 && !animationState) {
-
+            gp.playMusic(1);
             subState = 0;
             gp.gameState = GamePanel.playState;
             cont = 0;
@@ -1024,7 +1029,9 @@ public class UI {
             }
 
             if (gameStateTransition != GamePanel.titleState) {
-
+                if (gameStateTransition == GamePanel.battleState) {
+                    gp.playMusic(0);
+                }
                 subState = 0;
                 subState2 = 0;
                 numCommand = 0;
@@ -1432,9 +1439,12 @@ public class UI {
         int windowsY = gp.tileSize * 2;
         if (subNumCommand2 == 0) {
             if (gp.keyH.enterPressed && gp.party.getParty().get(subNumCommand2).getIsAlive()) {
+                soundEfectError(gp.party.getInventory().get(subNumCommand));
                 if (!gp.party.getParty().get(subNumCommand2).useObject(gp.party.getInventory().get(subNumCommand))) {
+
                     subState2 = 0;
                     subNumCommand = 0;
+
                 }
                 gp.keyH.enterPressed = false;
             }
@@ -1444,9 +1454,11 @@ public class UI {
         windowsY += gp.tileSize * 4;
         if (subNumCommand2 == 1) {
             if (gp.keyH.enterPressed && gp.party.getParty().get(subNumCommand2).getIsAlive()) {
+                soundEfectError(gp.party.getInventory().get(subNumCommand));
                 if (!gp.party.getParty().get(subNumCommand2).useObject(gp.party.getInventory().get(subNumCommand))) {
                     subState2 = 0;
                     subNumCommand = 0;
+
                 }
 
                 gp.keyH.enterPressed = false;
@@ -1457,6 +1469,7 @@ public class UI {
         windowsY += gp.tileSize * 4;
         if (subNumCommand2 == 2) {
             if (gp.keyH.enterPressed && gp.party.getParty().get(subNumCommand2).getIsAlive()) {
+                soundEfectError(gp.party.getInventory().get(subNumCommand));
                 if (!gp.party.getParty().get(subNumCommand2).useObject(gp.party.getInventory().get(subNumCommand))) {
                     subState2 = 0;
                     subNumCommand = 0;
@@ -1465,6 +1478,25 @@ public class UI {
             }
             g2.drawImage(cursor, windowsX, windowsY, gp.tileSize, gp.tileSize, null);
         }
+    }
+
+    private void soundEfectError(Item item) {
+        if (item instanceof Potion) {
+            if (gp.party.getParty().get(subNumCommand2).getMaxHp() == gp.party.getParty().get(subNumCommand2).getHp()
+                    && !gp.party.getParty().get(subNumCommand2).getIsAlive()) {
+                gp.playSE(20);
+            } else {
+                gp.playSE(16);
+            }
+        } else if (item instanceof Ether) {
+            if (gp.party.getParty().get(subNumCommand2).getMaxMp() == gp.party.getParty().get(subNumCommand2).getMp()
+                    && !gp.party.getParty().get(subNumCommand2).getIsAlive()) {
+                gp.playSE(20);
+            } else {
+                gp.playSE(16);
+            }
+        }
+
     }
 
     private void drawMenu() {

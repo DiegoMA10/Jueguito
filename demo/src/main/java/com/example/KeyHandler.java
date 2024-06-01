@@ -75,7 +75,7 @@ public class KeyHandler implements KeyListener {
   private void spellSelector(int code) {
     switch (code) {
       case KeyEvent.VK_ESCAPE:
-
+        gp.playSE(3);
         if (gp.ui.subState2 == 1) {
           gp.ui.subState2 = 0;
 
@@ -89,11 +89,13 @@ public class KeyHandler implements KeyListener {
 
         if (gp.ui.subState2 == 1) {
           if (gp.ui.subNumCommand2 > 0) {
+            gp.playSE(3);
             gp.ui.subNumCommand2--;
 
           }
         } else {
           if (gp.ui.subNumCommand > 0) {
+            gp.playSE(3);
             gp.ui.subNumCommand--;
 
           }
@@ -104,11 +106,13 @@ public class KeyHandler implements KeyListener {
 
         if (gp.ui.subState2 == 1) {
           if (gp.ui.subNumCommand2 < gp.battle.level.get(gp.battle.currentRound).size() - 1) {
+            gp.playSE(3);
             gp.ui.subNumCommand2++;
 
           }
         } else {
           if (gp.ui.subNumCommand < gp.party.getParty().get(0).getAbilities().size() - 1) {
+            gp.playSE(3);
             gp.ui.subNumCommand++;
 
           }
@@ -117,6 +121,7 @@ public class KeyHandler implements KeyListener {
         break;
 
       case KeyEvent.VK_ENTER:
+        gp.playSE(3);
         enterPressed = true;
         break;
     }
@@ -128,18 +133,20 @@ public class KeyHandler implements KeyListener {
       case KeyEvent.VK_W:
 
         if (gp.ui.numCommand > 0) {
+          gp.playSE(3);
           gp.ui.numCommand--;
 
         }
         break;
       case KeyEvent.VK_S:
         if (gp.ui.numCommand < 2) {
+          gp.playSE(3);
           gp.ui.numCommand++;
 
         }
         break;
       case KeyEvent.VK_ENTER:
-
+        gp.playSE(3);
         gp.keyH.enterPressed = true;
         break;
 
@@ -151,22 +158,23 @@ public class KeyHandler implements KeyListener {
       case KeyEvent.VK_ESCAPE:
         gp.ui.subState = 0;
         gp.ui.subNumCommand = 0;
+        gp.playSE(3);
         break;
       case KeyEvent.VK_W:
 
         if (gp.ui.subNumCommand > 0) {
           gp.ui.subNumCommand--;
-
+          gp.playSE(3);
         }
         break;
       case KeyEvent.VK_S:
         if (gp.ui.subNumCommand < gp.battle.level.get(gp.battle.currentRound).size() - 1) {
           gp.ui.subNumCommand++;
-
+          gp.playSE(3);
         }
         break;
       case KeyEvent.VK_ENTER:
-
+        gp.playSE(3);
         gp.keyH.enterPressed = true;
         break;
 
@@ -188,18 +196,21 @@ public class KeyHandler implements KeyListener {
   private void levelSelector(int code) {
     switch (code) {
       case KeyEvent.VK_ESCAPE:
+        gp.playSE(3);
         gp.ui.subState = 0;
         gp.ui.subNumCommand = 0;
         break;
       case KeyEvent.VK_W:
 
         if (gp.ui.subNumCommand > 0) {
+          gp.playSE(3);
           gp.ui.subNumCommand--;
 
         }
         break;
       case KeyEvent.VK_S:
         if (gp.ui.subNumCommand < 1) {
+          gp.playSE(3);
           gp.ui.subNumCommand++;
 
         }
@@ -230,6 +241,7 @@ public class KeyHandler implements KeyListener {
     switch (code) {
       case KeyEvent.VK_ESCAPE:
         if (!gp.ui.menuStatus) {
+          gp.playSE(3);
           if (gp.ui.subState2 == 1) {
             gp.ui.subState2 = 0;
             gp.ui.subNumCommand2 = 0;
@@ -241,7 +253,7 @@ public class KeyHandler implements KeyListener {
 
         break;
       case KeyEvent.VK_W:
-
+        gp.playSE(3);
         if (gp.ui.subState2 == 1) {
 
           int newAmount = gp.ui.subNumCommand2 + 10;
@@ -259,6 +271,7 @@ public class KeyHandler implements KeyListener {
         break;
 
       case KeyEvent.VK_S:
+        gp.playSE(3);
         if (gp.ui.subState2 == 1) {
 
           gp.ui.subNumCommand2 = Math.max(1, gp.ui.subNumCommand2 - 10);
@@ -273,7 +286,7 @@ public class KeyHandler implements KeyListener {
         break;
 
       case KeyEvent.VK_A:
-
+        gp.playSE(3);
         if (gp.ui.subState2 == 1) {
           if (gp.ui.subNumCommand2 > 1) {
             gp.ui.subNumCommand2--;
@@ -282,6 +295,7 @@ public class KeyHandler implements KeyListener {
 
         break;
       case KeyEvent.VK_D:
+        gp.playSE(3);
         if (gp.ui.subState2 == 1) {
           int newAmount = gp.ui.subNumCommand2 + 1;
           int maxAmount = gp.party.getInventory().get(gp.ui.subNumCommand).getAmount();
@@ -292,6 +306,10 @@ public class KeyHandler implements KeyListener {
         break;
 
       case KeyEvent.VK_ENTER:
+        if (gp.ui.subState2 == 0) {
+          gp.playSE(3);
+        }
+
         enterPressed = true;
         break;
     }
@@ -301,19 +319,24 @@ public class KeyHandler implements KeyListener {
   private void tradeBuySelector(int code) {
     switch (code) {
       case KeyEvent.VK_ESCAPE:
+
         if (!gp.ui.menuStatus) {
+          gp.playSE(3);
           if (gp.ui.subState2 == 1) {
             gp.ui.subState2 = 0;
             gp.ui.subNumCommand2 = 0;
+
           } else {
+
             gp.ui.subState = 0;
             gp.ui.subNumCommand = 0;
+
           }
         }
 
         break;
       case KeyEvent.VK_W:
-
+        gp.playSE(3);
         if (gp.ui.subState2 == 1) {
 
           int newAmount = gp.ui.subNumCommand2 + 10;
@@ -331,16 +354,19 @@ public class KeyHandler implements KeyListener {
             gp.ui.subNumCommand--;
 
           }
+
         }
 
         break;
 
       case KeyEvent.VK_S:
+        gp.playSE(3);
         if (gp.ui.subState2 == 1) {
 
           gp.ui.subNumCommand2 = Math.max(1, gp.ui.subNumCommand2 - 10);
 
         } else {
+
           if (gp.ui.subNumCommand < gp.ui.itemNpc.getInventory().size() - 1) {
             gp.ui.subNumCommand++;
 
@@ -350,7 +376,7 @@ public class KeyHandler implements KeyListener {
         break;
 
       case KeyEvent.VK_A:
-
+        gp.playSE(3);
         if (gp.ui.subState2 == 1) {
           if (gp.ui.subNumCommand2 > 1) {
             gp.ui.subNumCommand2--;
@@ -359,6 +385,7 @@ public class KeyHandler implements KeyListener {
 
         break;
       case KeyEvent.VK_D:
+        gp.playSE(3);
         if (gp.ui.subState2 == 1) {
           int newAmount = gp.ui.subNumCommand2 + 1;
           int maxAmount = Item.maxAmount - gp.ui.itemNpc.getInventory().get(gp.ui.subNumCommand).getAmount();
@@ -374,6 +401,9 @@ public class KeyHandler implements KeyListener {
         break;
 
       case KeyEvent.VK_ENTER:
+        if (gp.ui.subState2 == 0) {
+          gp.playSE(3);
+        }
         enterPressed = true;
         break;
     }
@@ -385,14 +415,14 @@ public class KeyHandler implements KeyListener {
 
         if (gp.ui.numCommand > 0) {
           gp.ui.numCommand--;
-
+          gp.playSE(3);
         }
 
         break;
       case KeyEvent.VK_D:
         if (gp.ui.numCommand < 2) {
           gp.ui.numCommand++;
-
+          gp.playSE(3);
         }
         break;
       case KeyEvent.VK_ENTER:
@@ -406,18 +436,20 @@ public class KeyHandler implements KeyListener {
       case KeyEvent.VK_W:
 
         if (gp.ui.numCommand > 0) {
+          gp.playSE(3);
           gp.ui.numCommand--;
 
         }
         break;
       case KeyEvent.VK_S:
         if (gp.ui.numCommand < 1) {
-
+          gp.playSE(3);
           gp.ui.numCommand++;
 
         }
         break;
       case KeyEvent.VK_ENTER:
+        gp.playSE(3);
         enterPressed = true;
         break;
 
@@ -443,18 +475,19 @@ public class KeyHandler implements KeyListener {
 
         if (gp.ui.numCommand > 0) {
           gp.ui.numCommand--;
-
+          gp.playSE(3);
         }
         break;
       case KeyEvent.VK_S:
         if (gp.ui.numCommand < 2) {
           gp.ui.numCommand++;
-
+          gp.playSE(3);
         }
         break;
 
       case KeyEvent.VK_ENTER:
         gp.keyH.enterPressed = true;
+        gp.playSE(3);
         break;
 
     }
@@ -480,11 +513,11 @@ public class KeyHandler implements KeyListener {
       case KeyEvent.VK_ENTER:
         enterPressed = true;
         break;
-        case KeyEvent.VK_P:
+      case KeyEvent.VK_P:
         if (gp.debug) {
-          gp.debug=false;
-        }else{
-          gp.debug=true;
+          gp.debug = false;
+        } else {
+          gp.debug = true;
         }
         break;
     }
@@ -528,14 +561,14 @@ public class KeyHandler implements KeyListener {
   private void saveMenu(int code) {
     switch (code) {
       case KeyEvent.VK_ESCAPE:
-
+        gp.playSE(3);
         gp.ui.subState = 0;
         gp.ui.subNumCommand = 0;
         break;
       case KeyEvent.VK_W:
         if (gp.ui.subNumCommand > 0) {
           gp.ui.subNumCommand--;
-
+          gp.playSE(3);
         }
 
         break;
@@ -543,12 +576,13 @@ public class KeyHandler implements KeyListener {
 
         if (gp.ui.subNumCommand < 2) {
           gp.ui.subNumCommand++;
-
+          gp.playSE(3);
         }
         break;
 
       case KeyEvent.VK_ENTER:
         enterPressed = true;
+        gp.playSE(3);
         break;
     }
   }
@@ -558,23 +592,26 @@ public class KeyHandler implements KeyListener {
       case KeyEvent.VK_ESCAPE:
         gp.ui.subState2 = 0;
         gp.ui.subNumCommand2 = 0;
+        gp.playSE(3);
         break;
       case KeyEvent.VK_W:
         if (gp.ui.subNumCommand2 > 0) {
           gp.ui.subNumCommand2--;
-
+          gp.playSE(3);
         }
 
         break;
       case KeyEvent.VK_S:
 
         if (gp.ui.subNumCommand2 < 1) {
+          gp.playSE(3);
           gp.ui.subNumCommand2++;
 
         }
         break;
 
       case KeyEvent.VK_ENTER:
+        gp.playSE(3);
         enterPressed = true;
         break;
     }
@@ -585,9 +622,11 @@ public class KeyHandler implements KeyListener {
       case KeyEvent.VK_ESCAPE:
 
         if (gp.ui.subState2 == 1) {
+          gp.playSE(3);
           gp.ui.subState2 = 0;
           gp.ui.order = 0;
         } else {
+          gp.playSE(3);
           gp.ui.subState = 0;
           gp.ui.order = 0;
           gp.ui.subNumCommand = 0;
@@ -597,11 +636,13 @@ public class KeyHandler implements KeyListener {
 
         if (gp.ui.subState2 == 1) {
           if (gp.ui.subNumCommand2 > 0) {
+            gp.playSE(3);
             gp.ui.subNumCommand2--;
 
           }
         } else {
           if (gp.ui.subNumCommand > 0) {
+            gp.playSE(3);
             gp.ui.subNumCommand--;
 
           }
@@ -613,18 +654,19 @@ public class KeyHandler implements KeyListener {
         if (gp.ui.subState2 == 1) {
           if (gp.ui.subNumCommand2 < 2) {
             gp.ui.subNumCommand2++;
-
+            gp.playSE(3);
           }
         } else {
           if (gp.ui.subNumCommand < gp.party.getInventory().size() - 1) {
             gp.ui.subNumCommand++;
-
+            gp.playSE(3);
           }
         }
 
         break;
 
       case KeyEvent.VK_ENTER:
+        gp.playSE(3);
         enterPressed = true;
         break;
     }
@@ -635,11 +677,12 @@ public class KeyHandler implements KeyListener {
       case KeyEvent.VK_ESCAPE:
         gp.ui.gameStateTransition = GamePanel.playState;
         gp.ui.numCommand = 0;
+        gp.playSE(3);
         break;
       case KeyEvent.VK_W:
         if (gp.ui.numCommand > 0) {
           gp.ui.numCommand--;
-
+          gp.playSE(3);
         }
 
         break;
@@ -647,12 +690,13 @@ public class KeyHandler implements KeyListener {
 
         if (gp.ui.numCommand < 6) {
           gp.ui.numCommand++;
-
+          gp.playSE(3);
         }
         break;
 
       case KeyEvent.VK_ENTER:
         enterPressed = true;
+        gp.playSE(3);
         break;
     }
 
@@ -665,10 +709,13 @@ public class KeyHandler implements KeyListener {
         gp.ui.order = 0;
         gp.ui.subNumCommand = 0;
         gp.ui.menuStatus = false;
+        gp.playSE(3);
         break;
       case KeyEvent.VK_W:
         if (gp.ui.subNumCommand > 0) {
+
           gp.ui.subNumCommand--;
+          gp.playSE(3);
 
         }
 
@@ -676,12 +723,15 @@ public class KeyHandler implements KeyListener {
       case KeyEvent.VK_S:
 
         if (gp.ui.subNumCommand < 2) {
+
           gp.ui.subNumCommand++;
+          gp.playSE(3);
 
         }
         break;
 
       case KeyEvent.VK_ENTER:
+        gp.playSE(3);
         enterPressed = true;
         break;
     }
@@ -690,14 +740,14 @@ public class KeyHandler implements KeyListener {
   public void statsSelector(int code) {
     switch (code) {
       case KeyEvent.VK_ESCAPE:
-
         gp.ui.menuStatus = false;
         gp.ui.subState = 0;
         gp.ui.subNumCommand = 0;
-
+        gp.playSE(3);
         break;
       case KeyEvent.VK_W:
         if (gp.ui.subNumCommand > 0 && !gp.ui.menuStatus) {
+          gp.playSE(3);
           gp.ui.subNumCommand--;
 
         }
@@ -706,12 +756,17 @@ public class KeyHandler implements KeyListener {
       case KeyEvent.VK_S:
 
         if (gp.ui.subNumCommand < 2 && !gp.ui.menuStatus) {
+          gp.playSE(3);
           gp.ui.subNumCommand++;
 
         }
         break;
 
       case KeyEvent.VK_ENTER:
+        if (!gp.ui.menuStatus) {
+          gp.playSE(3);
+        }
+
         enterPressed = true;
         break;
     }
