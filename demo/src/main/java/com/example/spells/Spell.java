@@ -6,8 +6,9 @@ import javax.imageio.ImageIO;
 
 import com.example.GamePanel;
 import com.example.UtilityTool;
+import com.example.entity.Character;
 
-public class Spell {
+public abstract class Spell {
     GamePanel gp ;
     protected BufferedImage[] animation;
     protected int SpellPower;
@@ -50,6 +51,8 @@ public class Spell {
         }
 
     }
+
+    public abstract void checkEvolution(Character character);
 
     
 

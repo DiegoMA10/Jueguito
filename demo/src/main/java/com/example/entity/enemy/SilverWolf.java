@@ -5,15 +5,14 @@ import java.awt.Graphics2D;
 import com.example.GamePanel;
 
 public class SilverWolf extends Enemy {
-    public SilverWolf(GamePanel gp, int level, int gil, int exp, int x, int y) {
-        super(gp, level, gil, exp, x, y);
+    public SilverWolf(GamePanel gp, int level, int maxHp, int gil, int exp, int x, int y) {
+        super(gp, level, maxHp, gil, exp, x, y);
         sizeHeight = 50 * gp.scale;
         sizeWidth = 48 * gp.scale;
-        dexterity = 50;
-        MaxHp = 40;
-        hp = 5;
-        attack = 16;
 
+        setHp(maxHp);
+        attack = 14;
+        dexterity = 30 + level;
         defense = 100;
         magicDefense = 140;
         getEnemyImagen();

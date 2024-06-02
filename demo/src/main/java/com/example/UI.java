@@ -839,7 +839,6 @@ public class UI {
                 gp.aSetter.setTutorial();
                 gp.stopMusic();
                 gp.playSE(19);
-
                 gp.ui.subState = 0;
 
                 gameStateTransition = GamePanel.battleState;
@@ -847,8 +846,44 @@ public class UI {
             g2.drawImage(cursor, textX - gp.tileSize, textY - gp.tileSize + 20, gp.tileSize, gp.tileSize, null);
         }
         textY += gp.tileSize;
-        drawText("Level 1", textX, textY, null);
+        drawText("XP BOOST", textX, textY, null);
         if (subNumCommand == 1) {
+            if (gp.keyH.enterPressed) {
+                gp.aSetter.setBoostXP();
+                gp.stopMusic();
+                gp.playSE(19);
+                gp.ui.subState = 0;
+
+                gameStateTransition = GamePanel.battleState;
+            }
+            g2.drawImage(cursor, textX - gp.tileSize, textY - gp.tileSize + 20, gp.tileSize, gp.tileSize, null);
+        }
+
+        textY += gp.tileSize;
+        drawText("Level 1", textX, textY, null);
+        if (subNumCommand == 2) {
+            if (gp.keyH.enterPressed) {
+                gp.aSetter.setLevel1();
+                gp.stopMusic();
+                gp.playSE(19);
+                gp.ui.subState = 0;
+
+                gameStateTransition = GamePanel.battleState;
+            }
+            g2.drawImage(cursor, textX - gp.tileSize, textY - gp.tileSize + 20, gp.tileSize, gp.tileSize, null);
+        }
+
+        textY += gp.tileSize;
+        drawText("Level 2", textX, textY, null);
+        if (subNumCommand == 3) {
+            if (gp.keyH.enterPressed) {
+                gp.aSetter.setLevel2();
+                gp.stopMusic();
+                gp.playSE(19);
+                gp.ui.subState = 0;
+
+                gameStateTransition = GamePanel.battleState;
+            }
             g2.drawImage(cursor, textX - gp.tileSize, textY - gp.tileSize + 20, gp.tileSize, gp.tileSize, null);
         }
     }
@@ -1031,6 +1066,10 @@ public class UI {
             if (gameStateTransition != GamePanel.titleState) {
                 if (gameStateTransition == GamePanel.battleState) {
                     gp.playMusic(0);
+
+                }
+                if (gameStateTransition == GamePanel.playState) {
+                    gp.battle.level.clear();
                 }
                 subState = 0;
                 subState2 = 0;
@@ -1438,13 +1477,16 @@ public class UI {
         int windowsX = gp.tileSize + 300;
         int windowsY = gp.tileSize * 2;
         if (subNumCommand2 == 0) {
-            if (gp.keyH.enterPressed && gp.party.getParty().get(subNumCommand2).getIsAlive()) {
-                soundEfectError(gp.party.getInventory().get(subNumCommand));
-                if (!gp.party.getParty().get(subNumCommand2).useObject(gp.party.getInventory().get(subNumCommand))) {
-
-                    subState2 = 0;
-                    subNumCommand = 0;
-
+            if (gp.keyH.enterPressed) {
+                if (gp.party.getParty().get(subNumCommand2).getIsAlive()) {
+                    soundEfectError(gp.party.getInventory().get(subNumCommand));
+                    if (!gp.party.getParty().get(subNumCommand2)
+                            .useObject(gp.party.getInventory().get(subNumCommand))) {
+                        subState2 = 0;
+                        subNumCommand = 0;
+                    }
+                } else {
+                    gp.playSE(20);
                 }
                 gp.keyH.enterPressed = false;
             }
@@ -1453,12 +1495,16 @@ public class UI {
         ;
         windowsY += gp.tileSize * 4;
         if (subNumCommand2 == 1) {
-            if (gp.keyH.enterPressed && gp.party.getParty().get(subNumCommand2).getIsAlive()) {
-                soundEfectError(gp.party.getInventory().get(subNumCommand));
-                if (!gp.party.getParty().get(subNumCommand2).useObject(gp.party.getInventory().get(subNumCommand))) {
-                    subState2 = 0;
-                    subNumCommand = 0;
-
+            if (gp.keyH.enterPressed) {
+                if (gp.party.getParty().get(subNumCommand2).getIsAlive()) {
+                    soundEfectError(gp.party.getInventory().get(subNumCommand));
+                    if (!gp.party.getParty().get(subNumCommand2)
+                            .useObject(gp.party.getInventory().get(subNumCommand))) {
+                        subState2 = 0;
+                        subNumCommand = 0;
+                    }
+                } else {
+                    gp.playSE(20);
                 }
 
                 gp.keyH.enterPressed = false;
@@ -1468,29 +1514,34 @@ public class UI {
 
         windowsY += gp.tileSize * 4;
         if (subNumCommand2 == 2) {
-            if (gp.keyH.enterPressed && gp.party.getParty().get(subNumCommand2).getIsAlive()) {
-                soundEfectError(gp.party.getInventory().get(subNumCommand));
-                if (!gp.party.getParty().get(subNumCommand2).useObject(gp.party.getInventory().get(subNumCommand))) {
-                    subState2 = 0;
-                    subNumCommand = 0;
+            if (gp.keyH.enterPressed) {
+                if (gp.party.getParty().get(subNumCommand2).getIsAlive()) {
+                    soundEfectError(gp.party.getInventory().get(subNumCommand));
+                    if (!gp.party.getParty().get(subNumCommand2)
+                            .useObject(gp.party.getInventory().get(subNumCommand))) {
+                        subState2 = 0;
+                        subNumCommand = 0;
+                    }
+                } else {
+                    gp.playSE(20);
                 }
+
                 gp.keyH.enterPressed = false;
             }
+
             g2.drawImage(cursor, windowsX, windowsY, gp.tileSize, gp.tileSize, null);
         }
     }
 
     private void soundEfectError(Item item) {
         if (item instanceof Potion) {
-            if (gp.party.getParty().get(subNumCommand2).getMaxHp() == gp.party.getParty().get(subNumCommand2).getHp()
-                    && !gp.party.getParty().get(subNumCommand2).getIsAlive()) {
+            if (gp.party.getParty().get(subNumCommand2).getMaxHp() == gp.party.getParty().get(subNumCommand2).getHp()) {
                 gp.playSE(20);
             } else {
                 gp.playSE(16);
             }
         } else if (item instanceof Ether) {
-            if (gp.party.getParty().get(subNumCommand2).getMaxMp() == gp.party.getParty().get(subNumCommand2).getMp()
-                    && !gp.party.getParty().get(subNumCommand2).getIsAlive()) {
+            if (gp.party.getParty().get(subNumCommand2).getMaxMp() == gp.party.getParty().get(subNumCommand2).getMp()) {
                 gp.playSE(20);
             } else {
                 gp.playSE(16);
@@ -1655,7 +1706,12 @@ public class UI {
                     Character.changeInexGroup(gp.party.getParty().get(numIndexGroup),
                             gp.party.getParty().get(subNumCommand));
                     UtilityTool.sortByIndexGroup(gp.party.getParty());
+
                     gp.player.getPlayerImagen();
+                    for (Character character : gp.party.getParty()) {
+                        character.refreshPosition();
+                    }
+
                 } else {
                     menuStatus = true;
                     numIndexGroup = 0;
@@ -1675,6 +1731,9 @@ public class UI {
                             gp.party.getParty().get(subNumCommand));
                     UtilityTool.sortByIndexGroup(gp.party.getParty());
                     gp.player.getPlayerImagen();
+                    for (Character character : gp.party.getParty()) {
+                        character.refreshPosition();
+                    }
                 } else {
                     menuStatus = true;
                     numIndexGroup = 1;
@@ -1694,6 +1753,9 @@ public class UI {
                             gp.party.getParty().get(subNumCommand));
                     UtilityTool.sortByIndexGroup(gp.party.getParty());
                     gp.player.getPlayerImagen();
+                    for (Character character : gp.party.getParty()) {
+                        character.refreshPosition();
+                    }
                 } else {
                     menuStatus = true;
                     numIndexGroup = 2;
@@ -1799,6 +1861,7 @@ public class UI {
                         gp.stopMusic();
                         gp.playMusic(1);
                         currentMessage = null;
+
                     } else {
                         currentMessage = battleMessage.poll();
                     }

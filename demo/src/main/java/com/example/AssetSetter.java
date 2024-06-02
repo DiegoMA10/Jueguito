@@ -95,22 +95,106 @@ public class AssetSetter {
     public void setTutorial() {
 
         ArrayList<Enemy> enemies = new ArrayList<>();
-        SilverWolf guard = new SilverWolf(this.gp, 1, 100, 70110, gp.tileSize * 4, gp.tileSize * 3);
+        SilverWolf guard = new SilverWolf(this.gp, 5, 100, 100, 40, gp.tileSize * 4, gp.tileSize * 3);
         guard.setAtb(new ATB(gp, guard));
         enemies.add(guard);
-        Megalodoth guard2 = new Megalodoth(this.gp, 1, 100, 100, gp.tileSize * 3, gp.tileSize * 5);
+        Megalodoth guard2 = new Megalodoth(this.gp, 5, 100, 100, 40, gp.tileSize * 3, gp.tileSize * 5);
         guard2.setAtb(new ATB(gp, guard2));
         enemies.add(guard2);
         gp.battle.level.put(0, enemies);
 
         enemies = new ArrayList<>();
-        Guard guard3 = new Guard(this.gp, 10, 100, 100, gp.tileSize * 4, gp.tileSize * 3);
+        Guard guard3 = new Guard(this.gp, 7, 200, 100, 40, gp.tileSize * 4, gp.tileSize * 3);
         guard3.setAtb(new ATB(gp, guard3));
         enemies.add(guard3);
-        Guard guard4 = new Guard(this.gp, 10, 100, 100, gp.tileSize * 3, gp.tileSize * 5);
+        Guard guard4 = new Guard(this.gp, 7, 200, 100, 40, gp.tileSize * 3, gp.tileSize * 5);
         guard4.setAtb(new ATB(gp, guard4));
         enemies.add(guard4);
         gp.battle.level.put(1, enemies);
+
+    }
+
+    public void setBoostXP() {
+
+        ArrayList<Enemy> enemies = new ArrayList<>();
+        SilverWolf guard = new SilverWolf(this.gp, 5, 50, 100, 20000, gp.tileSize * 4, gp.tileSize * 3);
+        guard.setAtb(new ATB(gp, guard));
+        enemies.add(guard);
+        gp.battle.level.put(0, enemies);
+    }
+
+    public void setLevel1() {
+
+        ArrayList<Enemy> enemies = new ArrayList<>();
+        SilverWolf silverWolf1 = new SilverWolf(this.gp, 9, 250, 100, 80, gp.tileSize * 4, gp.tileSize * 3);
+        silverWolf1.setAtb(new ATB(gp, silverWolf1));
+        enemies.add(silverWolf1);
+        SilverWolf silverWolf2 = new SilverWolf(this.gp, 9, 250, 100, 80, gp.tileSize * 3, gp.tileSize * 5);
+        silverWolf2.setAtb(new ATB(gp, silverWolf2));
+        enemies.add(silverWolf2);
+        gp.battle.level.put(0, enemies);
+
+        enemies = new ArrayList<>();
+        Guard guard3 = new Guard(this.gp, 10, 275, 125, 80, gp.tileSize * 4, gp.tileSize * 3);
+        guard3.setAtb(new ATB(gp, guard3));
+        enemies.add(guard3);
+        Guard guard4 = new Guard(this.gp, 10, 275, 125, 80, gp.tileSize * 3, gp.tileSize * 5);
+        guard4.setAtb(new ATB(gp, guard4));
+        enemies.add(guard4);
+        gp.battle.level.put(1, enemies);
+
+        enemies = new ArrayList<>();
+        Megalodoth megalodoth = new Megalodoth(this.gp, 11, 300, 125, 80, gp.tileSize * 4, gp.tileSize * 3);
+        megalodoth.setAtb(new ATB(gp, megalodoth));
+        enemies.add(megalodoth);
+        Megalodoth megalodoth2 = new Megalodoth(this.gp, 11, 300, 125, 80, gp.tileSize * 3, gp.tileSize * 5);
+        megalodoth2.setAtb(new ATB(gp, megalodoth2));
+        enemies.add(megalodoth2);
+        gp.battle.level.put(2, enemies);
+
+    }
+
+    public void setLevel2() {
+
+        ArrayList<Enemy> enemies = new ArrayList<>();
+        SilverWolf silverWolf1 = new SilverWolf(this.gp, 13, 350, 100, 140, gp.tileSize * 4, gp.tileSize * 3);
+        silverWolf1.setAtb(new ATB(gp, silverWolf1));
+        enemies.add(silverWolf1);
+        SilverWolf silverWolf2 = new SilverWolf(this.gp, 13, 350, 100, 140, gp.tileSize * 3,
+                gp.tileSize * 5 - gp.tileSize / 2);
+        silverWolf2.setAtb(new ATB(gp, silverWolf2));
+        enemies.add(silverWolf2);
+        SilverWolf silverWolf3 = new SilverWolf(this.gp, 13, 350, 100, 140, gp.tileSize * 2,
+                gp.tileSize * 7 - gp.tileSize / 2);
+        silverWolf3.setAtb(new ATB(gp, silverWolf3));
+        enemies.add(silverWolf3);
+        gp.battle.level.put(0, enemies);
+
+        enemies = new ArrayList<>();
+        Guard guard3 = new Guard(this.gp, 14, 375, 150, 140, gp.tileSize * 4, gp.tileSize * 3);
+        guard3.setAtb(new ATB(gp, guard3));
+        enemies.add(guard3);
+        Guard guard4 = new Guard(this.gp, 14, 375, 150, 140, gp.tileSize * 3, gp.tileSize * 5 - gp.tileSize / 2);
+        guard4.setAtb(new ATB(gp, guard4));
+        enemies.add(guard4);
+        Guard guard = new Guard(this.gp, 14, 375, 150, 140, gp.tileSize * 2, gp.tileSize * 7 - gp.tileSize / 2);
+        guard.setAtb(new ATB(gp, guard));
+        enemies.add(guard);
+        gp.battle.level.put(1, enemies);
+
+        enemies = new ArrayList<>();
+        Megalodoth megalodoth = new Megalodoth(this.gp, 15, 400, 200, 145, gp.tileSize * 4, gp.tileSize * 3);
+        megalodoth.setAtb(new ATB(gp, megalodoth));
+        enemies.add(megalodoth);
+        Megalodoth megalodoth2 = new Megalodoth(this.gp, 15, 400, 200, 145, gp.tileSize * 3,
+                gp.tileSize * 5 - gp.tileSize / 2);
+        megalodoth2.setAtb(new ATB(gp, megalodoth2));
+        enemies.add(megalodoth2);
+        Megalodoth megalodoth3 = new Megalodoth(this.gp, 15, 400, 200, 145, gp.tileSize * 2,
+                gp.tileSize * 7 - gp.tileSize / 2);
+        megalodoth3.setAtb(new ATB(gp, megalodoth3));
+        enemies.add(megalodoth3);
+        gp.battle.level.put(2, enemies);
 
     }
 

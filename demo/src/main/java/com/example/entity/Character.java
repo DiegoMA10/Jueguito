@@ -82,6 +82,12 @@ public abstract class Character extends Entity {
         getImages();
     }
 
+    public void checkAbilities() {
+        for (Spell spell : abilities) {
+            spell.checkEvolution(this);
+        }
+    }
+
     public void setATB(ATB atb) {
         this.atb = atb;
     }
@@ -127,7 +133,7 @@ public abstract class Character extends Entity {
 
     public void updateAction() {
         if (isAlive) {
-            if (!gp.battle.transitioning) {
+            if (!gp.battle.transition) {
                 defaultMove();
                 if (gp.turnHandler.getCurrentTurn() == this) {
 
@@ -477,6 +483,7 @@ public abstract class Character extends Entity {
             if (this.getExp() >= this.getNextLevelExp()) {
                 this.isAlive = true;
                 RawStats(getLevel() + 1);
+
                 checkLevel();
                 return true;
             }
@@ -494,7 +501,7 @@ public abstract class Character extends Entity {
         if (isAlive) {
             g2.drawImage(image, x, y, sizeWidth, sizeHeight, null);
 
-            if (!gp.battle.transitioning && !gp.battle.endBattle) {
+            if (!gp.battle.transition && !gp.battle.endBattle) {
                 if (gp.turnHandler.getCurrentCharacter() != null &&
                         gp.turnHandler.getCurrentCharacter().indexGroup == this.indexGroup) {
                     g2.drawImage(battleCursor[spriteCursor], x, y - gp.tileSize / 2, 12 * 3, 7 * 3, null);

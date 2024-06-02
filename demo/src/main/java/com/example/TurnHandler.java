@@ -28,14 +28,14 @@ public class TurnHandler {
 
     public void gameTurn() {
         checkAndCleanUp();
-        if (!turnAction && !gp.battle.transitioning) {
+        if (!turnAction && !gp.battle.transition) {
             setCurrentTurn(turnGame.poll());
         }
     }
 
     public void turnCharacters() {
         checkAndCleanUp();
-        if (!characterAction && !gp.battle.transitioning) {
+        if (!characterAction && !gp.battle.transition) {
             setCurrentCharacter(turnCharacters.poll());
             gp.ui.numCommand = 0;
         }

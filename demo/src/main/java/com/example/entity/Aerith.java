@@ -13,7 +13,7 @@ public class Aerith extends Character {
         baseMaxHp = 40;
         baseMaxMp = 20;
         RawStats(1);
-
+        setIndexGroup(0);
         characterID = 1;
         refreshPosition();
         getPlayerImagen();
@@ -40,16 +40,17 @@ public class Aerith extends Character {
 
     public void RawStats(int level) {
         setName("Aerith");
-        setIndexGroup(0);
+        
         setLevel(level);
+        checkAbilities();
         setNextLevelExp(gp.dataBase.getExpForNextLevel(level));
         setMaxHp(gp.dataBase.getHpForLevel(level));
-        setHp(getMaxHp());
+        setHp(30);
         setMaxMp(gp.dataBase.getMpForLevel(level));
-        setMp(getMaxMp());
+        setMp(1);
         setStrength(25 + level - 1);
         setDexterity(30 + level - 1);
-        setMagic(27 + level - 1);
+        setMagic(27 + ((level)) - 1);
         setAttack(15 + level - 1);
         setDefense(50 + level - 1);
         setMagicDefense(50 + level - 1);

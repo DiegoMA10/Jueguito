@@ -18,6 +18,7 @@ public class Tifa extends Character {
         sizeWidth = 15 * gp.scale;
         sizeHeight = 23 * gp.scale;
         characterID = 2;
+        setIndexGroup(1);
         refreshPosition();
         getPlayerImagen();
 
@@ -44,16 +45,16 @@ public class Tifa extends Character {
     public void RawStats(int level) {
         setName("Tifa");
         setLevel(level);
-        setIndexGroup(1);
+        checkAbilities();
         setNextLevelExp(gp.dataBase.getExpForNextLevel(level));
         setMaxHp(gp.dataBase.getHpForLevel(level));
-        setHp(getMaxHp());
+        setHp(30);
         setMaxMp(gp.dataBase.getMpForLevel(level));
-        setMp(getMaxMp());
+        setMp(1);
         setStrength(45 + level - 1);
         setDexterity(43 + level - 1);
         setMagic(15 + level - 1);
-        setAttack(30 + level*2 - 1);
+        setAttack(32 + level - 1);
         setDefense(50 + level - 1);
         setMagicDefense(50 + level - 1);
 

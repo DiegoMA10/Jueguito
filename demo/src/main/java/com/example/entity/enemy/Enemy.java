@@ -25,11 +25,8 @@ public class Enemy extends Entity {
     protected int level;
     protected int MaxHp;
     protected int hp;
-    protected int MaxMp;
-    protected int mp;
     protected int strength;
     protected int dexterity;
-    protected int magic;
     protected int defense;
     protected int magicDefense;
     protected int attack;
@@ -42,12 +39,13 @@ public class Enemy extends Entity {
     private final float TRANSPARENCY_CHANGE_PER_UPDATE = 0.02f;
     Random r = new Random();
 
-    public Enemy(GamePanel gp, int level, int gil, int exp, int x, int y) {
+    public Enemy(GamePanel gp, int level, int maxHp, int gil, int exp, int x, int y) {
         super(gp);
         this.strength = r.nextInt(63 - 56) + 56;
         this.level = level;
         this.gil = gil;
         this.exp = exp;
+        this.MaxHp = maxHp;
         defaultX = x;
         defaultY = y;
         getImages();

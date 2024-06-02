@@ -17,6 +17,7 @@ public class Cloud extends Character {
         characterID = 3;
         sizeWidth = 15 * gp.scale;
         sizeHeight = 23 * gp.scale;
+        setIndexGroup(2);
         refreshPosition();
         getPlayerImagen();
 
@@ -42,11 +43,12 @@ public class Cloud extends Character {
 
     public void RawStats(int level) {
         setName("Cloud");
-        setIndexGroup(2);
+     
         setLevel(level);
+        checkAbilities();
         setNextLevelExp(gp.dataBase.getExpForNextLevel(level));
         setMaxHp(gp.dataBase.getHpForLevel(level));
-        setHp(1);
+        setHp(30);
         setMaxMp(gp.dataBase.getMpForLevel(level));
         setMp(1);
         setStrength(35 + level - 1);

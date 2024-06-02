@@ -146,7 +146,10 @@ public class KeyHandler implements KeyListener {
         }
         break;
       case KeyEvent.VK_ENTER:
-        gp.playSE(3);
+        if (gp.turnHandler.getCurrentCharacter() != null) {
+          gp.playSE(3);
+        }
+
         gp.keyH.enterPressed = true;
         break;
 
@@ -174,6 +177,7 @@ public class KeyHandler implements KeyListener {
         }
         break;
       case KeyEvent.VK_ENTER:
+
         gp.playSE(3);
         gp.keyH.enterPressed = true;
         break;
@@ -209,7 +213,7 @@ public class KeyHandler implements KeyListener {
         }
         break;
       case KeyEvent.VK_S:
-        if (gp.ui.subNumCommand < 1) {
+        if (gp.ui.subNumCommand < 3) {
           gp.playSE(3);
           gp.ui.subNumCommand++;
 

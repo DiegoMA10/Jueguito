@@ -23,7 +23,7 @@ public class BattlePanel {
     public Iterator<Enemy> iterator;
     int cont = 0;
     public boolean enemiesAlive;
-    public boolean transitioning = false;
+    public boolean transition = false;
     public boolean endBattle = false;
     public boolean gameOver = false;
     private Color backgroundColor = new Color(0, 0, 0, 0);
@@ -84,15 +84,14 @@ public class BattlePanel {
         if ((!gameOver && !gp.party.isAlive()) && gp.turnHandler.getCurrentTurn() == null
                 && gp.ui.gameStateTransition == GamePanel.battleState) {
             gameOver();
-        } else if (!enemiesAlive && level.containsKey(currentRound + 1) && gp.turnHandler.getCurrentTurn() == null
-                && gp.ui.gameStateTransition == GamePanel.battleState) {
-
-            startTransition();
         } else if (!enemiesAlive && !level.containsKey(currentRound + 1) && !endBattle
-                && gp.turnHandler.getCurrentTurn() == null
-                && gp.ui.gameStateTransition == GamePanel.battleState) {
+                && gp.turnHandler.getCurrentTurn() == null && gp.ui.gameStateTransition == GamePanel.battleState) {
 
             endBattle();
+        } else if (!enemiesAlive && level.containsKey(currentRound + 1) && gp.turnHandler.getCurrentTurn() == null
+                && gp.ui.gameStateTransition == GamePanel.battleState && !transition) {
+
+            startTransition();
 
         }
 
@@ -107,7 +106,7 @@ public class BattlePanel {
             }
         }
 
-        if (transitioning) {
+        if (transition) {
             transitionToNextRound();
         }
 
@@ -125,7 +124,7 @@ public class BattlePanel {
         backgroundColor = new Color(0, 0, 0, cont * 2);
         if (cont > 120) {
             cont = 0;
-            transitioning = false;
+            transition = false;
             currentRound++;
             enemiesAlive = false;
             gp.party.defaultPosition();
@@ -145,7 +144,6 @@ public class BattlePanel {
                 gp.ui.addBattleMessage(character.getName() + " a subido de nivel");
             }
         }
-
         gp.ui.addBattleMessage("Has conseguido " + totalGil + "G");
         totalExp = 0;
         totalGil = 0;
@@ -153,7 +151,7 @@ public class BattlePanel {
     }
 
     public void startTransition() {
-        transitioning = true;
+        transition = true;
         backgroundColor = new Color(0, 0, 0, 0);
     }
 
@@ -169,7 +167,7 @@ public class BattlePanel {
         for (AnimatedText animatedText : animatedTexts) {
             animatedText.draw(g2);
         }
-        if (transitioning) {
+        if (transition) {
             g2.setColor(backgroundColor);
             g2.fillRect(0, 0, gp.screenWidth, gp.screenHeight);
 

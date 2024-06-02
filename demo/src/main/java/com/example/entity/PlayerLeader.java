@@ -52,6 +52,7 @@ public class PlayerLeader extends Entity {
 
     public void setDefaultValues() {
         worldX = gp.tileSize * 23;
+        
         worldY = gp.tileSize * 41;
         speed = 4;
         direction = "down";
@@ -97,7 +98,7 @@ public class PlayerLeader extends Entity {
         }
 
         collisionOn = false;
-        gp.ck.checkTile(this);
+       gp.ck.checkTile(this);
         int indexNPC = gp.ck.checkEntity(this, gp.npc);
         gp.eHandler.checkEvent();
         interactNPC(indexNPC);
@@ -236,11 +237,11 @@ public class PlayerLeader extends Entity {
             y = gp.screenHeight - (gp.worldHeight - worldY);
         }
 
-        g2.drawImage(image, x, y, sizeWidth, sizeHeight, null);
+         g2.drawImage(image, x, y, sizeWidth, sizeHeight, null);
         if (gp.debug) {
             g2.setColor(Color.cyan);
             g2.drawRect(x + hitBox.x, y + hitBox.y, hitBox.width, hitBox.height); 
-        }
+        } 
      
 
     }

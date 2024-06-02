@@ -6,15 +6,13 @@ import com.example.GamePanel;
 
 public class Megalodoth extends Enemy {
 
-    public Megalodoth(GamePanel gp, int level, int gil, int exp, int x, int y) {
-        super(gp, level, gil, exp, x, y);
+    public Megalodoth(GamePanel gp, int level, int maxHp, int gil, int exp, int x, int y) {
+        super(gp, level, maxHp, gil, exp, x, y);
         sizeHeight = 48 * gp.scale;
         sizeWidth = 63 * gp.scale;
-        dexterity = 50;
-        MaxHp = 40;
-        hp = 5;
-        attack = 16;
-
+        dexterity = 20 + level;
+        setHp(maxHp);
+        attack = 20;
         defense = 100;
         magicDefense = 140;
         getEnemyImagen();
