@@ -370,7 +370,9 @@ public abstract class Character extends Entity {
     public void defaultMove() {
 
         if (gp.battle.endBattle) {
-
+            if (spriteTransition == 0) {
+                image = left;
+            }
             contTransition++;
             if (contTransition > 15) {
                 spriteTransition++;
@@ -508,6 +510,7 @@ public abstract class Character extends Entity {
                 }
             }
         } else {
+
             g2.drawImage(image, x, y + 23, 24 * 3, 13 * 3, null);
         }
     }

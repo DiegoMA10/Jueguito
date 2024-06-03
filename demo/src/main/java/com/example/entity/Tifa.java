@@ -31,11 +31,13 @@ public class Tifa extends Character {
         characterID = 2;
         baseMaxHp = 60;
         baseMaxMp = 9;
-        this.isAlive = isAlive;
-        setExp(exp);
+       
+       
         RawStats(level);
         setHp(hp);
         setMp(mp);
+        setExp(exp);
+        this.isAlive = isAlive;
         setIndexGroup(partyIndex);
         refreshPosition();
         getPlayerImagen();
@@ -45,12 +47,13 @@ public class Tifa extends Character {
     public void RawStats(int level) {
         setName("Tifa");
         setLevel(level);
+        this.isAlive = true;
         checkAbilities();
         setNextLevelExp(gp.dataBase.getExpForNextLevel(level));
         setMaxHp(gp.dataBase.getHpForLevel(level));
-        setHp(30);
+        setHp(getMaxHp());
         setMaxMp(gp.dataBase.getMpForLevel(level));
-        setMp(1);
+        setMp(getMaxMp());
         setStrength(45 + level - 1);
         setDexterity(43 + level - 1);
         setMagic(15 + level - 1);

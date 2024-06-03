@@ -27,9 +27,8 @@ public class NPC_Guardian extends Entity {
     }
 
     public void setDialogue(){
-        dialogues[0] = "Hola que tal estamos";
-        dialogues[1] = "Que buen tiempo hace no?";
-        dialogues[2] = "jeje\ngoz";
+        dialogues[0] = "Hola aventurero te aperece enfrentarte \na mis pruebas";
+      
     }
 
     public void draw(Graphics2D g2){

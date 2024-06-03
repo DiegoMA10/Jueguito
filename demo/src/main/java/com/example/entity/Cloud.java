@@ -30,27 +30,28 @@ public class Cloud extends Character {
         characterID = 3;
         baseMaxHp = 50;
         baseMaxMp = 14;
-        this.isAlive = isAlive;
-        setExp(exp);
+     
         setLevel(level);
         RawStats(level);
         setIndexGroup(partyIndex);
         setHp(hp);
-        setMp(mp);
+        setMp(mp);   
+        this.isAlive = isAlive;
+        setExp(exp);
         refreshPosition();
         getPlayerImagen();
     }
 
     public void RawStats(int level) {
         setName("Cloud");
-     
         setLevel(level);
+        this.isAlive = true;
         checkAbilities();
         setNextLevelExp(gp.dataBase.getExpForNextLevel(level));
         setMaxHp(gp.dataBase.getHpForLevel(level));
-        setHp(30);
+        setHp(getMaxHp());
         setMaxMp(gp.dataBase.getMpForLevel(level));
-        setMp(1);
+        setMp(getMaxMp());
         setStrength(35 + level - 1);
         setDexterity(35 + level - 1);
         setMagic(25 + level - 1);

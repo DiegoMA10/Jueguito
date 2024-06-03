@@ -1,6 +1,7 @@
 package com.example;
 
 import java.net.URL;
+import java.util.Arrays;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -47,21 +48,33 @@ public class Sound {
         }
     }
 
-    public void play(){
-        clip.start();
-    }
-    public void loop(){
-        clip.loop(Clip.LOOP_CONTINUOUSLY);
-        
-    }
-    public void stop(){
-        clip.stop();
-    }
-      public void setVolume(float volume) {
+  public void play() {
         if (clip != null) {
-            FloatControl control = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-            float dB = (float) (Math.log(volume) / Math.log(10.0) * 20.0);
-            control.setValue(dB);
+            clip.start();
+        }
+    }
+
+    public void loop() {
+        if (clip != null) {
+            clip.loop(Clip.LOOP_CONTINUOUSLY);
+        }
+    }
+
+    public void stop() {
+        if (clip != null) {
+            clip.stop();
+        }
+    }
+
+    public void setVolume(float volume) {
+        if (clip != null && clip.isOpen()) {
+            try {
+                FloatControl volumeControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+                float dB = (float) (Math.log(volume) / Math.log(10.0) * 20.0);
+                volumeControl.setValue(dB);
+            } catch (IllegalArgumentException e) {
+                System.err.println("Master Gain control not supported. Available controls: " + Arrays.toString(clip.getControls()));
+            }
         }
     }
 }

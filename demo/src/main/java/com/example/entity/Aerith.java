@@ -27,10 +27,12 @@ public class Aerith extends Character {
         sizeWidth = 15 * gp.scale;
         sizeHeight = 23 * gp.scale;
         characterID = 1;
+       
+      
+        setLevel(level);
+        RawStats(level); 
         this.isAlive = isAlive;
         setExp(exp);
-        setLevel(level);
-        RawStats(level);
         setHp(hp);
         setMp(mp);
         setIndexGroup(partyIndex);
@@ -42,12 +44,13 @@ public class Aerith extends Character {
         setName("Aerith");
         
         setLevel(level);
+        this.isAlive = true;
         checkAbilities();
         setNextLevelExp(gp.dataBase.getExpForNextLevel(level));
         setMaxHp(gp.dataBase.getHpForLevel(level));
-        setHp(30);
+        setHp(getMaxHp());
         setMaxMp(gp.dataBase.getMpForLevel(level));
-        setMp(1);
+        setMp(getMaxMp());
         setStrength(25 + level - 1);
         setDexterity(30 + level - 1);
         setMagic(27 + ((level)) - 1);
